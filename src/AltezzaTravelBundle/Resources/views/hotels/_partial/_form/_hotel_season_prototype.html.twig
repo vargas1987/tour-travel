@@ -1,0 +1,18 @@
+<li>
+    <div class="input-holder">
+        <span class="title">From</span>
+        <div class="input">
+            {{ form_widget(form.dateFrom, {'type': 'text', 'attr': {'class': 'text date'}}) }}
+        </div>
+    </div>
+    <div class="input-holder">
+        <span class="title">To</span>
+        <div class="input">
+            {{ form_widget(form.dateTo, {'type': 'text', 'attr': {'class': 'text date'}}) }}
+        </div>
+    </div>
+    <div class="select-holder">
+        {{ form_widget(form.type) }}
+    </div>
+    <a href="#" class="delete">Delete</a>
+</li>

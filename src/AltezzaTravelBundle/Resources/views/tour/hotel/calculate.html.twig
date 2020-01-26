@@ -1,0 +1,247 @@
+{% extends '@AltezzaTravel/layout_tour.html.twig' %}
+
+{% form_theme form '@AltezzaTravel/tour/_partial/_form/_tour_partial.html.twig' %}
+
+{% block container %}
+    {{ form_start(form, {'attr': {'class': 'admin-edit blog-edit'}}) }}
+    <fieldset>
+        <h2>Price for hotel</h2>
+        <div class="col-row">
+            <div class="col l-6">
+                {{ form_row(form.hotel) }}
+            </div>
+            <div class="col l-3">
+                <div>
+                    <ul class="age-info-list" style="width: 270px; left: 1138.5px;">
+                        <li>
+                            <div class="ico-holder child">
+                                <i><img width="8" src="{{ asset('/bundles/altezzatravel/new2/img/child.svg') }}" alt="image description"></i>
+                                Child
+                            </div>
+                            <span class="age">&lt; <span data-age="childTo"></span> Years</span>
+                        </li>
+                        <li>
+                            <div class="ico-holder teenager">
+                                <i><img width="8" src="{{ asset('/bundles/altezzatravel/new2/img/teenager.svg') }}" alt="image description"></i>
+                                Teenager
+                            </div>
+                            <span class="age"><span data-age="teenagerFrom"></span> - <span data-age="teenagerTo"></span> Years</span>
+                        </li>
+                        <li>
+                            <div class="ico-holder adult">
+                                <i><img width="10" src="{{ asset('/bundles/altezzatravel/new2/img/adult-ico.svg') }}" alt="image description"></i>
+                                Adult
+                            </div>
+                            <span class="age"><span data-age="adultFrom"></span>+ Years</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label class="label">Dates of accommodations:</label>
+            {{ form_errors(form.period) }}
+            <div class="datepicker-holder type2">
+                <div class="input-holder">
+                    <span class="title">From</span>
+                    <div class="input">
+                        {{ form_widget(form.period.dateFrom, {'type': 'text', 'attr': {'class': 'text date'}}) }}
+                    </div>
+                </div>
+                <div class="input-holder">
+                    <span class="title">To</span>
+                    <div class="input">
+                        {{ form_widget(form.period.dateTo, {'type': 'text', 'attr': {'class': 'text date'}}) }}
+                    </div>
+                </div>
+                {% if result.nights is defined %}
+                    <strong class="date-total">Total Nights: <span class="night-count">{{ result.nights }}</span></strong>
+                {% endif %}
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col l-12">
+                {{ form_label(form.typeMealPlan) }}
+                {{ form_errors(form.typeMealPlan) }}
+                {{ form_widget(form.typeMealPlan) }}
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <label class="label">Accommodation types:</label>
+            {{ form_errors(form.rooms) }}
+            {{ form_row(form.rooms) }}
+        </div>
+
+        <div class="btn-holder gray-btn-holder">
+            {{ form_widget(form.submit) }}
+        </div>
+
+        {% if result.items is defined %}
+            <h2>Cost of accommodation</h2>
+            <div class="result-panel type2">
+                <span class="result-panel-title">
+                    <ul>
+                        <li>{{ form.hotel.vars.data.title }}</li>
+                        <li>{{ form.period.dateFrom.vars.data|date('jS F Y') }} - {{ form.period.dateTo.vars.data|date('jS F Y') }}</li>
+                        <li>{{ result.nights }} nights</li>
+                    </ul>
+                </span>
+            </div>
+            <table class="admin-price-table type2">
+                <thead>
+                    <tr>
+                        <th colspan="2">Accommodation</th>
+                        {% for mealPlanType in result.mealPlanTypes %}
+                            <th class="lvl">{{ mealPlanType.title }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item in result.items if result.items|length > 0 %}
+                    {% set hotel = item.hotel %}
+
+                    {% for roomItem in item.rooms %}
+                        {% if roomItem.accommodations|length > 0 %}
+                            {% for accommodationItem in roomItem.accommodations %}
+                                <tr>
+                                    {% if loop.index0 == 0 %}
+                                        <td class="badge-td" rowspan="{{ roomItem.accommodations|length }}">
+                                            <span class="badge" style="background-color: #{{ roomItem.room.roomType.color|default('000') }};">{{ roomItem.room.roomType.shortName }}</span>
+                                        </td>
+                                    {% endif %}
+                                    <td>
+                                        <div class="description">
+                                            <strong>{{ roomItem.room.getTitle(true) }}</strong>
+                                            <div class="ico-holder">
+                                                <span class="ico">
+                                                    {% for i in range(1, accommodationItem.accommodation.countAdult) if accommodationItem.accommodation.countAdult > 0 %}
+                                                        <img width="10" src="{{ asset('/bundles/altezzatravel/new2/img/adult-ico.svg') }}" alt="image description">
+                                                    {% endfor %}
+                                                    {% for i in range(1, accommodationItem.accommodation.countTeenager) if accommodationItem.accommodation.countTeenager > 0 %}
+                                                        <img width="8" src="{{ asset('/bundles/altezzatravel/new2/img/teenager.svg') }}" alt="image description">
+                                                    {% endfor %}
+                                                    {% for i in range(1, accommodationItem.accommodation.countChild) if accommodationItem.accommodation.countChild > 0 %}
+                                                        <img width="8" src="{{ asset('/bundles/altezzatravel/new2/img/child.svg') }}" alt="image description">
+                                                    {% endfor %}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    {% for mealPlanType in result.mealPlanTypes %}
+                                        <td><span class="cell-text">${{ attribute(accommodationItem.prices, mealPlanType.type)|default(' not set') }}</span></td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="{{ 2 + result.mealPlanTypes|length }}">
+                            Not found accommodations
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="btn-holder">
+                <button class="admin-btn download-btn pull-right" href="#">Download</button>
+                <button class="admin-btn print-ico-btn pull-right" href="#">Print</button>
+            </div>
+        {% endif %}
+    </fieldset>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block customjs %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var ajaxUrl = '{{ url('tour_ajax_request') }}';
+            var hotelSelectmenu = $('[name="{{ form.hotel.vars.full_name }}"]');
+
+            var refreshMealPlans = function (hotel) {
+                var mealPlans = $('[name="{{ form.typeMealPlan.vars.full_name }}[]"]');
+                mealPlans.prop('disabled', true);
+
+                var updateAgeRange = function(type, value) {
+                    $('[data-age="'+type+'"]').html(value);
+                };
+
+                $.ajax({
+                    url: ajaxUrl+'?filter=mealPlan&by=hotels&value='+hotel,
+                    method: 'get',
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.status && data.result.ageRange) {
+                            $.each(data.result.ageRange, function(index, itemData) {
+                                $('[data-age="'+index+'"]').html(itemData);
+                            });
+                        }
+                        if (data.status && data.result.mealPlans) {
+                            $.each(data.result.mealPlans, function(index, itemData) {
+                                mealPlans.filter('[value="'+itemData.id+'"]').prop('disabled', false);
+                            });
+
+                            mealPlans.filter(':disabled').prop('checked', false);
+                        }
+                    }
+                })
+            };
+
+            hotelSelectmenu.on('selectmenuchange', function(event, ui) {
+                refreshMealPlans(ui.item.value);
+            });
+
+            refreshMealPlans(hotelSelectmenu.val());
+
+            $(document).on('click', 'a.delete', function(e) {
+                e.preventDefault();
+
+                $(this).parent().remove();
+
+                return false;
+            });
+
+            $(document).on('click', 'a[data-behavior="add-room"]', function(e) {
+                e.preventDefault();
+
+                var $collectionHolder = $(this).closest('.room-block-holder');
+                $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+                addRoomForm($collectionHolder);
+            });
+
+            $(document).on('selectmenuchange', '[data-behaviour="select-room-type"]', function(event, ui) {
+                var prototype = $(ui.item.element).data('room-type-prototype');
+                var prototypeName = $(ui.item.element).closest('select').attr('name');
+                prototypeName = prototypeName.replace('[roomType]', '');
+                prototype = prototype.replace(/accommodations/g, prototypeName + '[accommodations]');
+
+                $(ui.item.element).closest('.room-block-inner').find('[data-behaviour="room-type-inner"]').html(prototype);
+            });
+        });
+
+        function addRoomForm($collectionHolder) {
+            var prototype = $collectionHolder.data('prototype');
+            var index = $collectionHolder.data('index');
+            var roomForm = prototype.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            $(roomForm).insertBefore($collectionHolder.find('.btn-holder'));
+
+            $collectionHolder.find('select').each(function() {
+                $(this).selectmenu();
+            });
+        };
+    </script>
+{% endblock %}

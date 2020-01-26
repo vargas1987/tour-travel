@@ -1,0 +1,1 @@
+$(document).ready(function(){$('.myphotos').glisse({speed:500,changeSpeed:550,effect:'fade',fullscreen:false});$('.expeditions__item__desc').click(function(){$(this).parent().find('.myphotos').click();});$('#more_animals').click(function(){$('.clck_an').find('.close').click();$('.animal-list__item_hide').removeAttr('style');$(this).remove();});});

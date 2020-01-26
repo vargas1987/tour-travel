@@ -1,0 +1,359 @@
+<div class="calc-result-heading">
+    <h1>Full Breakdown Cost</h1>
+    <dl class="manager">
+        <dt>Manager:</dt>
+        <dd>Alex</dd>
+    </dl>
+    <dl>
+        <dt><strong>Total days programm:</strong></dt>
+        <dd><strong>{{ summary.totalProgramDay }} / Days safari: {{ summary.totalSafariDay }}</strong></dd>
+    </dl>
+    <dl>
+        <dt>Start:</dt>
+        <dd>{{ calculation.dateFrom|date('jS F Y') }} / End: {{ calculation.dateTo|date('jS F Y') }}</dd>
+    </dl>
+</div>
+
+<table class="calc-result-table">
+    <thead>
+    <tr>
+        <th></th>
+        <th class="pax">Pax</th>
+        <th class="price">Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        {% set transferBlock = constant('AltezzaTravelBundle\\Model\\CalculationResult::BLOCK_TRANSFERS') %}
+        {% set transferResults = summary.calculationResultsByBlocks(transferBlock) %}
+        {% if transferResults|length %}
+            <td colspan="3">
+                <strong class="td-title">
+                    <i class="ico"><img width="17" src="{{ asset('/bundles/altezzatravel/new2/img/ico-1.svg') }}"></i>
+                    Transfers
+                </strong>
+                <ul class="inner-list">
+                    {%- for result in transferResults %}
+                        <li
+                                {% if result.status is constant('AltezzaTravelBundle\\Model\\CalculationResult::STATUS_DANGER') %}class="disabled"{% endif %}
+                        >
+                            <span class="title">{{ result.description }}</span>
+                            <span class="pax">{{ result.pax }} Pax</span>
+                            <span class="price">
+                                {% if result.status is constant('AltezzaTravelBundle\\Model\\CalculationResult::STATUS_WARNING') %}
+                                    <span class="tooltip">
+                                        <i class="tooltip-ico"></i>
+                                        <span class="drop">Suspiciously low price</span>
+                                    </span>
+                                {% endif %}
+                                {{ result.totalPrice|number_format(1)~'$' }}
+                            </span>
+                        </li>
+                    {% endfor -%}
+                </ul>
+            </td>
+        {% else %}
+            <td>
+                <strong class="td-title">
+                    <i class="ico"><img width="17" src="{{ asset('/bundles/altezzatravel/new2/img/ico-1.svg') }}"></i>
+                    Transfers
+                </strong>
+            </td>
+            <td></td>
+            <td>-</td>
+        {% endif %}
+    </tr>
+    <tr>
+        {% set parkFeeBlock = constant('AltezzaTravelBundle\\Model\\CalculationResult::BLOCK_PARK_FEES') %}
+        {% set parkFeeResults = summary.calculationResultsByBlocks(parkFeeBlock) %}
+        {% if parkFeeResults|length %}
+            <td colspan="3">
+                <strong class="td-title">
+                    <i class="ico"><img width="15" src="{{ asset('/bundles/altezzatravel/new2/img/ico-2.svg') }}"></i>
+                    Park Fees
+                </strong>
+                <ul class="inner-list">
+                    {%- for result in parkFeeResults %}
+                        <li
+                                {% if result.status is constant('AltezzaTravelBundle\\Model\\CalculationResult::STATUS_DANGER') %}class="disabled"{% endif %}
+                        >
+                            <span class="title">{{ result.description }}</span>
+                            <span class="pax">{{ result.pax }} Pax</span>
+                            <span class="price">
+                                {% if result.status is constant('AltezzaTravelBundle\\Model\\CalculationResult::STATUS_WARNING') %}
+                                    <span class="tooltip">
+                                        <i class="tooltip-ico"></i>
+                                        <span class="drop">Suspiciously low price</span>
+                                    </span>
+                                {% endif %}
+                                {{ result.totalPrice|number_format(1)~'$' }}
+                            </span>
+                        </li>
+                    {% endfor -%}
+                </ul>
+            </td>
+        {% else %}
+            <td>
+                <strong class="td-title">
+                    <i class="ico"><img width="15" src="{{ asset('/bundles/altezzatravel/new2/img/ico-2.svg') }}"></i>
+                    Park Fees
+                </strong>
+            </td>
+            <td></td>
+            <td>-</td>
+        {% endif %}
+    </tr>
+    <tr>
+        {% set accommodationBlock = constant('AltezzaTravelBundle\\Model\\CalculationResult::BLOCK_ACCOMMODATION') %}
+        {% set accommodationResults = summary.calculationResultsByBlocks(accommodationBlock, true) %}
+        {% if accommodationResults|length %}
+            <td colspan="3">
+                <strong class="td-title">
+                    <i class="ico">
+                        <img width="15" src="{{ asset('/bundles/altezzatravel/new2/img/ico-4.svg') }}">
+
+                    </i>
+                    Accommodation (incl Concession Fees)
+                </strong>
+                <ul class="inner-list">
+                    {%- for hotelTitle, results in accommodationResults %}
+                        <li class="has-sublist">
+                            <span class="title">{{ hotelTitle }}</span>
+                            <ul>
+                                {%- for result in results %}
+                                    <li
+                                            {% if result.status is constant('AltezzaTravelBundle\\Model\\CalculationResult::STATUS_DANGER') %}class="disabled"{% endif %}
+                                    >
+                                        <span class="title">{{ result.description }}</span>
+                                        <span class="pax">{{ result.getOption('count') }} Room{% if result.getOption('count') > 1 %}s{% endif %}</span>
+                                        <span class="price">
+                                            {% if result.status is constant('AltezzaTravelBundle\\Model\\CalculationResult::STATUS_WARNING') %}
+                                                <span class="tooltip">
+                                                    <i class="tooltip-ico"></i>
+                                                    <span class="drop">Suspiciously low price</span>
+                                                </span>
+                                            {% endif %}
+                                            {{ result.totalPrice|number_format(1)~'$' }}
+                                        </span>
+                                    </li>
+                                {% endfor -%}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </td>
+        {% else %}
+            <td>
+                <strong class="td-title">
+                    <i class="ico">
+                        <img width="15" src="{{ asset('/bundles/altezzatravel/new2/img/ico-4.svg') }}">
+                    </i>
+                    Accommodation (incl Concession Fees)
+                </strong>
+            </td>
+            <td></td>
+            <td>-</td>
+        {% endif %}
+    </tr>
+    <tr>
+        {% set blockOther = constant('AltezzaTravelBundle\\Model\\CalculationResult::BLOCK_FLIGHT_TICKETS') %}
+        {% set flightTicketResults = summary.calculationResultsByBlocks(blockOther) %}
+        {% if flightTicketResults|length %}
+            <td colspan="3">
+                <strong class="td-title">
+                    <i class="ico"><img width="16" src="{{ asset('/bundles/altezzatravel/new2/img/ico-5.svg') }}"></i>
+                    Flight tickets
+                </strong>
+                <ul class="inner-list">
+                    {%- for result in concessionFeeResults %}
+                        <li
+                                {% if result.status is constant('AltezzaTravelBundle\\Model\\CalculationResult::STATUS_DANGER') %}class="disabled"{% endif %}
+                        >
+                            <span class="title">{{ result.description }}</span>
+                            <span class="pax">{{ result.pax }} Pax</span>
+                            <span class="price">
+                                {% if result.status is constant('AltezzaTravelBundle\\Model\\CalculationResult::STATUS_WARNING') %}
+                                    <span class="tooltip">
+                                        <i class="tooltip-ico"></i>
+                                        <span class="drop">Suspiciously low price</span>
+                                    </span>
+                                {% endif %}
+                                {{ result.totalPrice|number_format(1)~'$' }}
+                            </span>
+                        </li>
+                    {% endfor -%}
+                </ul>
+            </td>
+        {% else %}
+            <td>
+                <strong class="td-title">
+                    <i class="ico"><img width="16" src="{{ asset('/bundles/altezzatravel/new2/img/ico-5.svg') }}"></i>
+                    Flight tickets
+                </strong>
+            </td>
+            <td></td>
+            <td>-</td>
+        {% endif %}
+    </tr>
+    <tr>
+        {% set blockOther = constant('AltezzaTravelBundle\\Model\\CalculationResult::BLOCK_OTHER') %}
+        {% set otherResults = summary.calculationResultsByBlocks(blockOther) %}
+        {% if otherResults|length %}
+            <td colspan="3">
+                <strong class="td-title">
+                    <i class="ico"><img width="16" src="{{ asset('/bundles/altezzatravel/new2/img/ico-6.svg') }}"></i>
+                    Other
+                </strong>
+                <ul class="inner-list">
+                    {%- for result in otherResults %}
+                        <li>
+                            <span class="title">{{ result.description }}</span>
+                            <span class="price">{{ result.totalPrice~'$' }}</span>
+                        </li>
+                    {%- endfor -%}
+                </ul>
+            </td>
+        {% else %}
+            <td>
+                <strong class="td-title">
+                    <i class="ico"><img width="16" src="{{ asset('/bundles/altezzatravel/new2/img/ico-6.svg') }}"></i>
+                    Other
+                </strong>
+            </td>
+            <td></td>
+            <td>-</td>
+        {% endif %}
+    </tr>
+    <tr>
+        {% set blockOurCommission = constant('AltezzaTravelBundle\\Model\\CalculationResult::BLOCK_OUR_COMMISSION') %}
+        {% set ourCommissionResults = summary.calculationResultsByBlocks(blockOurCommission) %}
+        {%- for result in ourCommissionResults -%}
+            <td>
+                <strong class="td-title">
+                    <i class="ico"><img width="16" src="{{ asset('/bundles/altezzatravel/new2/img/ico-7.svg') }}"></i>
+                    {{ result.description }}
+
+                    {% if popupOurCommissionForm is defined %}
+                        <button class="button info-button white open-change-our-commission-popup" style="padding: 2px 4px;margin-bottom: -6px;margin-left: 4px;">
+                            <img width="16" src="{{ asset('/bundles/altezzatravel/admin/img/edit.svg') }}">
+                        </button>
+                    {% endif %}
+                </strong>
+            </td>
+            <td></td>
+            <td>{{ result.price is not null ? result.price|number_format(1)~'$' : 'disabled' }}</td>
+        {%- else -%}
+            <td>
+                <strong class="td-title">
+                    <i class="ico"><img width="16" src="{{ asset('/bundles/altezzatravel/new2/img/ico-7.svg') }}"></i>
+                    Our commission
+                </strong>
+            </td>
+            <td></td>
+            <td>-</td>
+        {%- endfor -%}
+    </tr>
+    </tbody>
+</table>
+
+<div class="summary-block">
+    <strong class="title">Summary</strong>
+    <div class="summary-inner">
+        <div class="conditions-box">
+            <table class="conditions-table">
+                <tr>
+                    <td>
+                        <strong class="title-table">
+                            <i class="ico">
+                                <img src="{{ asset('/bundles/altezzatravel/new2/img/ico-9.png') }}">
+                            </i>
+                            Total Days Programm:
+                        </strong>
+                    </td>
+                    <td>{{ summary.totalProgramDay }} Day{% if summary.totalProgramDay > 1 %}s{% endif %}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong class="title-table">
+                            <i class="ico">
+                                <img width="15" src="{{ asset('/bundles/altezzatravel/new2/img/ico-2.svg') }}">
+                            </i>
+                            Total Days Safari:
+                        </strong>
+                    </td>
+                    <td>{{ summary.totalSafariDay }} Day{% if summary.totalSafariDay > 1 %}s{% endif %}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong class="title-table">
+                            <i class="ico">
+                                <img src="{{ asset('/bundles/altezzatravel/new2/img/ico-8.png') }}">
+                            </i>
+                            Guests will visited:
+                        </strong>
+                    </td>
+                    <td>
+                        {%- for safari in calculation.safariDays -%}
+                            {{ safari.park.title }} ({{ safari.countDays }} day{%- if safari.countDays > 1 -%}s{%- endif -%})
+                            {%- if not loop.last -%}
+                                ,&nbsp;
+                            {%- endif -%}
+                        {%- endfor -%}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong class="title-table">
+                            <i class="ico">
+                                <img width="17" src="{{ asset('/bundles/altezzatravel/new2/img/ico-1.svg') }}">
+                            </i>
+                            For {{ summary.totalPax }} guests will be arranged:
+                        </strong>
+                    </td>
+                    <td>{{ summary.totalSafariCar }} Safari car</td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong class="title-table">
+                            <i class="ico">
+                                <img width="16" src="{{ asset('/bundles/altezzatravel/new2/img/ico-5.svg') }}">
+                            </i>
+                            NO Domestic Flights
+                        </strong>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+        <div class="sum-box">
+            <table class="sum-table">
+                {% set personTypeAdult = constant('AltezzaTravelBundle\\Entity\\AbstractCalculationPerson::TYPE_ADULT') %}
+                {% for result in summary.pricePerPersons(personTypeAdult) %}
+                    <tr>
+                        <td><strong class="title-table not-ico">Price per 1 Adult:</strong></td>
+                        <td>{{ result.price|number_format(1) }}$</td>
+                    </tr>
+                {% endfor %}
+
+                {% set personTypeChild = constant('AltezzaTravelBundle\\Entity\\AbstractCalculationPerson::TYPE_CHILD') %}
+                {% for result in summary.pricePerPersons(personTypeChild) %}
+                    <tr>
+                        <td><strong class="title-table not-ico">Price per Child ({{ result.person.age }} y.o):</strong></td>
+                        <td>{{ result.price|number_format(1) }}$</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td class="sum-td">
+                        <strong class="title-table">
+                            <i class="ico">
+                                <img width="16" src="{{ asset('/bundles/altezzatravel/new2/img/ico-7.svg') }}">
+                            </i>
+                            Total:
+                        </strong>
+                    </td>
+                    <td class="sum-td">{{ summary.priceTotal|number_format(1) }}$</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

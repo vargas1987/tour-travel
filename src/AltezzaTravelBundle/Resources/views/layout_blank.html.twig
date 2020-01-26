@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Altezza: Hotels Database{% endblock %}</title>
+
+    {% block stylsheet %}
+        <link href="{{ asset('/bundles/altezzatravel/page/css/TimeCircles.css') }}?v=20190303" rel='stylesheet' type='text/css'>
+        <link href="{{ asset('/bundles/altezzatravel/page/src/favicon2-x1.ico') }}?v=20190303" rel="shortcut icon" type="image/x-icon" />
+        <link href="{{ asset('/bundles/altezzatravel/page/css/normalize.css') }}?v=20190303" rel="stylesheet" type="text/css">
+        <link href="{{ asset('/bundles/altezzatravel/page/css/jquery.bxslider.css') }}?v=20190303" rel="stylesheet" type="text/css">
+        <link href="{{ asset('/bundles/altezzatravel/page/css/jquery.jscrollpane.css') }}?v=20190303" rel="stylesheet" type="text/css">
+        <link href="{{ asset('/bundles/altezzatravel/page/css/app.css') }}?v=20190303" rel="stylesheet" type="text/css">
+        <link href="{{ asset('/bundles/altezzatravel/page/css/glisse.css') }}?v=20190303" rel="stylesheet" type="text/css">
+        <link href="{{ asset('/bundles/altezzatravel/page/src/fonts/fonts.css') }}?v=20190303" rel="stylesheet" type="text/css">
+        <link href="{{ asset('/bundles/altezzatravel/page/css/jquery-ui.min.css') }}?v=20190303" rel="stylesheet" type="text/css">
+        <link href="{{ asset('/bundles/altezzatravel/page/css/styles.css') }}?v=20190303" rel="stylesheet" type="text/css">
+        <link href="{{ asset('/bundles/altezzatravel/page/css/develop.css') }}?v=20190303" rel="stylesheet" type="text/css">
+        <link href="{{ asset('/bundles/altezzatravel/page/css/fonts.css') }}?v=20190303" rel='stylesheet' type='text/css'>
+
+        <link href="{{ asset('/bundles/altezzatravel/new/css/styles.css') }}?v=20190303" rel='stylesheet' type='text/css'><!-- new -->
+        <link href="{{ asset('/bundles/altezzatravel/new/css/styles_new.css') }}?v=20190303" rel='stylesheet' type='text/css'>
+
+        <!-- new2 -->
+        <link href="{{ asset('/bundles/altezzatravel/new2/css/jquery-ui.css') }}?v=20190303" rel='stylesheet' type='text/css'>
+        <link href="{{ asset('/bundles/altezzatravel/new2/css/styles_new2.css') }}?v=20190303" rel='stylesheet' type='text/css'>
+        <link href="{{ asset('/bundles/altezzatravel/new2/css/style_admin.css') }}?v=20190303" rel='stylesheet' type='text/css'>
+        <link href="{{ asset('/bundles/altezzatravel/new2/css/styles_new3.css') }}?v=20190303" rel='stylesheet' type='text/css'>
+
+        <link href="{{ asset('/bundles/altezzatravel/admin/css/dropdown.css') }}?v=20190303" rel='stylesheet' type='text/css'>
+
+        {% include "@AltezzaTravel/_partial/head.html.twig" %}
+    {% endblock %}
+
+    <style>
+        ul.ui-menu { max-height: 300px !important; }
+
+        .ui-menu .ui-menu-item-wrapper {
+            color: #899196;
+            padding: 3px 11px;
+            border: none;
+            font-size: 0.929em;
+        }
+
+        .ui-menu .ui-menu-item-wrapper:hover, .ui-menu .ui-menu-item-wrapper.ui-state-focus {
+            background: none;
+            border: none;
+            font-weight: normal;
+            color: #424242;
+            margin: 0;
+        }
+    </style>
+
+</head>
+<body>
+
+{% block body %}
+        {% block template %}
+            <div class="content-page admin-main {% block container_class %}hotel-redactor{% endblock %}">
+                <div class="container">
+                    {% block container %}{% endblock %}
+                </div>
+            </div>
+        {% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js?v=20190303" defer type="text/javascript"></script>
+    <script src="{{ asset('/bundles/altezzatravel/page/js/system/TimeCircles.js') }}?v=20190303" defer type="text/javascript"></script>
+    <script src="{{ asset('/bundles/altezzatravel/page/js/system/jquery.parallax.min.js') }}?v=20190303" defer></script>
+    <script src="{{ asset('/bundles/altezzatravel/page/js/system/jquery.bxslider.min.js') }}?v=20190303" defer></script>
+    <script src="{{ asset('/bundles/altezzatravel/page/js/system/jquery.cycle2.min.js') }}?v=20190303" defer></script>
+    <script src="{{ asset('/bundles/altezzatravel/page/js/system/jquery-ui.min.js') }}?v=20190303" defer></script>
+    <script src="{{ asset('/bundles/altezzatravel/page/js/system/jquery.jscrollpane.min.js') }}?v=20190303" defer></script>
+    <script src="{{ asset('/bundles/altezzatravel/page/js/system/jquery.mousewheel.js') }}?v=20190303" defer></script>
+    <script src="{{ asset('/bundles/altezzatravel/page/js/system/jquery.raty.js') }}?v=20190303" defer></script>
+    <script src="{{ asset('/bundles/altezzatravel/page/js/system/jquery.lazyload.js') }}?v=20190303" defer></script>
+    <script src="{{ asset('/bundles/altezzatravel/modules/fd/ext/glisse/glisse2.js') }}?v=20190303" defer></script>
+    <script src="{{ asset('/bundles/altezzatravel/page/js/page/common.js') }}?v=20190303" defer></script>
+    <script src="{{ asset('/bundles/altezzatravel/modules/fd/nat/winston.utils/winston.utils.js') }}?v=20190303" defer></script>
+    <script src="{{ asset('/bundles/altezzatravel/page/js/page/scripts.js') }}?v=20190303" defer></script>
+    <script src="{{ asset('/bundles/altezzatravel/new/js/custom.js') }}?v=20190303" defer></script>
+
+    <script src="{{ asset('/bundles/altezzatravel/new2/js/accordion.js') }}?v=20190303" defer></script><!-- new2/js -->
+    <script src="{{ asset('/bundles/altezzatravel/new2/js/jquery.ui.datepicker-ru.js') }}?v=20190303" defer></script><!-- new2/js -->
+    <script src="{{ asset('/bundles/altezzatravel/new2/js/admin-page.js') }}?v=20190303" defer></script>
+{% endblock %}
+
+{% block customjs %}{% endblock %}
+
+</body>
+</html>

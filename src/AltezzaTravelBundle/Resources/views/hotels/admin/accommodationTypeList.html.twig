@@ -1,0 +1,59 @@
+{% extends '@AltezzaTravel/hotels/admin/layout.html.twig' %}
+
+{% block content %}
+    <h3>Accommodation types</h3>
+    <div class="search-panel type2">
+        <fieldset>
+            <div class="col-row">
+                <div class="col l-6">
+                </div>
+            </div>
+        </fieldset>
+        <div class="pagination-holder">
+            <a href="{{ url('hotels_admin_accommodation_type_add') }}" class="admin-btn">Add accommodation type</a>
+        </div>
+    </div>
+    <table class="hotels-table">
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Icon</th>
+            <th>Adult count</th>
+            <th>Teenager count</th>
+            <th>Child count</th>
+            <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for accommodationType in accommodationTypes %}
+            <tr>
+                <td>{{ accommodationType.type }}</td>
+                <td>
+                    <label>
+                        <i></i>
+                        <span class="ico">
+                            {% for i in range(1, accommodationType.countAdult) if accommodationType.countAdult > 0 %}
+                                <img width="10" src="{{ asset('/bundles/altezzatravel/new2/img/adult-ico.svg') }}" alt="image description">
+                            {% endfor %}
+                            {% for i in range(1, accommodationType.countTeenager) if accommodationType.countTeenager > 0 %}
+                                <img width="8" src="{{ asset('/bundles/altezzatravel/new2/img/teenager.svg') }}" alt="image description">
+                            {% endfor %}
+                            {% for i in range(1, accommodationType.countChild) if accommodationType.countChild > 0 %}
+                                <img width="8" src="{{ asset('/bundles/altezzatravel/new2/img/child.svg') }}" alt="image description">
+                            {% endfor %}
+                        </span>
+                    </label>
+                </td>
+                <td>{{ accommodationType.countAdult|default('---') }}</td>
+                <td>{{ accommodationType.countTeenager|default('---') }}</td>
+                <td>{{ accommodationType.countChild|default('---') }}</td>
+                <td><a href="{{ url('hotels_admin_accommodation_type_edit', {'accommodationType': accommodationType.type}) }}" class="button info-button">Edit</a></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Accommodation types not exists</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

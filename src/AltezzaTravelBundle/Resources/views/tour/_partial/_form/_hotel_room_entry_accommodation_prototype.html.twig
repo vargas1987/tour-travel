@@ -1,0 +1,17 @@
+<li>
+    <label>
+        {{ form_widget(form) }}
+        <i></i>
+        <span class="ico">
+            {% for i in range(1, form.vars.attr.adult) if form.vars.attr.adult > 0 %}
+                <img width="10" src="{{ asset('/bundles/altezzatravel/new2/img/adult-ico.svg') }}" alt="image description">
+            {% endfor %}
+            {% for i in range(1, form.vars.attr.teenager) if form.vars.attr.teenager > 0 %}
+                <img width="8" src="{{ asset('/bundles/altezzatravel/new2/img/teenager.svg') }}" alt="image description">
+            {% endfor %}
+            {% for i in range(1, form.vars.attr.child) if form.vars.attr.child > 0 %}
+                <img width="8" src="{{ asset('/bundles/altezzatravel/new2/img/child.svg') }}" alt="image description">
+            {% endfor %}
+        </span>
+    </label>
+</li>

@@ -1,0 +1,75 @@
+{% extends '@AltezzaTravel/layout.html.twig' %}
+
+{% import _self as helper %}
+
+{% block title %}Altezza: Tour Calculator{% endblock %}
+
+{% block stylsheet %}
+    {{ parent() }}
+
+    <link href="{{ asset('/bundles/altezzatravel/admin/css/custom.css') }}?v=20181219" rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block header_right %}
+    <ul class="user-menu-list" style="float: right;">
+        {% if app.user %}
+
+            {{ helper.tourMenuItem('tour_hotel_make_story', 'Make a Story') }}
+            {{ helper.tourDropdownMenuBlock('Settings', 'settings', [
+                {route: 'tour_calculation_settings', title: 'Calculation prices'},
+                {route: 'tour_settings_transfer_territorial', title: 'Transfers territorial'},
+                {route: 'tour_calculation_settings_domestic_flight_list', title: 'Domestic flights'}
+            ]) }}
+            {{ helper.tourMenuItem('tour_calculation_create', 'Calculator') }}
+            {{ helper.tourMenuItem('tour_calculation_templates', 'My templates') }}
+            {{ helper.tourMenuItem('tour_calculation_drafts', 'My drafts') }}
+            {{ helper.tourMenuItem('tour_hotel_search', 'Find a hotel') }}
+            {{ helper.tourMenuItem('tour_hotel_calculate', 'Price for hotel') }}
+            <li>
+                <a href="#">
+                    <span class="avatar" style="background-image:url({{ asset('/bundles/altezzatravel/new2/img/avatar.jpg') }});"></span>
+                    {{ app.user.username }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('tour_logout') }}">Exit</a>
+            </li>
+        {% endif %}
+    </ul>
+{% endblock %}
+
+{% macro tourMenuItem(route, title) %}
+    <li{% if route is not null and app.request.attributes.get('_route') == route %} class="active"{% endif %}>
+        <a href="{% if route is not null %}{{ url(route) }}{% else %}#{% endif %}">{{ title }}</a>
+    </li>
+{% endmacro %}
+
+{%- macro tourDropdownMenuBlock(title, prefix, items) -%}
+    {% import _self as helper %}
+
+    {% set isActive = false %}
+    {% set dropDownContent = '' %}
+
+    {% for item in items %}
+        {% if item.route is not null and app.request.attributes.get('_route') == item.route %}
+            {% set isActive = true %}
+        {% endif %}
+
+        {% set dropDownContent = dropDownContent~helper.tourDropdownMenuItem(item.route, item.title) %}
+    {% endfor %}
+
+    <li class="dropdown dropdown-settings{% if isActive %} active{% endif %}">
+        <a href="#" onclick="void 0;" class="dropbtn">Settings</a>
+        <div class="dropdown-content">
+            {{ dropDownContent|raw }}
+        </div>
+    </li>
+{%- endmacro -%}
+
+{% macro tourDropdownMenuItem(route, title) %}
+    <a {% if route is not null and app.request.attributes.get('_route') == route %} class="active"{% endif %}
+        href="{% if route is not null %}{{ url(route) }}{% else %}#{% endif %}"
+    >
+        {{ title }}
+    </a>
+{% endmacro %}

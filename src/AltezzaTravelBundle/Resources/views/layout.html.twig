@@ -1,0 +1,37 @@
+{% extends '@AltezzaTravel/layout_blank.html.twig' %}
+
+{% block body %}
+    <div id="admin">
+        {% block header %}
+            <div class="admin-header type2">
+                <div class="container">
+                    <div class="site-logo">
+                        <a href="{{ app.request.getSchemeAndHttpHost() }}"><img src="{{ asset('/bundles/altezzatravel/new2/img/hotels-logo.png') }}" alt=""></a>
+                    </div>
+                    {% block header_left %}{% endblock %}
+                    {% block header_right %}{% endblock %}
+                </div>
+            </div>
+        {% endblock %}
+
+        {% block template %}
+            <div class="content-page admin-main {% block container_class %}hotel-redactor{% endblock %}">
+                <div class="container">
+                    {% block container %}{% endblock %}
+                </div>
+            </div>
+        {% endblock %}
+
+        {% block footer %}
+            <div class="admin-footer type2">
+                {% block footer_content %}{% endblock %}
+                <div class="container">
+                    <div class="site-logo"><a href="{{ app.request.getSchemeAndHttpHost() }}"><img src="{{ asset('/bundles/altezzatravel/new2/img/hotels-logo.png') }}" alt=""></a></div>
+                    <span class="admin-copyright">&copy; 2013-{{ 'now'|date('Y') }}  <a href="#">Altezza.travel</a></span>
+                </div>
+            </div>
+        {% endblock %}
+
+        {% block popup_holder %}{% endblock %}
+    </div>
+{% endblock %}

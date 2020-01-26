@@ -1,0 +1,85 @@
+{% extends '@AltezzaTravel/layout_tour.html.twig' %}
+
+{% block container_class %}content-page admin-main hotel-redactor{% endblock %}
+
+{% block container %}
+    <div class="settings-title">
+        <h3>Flights Schedules - Tanzania</h3>
+    </div>
+    <div class="pagination">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+    <div class="settings-content">
+        <table class="settings-table" width="100%">
+            <thead>
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Dept</th>
+                    <th>Arr</th>
+                    <th></th>
+                    <th>adult price usd</th>
+                    <th>Child price usd</th>
+                    <th>Taxes and levels</th>
+                    <th>Adult xl price usd</th>
+                    <th>child xl price usd</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for flight in pagination %}
+                <tr>
+                    <td>{{ flight.departure.title }}</td>
+                    <td>{{ flight.arrival.title }}</td>
+                    <td class="time">{{ flight.departureTime|date('H:i') }}</td>
+                    <td class="time">{{ flight.arrivalTime|date('H:i') }}</td>
+                    <td class="set-desc">{{ flight.description }}</td>
+                    <td class="price">{{ flight.adultPrice }}</td>
+                    <td class="price">{{ flight.childPrice }}</td>
+                    <td class="level price">{{ flight.tax }}</td>
+                    <td class="price">{{ flight.adultXlPrice }}</td>
+                    <td class="price">{{ flight.childXlPrice }}</td>
+                    <td><a  class="setting" href="{{ url('tour_calculation_settings_domestic_flight_edit', {flight: flight.id}) }}"></a></td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="11"><span class="center">No domestic flights</span></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="btn-holder setting-btn">
+        <a href="{{ url('tour_calculation_settings_domestic_flight_add') }}" class="admin-btn add-btn">Add flights</a>
+        {#<a href="#" class="admin-btn">Save</a>#}
+    </div>
+    <div class="pagination">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}
+
+{% block popup_holder %}
+    <div class="popup-holder" id="confirm-popup" style="display:none;">
+        <div class="bg">&nbsp;</div>
+        <div class="popup">
+            <h2>Are you sure you want to delete this template?</h2>
+            <div class="btn-panel">
+                <a id="remove_calculation" class="button btn-warn">Yes</a>
+                <a href="#" class="button btn-success close-popup">No, I did not want to :(</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function () {
+            $(document).on('click', '.delete-btn[data-calculation="remove"]', function () {
+                $('#remove_calculation').attr('href', $(this).attr('href'));
+            });
+        });
+    </script>
+{% endblock %}
+

@@ -1,0 +1,60 @@
+{% extends '@AltezzaTravel/layout.html.twig' %}
+
+{% if form is defined %}
+    {% form_theme form '@AltezzaTravel/hotels/_partial/_form/_hotel_partial.html.twig' %}
+{% endif %}
+
+{% block header_left %}
+    <span class="admin-info-text">Altezza Travel <strong>Hotels</strong></span>
+    <div class="user-panel">
+        {% if app.user %}
+            <ul class="user-menu-list">
+                <li>
+                    <a href="#">
+                        <span class="avatar" style="background-image:url({{ asset('/bundles/altezzatravel/new2/img/avatar.jpg') }});"></span>
+                        {{ app.user.username }}
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('hotels_logout') }}">Exit</a>
+                </li>
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block container %}
+    {% if form is defined %}
+        {{ form_start(form, {'attr': {'class': 'admin-edit blog-edit'}}) }}
+    {% endif %}
+    <div class="admin-edit blog-edit">
+        <fieldset>
+            {% block right_sidebar %}
+                {% include "@AltezzaTravel/hotels/admin/_partial/menu_aside.html.twig" %}
+            {% endblock %}
+
+            <div class="blog-content">
+                <div class="warning-row">
+                    {% if form is defined %}
+                        {{ form_errors(form) }}
+                    {% endif %}
+                </div>
+                {% block content %}{% endblock %}
+            </div>
+        </fieldset>
+    </div>
+    {% if form is defined %}
+        {{ form_end(form) }}
+    {% endif %}
+{% endblock %}
+
+{% block popup_holder %}
+    {{ parent() }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('/bundles/altezzatravel/admin/js/custom.js') }}?v=20181219" defer></script>
+{% endblock %}

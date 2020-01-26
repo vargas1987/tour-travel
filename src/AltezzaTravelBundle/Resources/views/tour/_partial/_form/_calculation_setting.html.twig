@@ -1,0 +1,54 @@
+{% extends '@AltezzaTravel/tour/_partial/_form/_tour_partial.html.twig' %}
+
+
+{% block _calculation_settings_form_feeParkEastAfrican_row %}
+    <div class="hotels-settings-item full-width" data-prototype="{{ form_widget(form.vars.prototype)|escape }}">
+        {{ form_errors(form) }}
+        <h3>Park Fees in <strong class="badge">Tsh</strong></h3>
+        <table class="hotels-table">
+            <thead>
+            <tr>
+                <th>National Park</th>
+                <th>car</th>
+                <th>Driver</th>
+                <th>Adult EA</th>
+                <th>Child EA</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody data-type="hotels-settings-item-container">
+            {% for child in form %}
+                {{ form_widget(child) }}
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="btn-holder">
+            <a href="#" class="button info-button" data-behavior="add-setting">Add Park</a>
+        </div>
+    </div>
+{% endblock _calculation_settings_form_feeParkEastAfrican_row %}
+
+{% block _calculation_settings_form_feeParkEastAfrican_entry_widget %}
+    <tr>
+        <td class="input-col">
+            <div class="input">
+                {{ form_widget(form.park) }}
+            </div>
+        </td>
+        <td class="input-col">
+            {{ form_widget(form.car) }}
+        </td>
+        <td class="input-col">
+            {{ form_widget(form.driver) }}
+        </td>
+        <td class="input-col">
+            {{ form_widget(form.adult) }}
+        </td>
+        <td class="input-col">
+            {{ form_widget(form.child) }}
+        </td>
+        <td class="delete-holder">
+            <a href="#" class="delete">Delete</a>
+        </td>
+    </tr>
+{% endblock _calculation_settings_form_feeParkEastAfrican_entry_widget %}

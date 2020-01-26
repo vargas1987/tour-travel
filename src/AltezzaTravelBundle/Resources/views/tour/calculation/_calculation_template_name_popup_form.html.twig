@@ -1,0 +1,10 @@
+{{ form_start(popupTemplateNameForm, {'attr': {'class': 'form-popup'}}) }}
+    {{ form_errors(popupTemplateNameForm) }}
+    <strong class="title-form">draft Name</strong>
+    <div class="input-holder">
+        {{ form_widget(popupTemplateNameForm.title, {'attr': {'class': 'text'}}) }}
+    </div>
+    <div class="btn-holder">
+        {{ form_widget(popupTemplateNameForm.submit) }}
+    </div>
+{{ form_end(popupTemplateNameForm) }}

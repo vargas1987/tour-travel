@@ -1,0 +1,10 @@
+$(document).ready(function(){$('#frm_order_call').find('#name_order_call').blur(function(){test_order_call_name(this);});$('#frm_order_call').find('#name_order_call').click(function(){$(this).parent().parent().find('.error-text').remove();});$('#frm_order_call').find('#phone_order_call').blur(function(){test_order_call_phone(this);});$('#frm_order_call').find('#phone_order_call').click(function(){$(this).parent().parent().find('.error-text').remove();});function test_order_call_name(elem){$(elem).parent().parent().find('.correct-icon').remove();$(elem).parent().parent().find('.error-text').remove();if($(elem).val().trim()!=""){$('<div class="correct-icon"><span class="form-validation-icon form-validation-ok"></span></div>').appendTo($(elem).parent().parent());$(elem).removeAttr('incorrect');$(elem).attr('correct');}else{$(elem).attr('incorrect');$(elem).removeAttr('correct');var data="";switch(lang){case"ru":data="Укажите Ваше имя";break;case"en":data="Type in your name";break;case"cn":data="Type in your name";break;}
+$('<div class="error-text">'+ data+'</div>').appendTo($(elem).parent().parent());return false;}
+return true;}
+function test_order_call_phone(elem){$(elem).parent().parent().find('.correct-icon').remove();$(elem).parent().parent().find('.error-text').remove();if($(elem).val()!=""){$('<div class="correct-icon"><span class="form-validation-icon form-validation-ok"></span></div>').appendTo($(elem).parent().parent());$(elem).removeAttr('incorrect');$(elem).attr('correct');}else{$(elem).attr('incorrect');$(elem).removeAttr('correct');var data="";switch(lang){case"ru":data="Укажите Ваш номер телефона";break;case"en":data="Type in your phone";break;case"cn":data="Type in your phone";break;}
+$('<div class="error-text">'+ data+'</div>').appendTo($(elem).parent().parent());return false;}
+return true;}
+$('#frm_order_call').find('#accept_order_call').click(function(){var ok=true;if(!test_order_call_name($('#frm_order_call').find('#name_order_call')))
+ok=false;if(!test_order_call_phone($('#frm_order_call').find('#phone_order_call')))
+ok=false;if(!ok)
+return false;});});

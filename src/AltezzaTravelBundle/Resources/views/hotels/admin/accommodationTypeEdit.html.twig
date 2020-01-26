@@ -1,0 +1,14 @@
+{% extends '@AltezzaTravel/hotels/admin/layout.html.twig' %}
+
+{% block content %}
+    <h3>Accommodation type</h3>
+    {{ form_row(form.type) }}
+    {{ form_row(form.countAdult) }}
+    {{ form_row(form.countTeenager) }}
+    {{ form_row(form.countChild) }}
+    <hr>
+
+    <div class="btn-holder">
+        {{ form_widget(form.submit) }}
+    </div>
+{% endblock %}

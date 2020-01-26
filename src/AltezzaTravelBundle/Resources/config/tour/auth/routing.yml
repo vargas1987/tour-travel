@@ -1,0 +1,11 @@
+tour_login_check:
+  path: /check_login
+  defaults: { _controller: AltezzaTravelBundle:Tour\Auth:checkLogin }
+
+tour_login:
+  path: /login
+  defaults: { _controller: AltezzaTravelBundle:Tour\Auth:login }
+
+tour_logout:
+  path: /logout
+  defaults: { _controller: AltezzaTravelBundle:Tour\Auth:logout }

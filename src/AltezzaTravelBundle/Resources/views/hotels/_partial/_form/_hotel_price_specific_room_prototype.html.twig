@@ -1,0 +1,28 @@
+<tr>
+    <td class="select-col">
+        <div class="delete-holder">
+            <a href="#" class="delete"></a>
+        </div>
+        <div class="select-holder">
+            {{ form_widget(form.room) }}
+        </div>
+    </td>
+    <td class="select-col">
+        <div class="select-holder" data-behaviour="price-specific-room-types-inner">
+            {{ form_widget(form.accommodationType) }}
+        </div>
+    </td>
+
+    {% for seasonType in hotel.getSeasonTypes(currentYear) %}
+        {% for child in form.priceSpecificRoomSeasons %}
+            {% if child.vars.value.seasonType.type == seasonType.type %}
+                <td class="input-col">
+                    <div style="display: none;">
+                        {{ form_widget(child.seasonType) }}
+                    </div>
+                    {{ form_widget(child.price) }}
+                </td>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+</tr>

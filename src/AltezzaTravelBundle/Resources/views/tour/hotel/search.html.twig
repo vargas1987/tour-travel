@@ -1,0 +1,248 @@
+{% extends '@AltezzaTravel/layout_tour.html.twig' %}
+
+{% form_theme form '@AltezzaTravel/tour/_partial/_form/_tour_partial.html.twig' %}
+
+{% block container %}
+    {{ form_start(form, {'attr': {'class': 'admin-edit blog-edit'}}) }}
+        <fieldset>
+            <h2>Hotel Settings</h2>
+            <div class="col-row">
+                <div class="col l-3">
+                    {{ form_row(form.location) }}
+                </div>
+                <div class="col l-3">
+                    {{ form_row(form.area) }}
+                </div>
+                <div class="col l-3">
+                    {{ form_row(form.typeMealPlan) }}
+                </div>
+                <div class="col l-3">
+                    <div>
+                        <ul class="age-info-list" style="width: 270px; left: 1138.5px;">
+                            <li>
+                                <div class="ico-holder child">
+                                    <i><img width="8" src="{{ asset('/bundles/altezzatravel/new2/img/child.svg') }}" alt="image description"></i>
+                                    Child
+                                </div>
+                                <span class="age">&lt; 3 Years</span>
+                            </li>
+                            <li>
+                                <div class="ico-holder teenager">
+                                    <i><img width="8" src="{{ asset('/bundles/altezzatravel/new2/img/teenager.svg') }}" alt="image description"></i>
+                                    Teenager
+                                </div>
+                                <span class="age">4 - 12 Years</span>
+                            </li>
+                            <li>
+                                <div class="ico-holder adult">
+                                    <i><img width="10" src="{{ asset('/bundles/altezzatravel/new2/img/adult-ico.svg') }}" alt="image description"></i>
+                                    Adult
+                                </div>
+                                <span class="age">13+ Years</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label class="label">Dates of accommodations:</label>
+                {{ form_errors(form.period) }}
+                <div class="datepicker-holder type2">
+                    <div class="input-holder">
+                        <span class="title">From</span>
+                        <div class="input">
+                            {{ form_widget(form.period.dateFrom, {'type': 'text', 'attr': {'class': 'text date'}}) }}
+                        </div>
+                    </div>
+                    <div class="input-holder">
+                        <span class="title">To</span>
+                        <div class="input">
+                            {{ form_widget(form.period.dateTo, {'type': 'text', 'attr': {'class': 'text date'}}) }}
+                        </div>
+                    </div>
+                    {% if result.nights is defined %}
+                        <strong class="date-total">Total Nights: <span class="night-count">{{ result.nights }}</span></strong>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row">
+                <label class="label">Accommodation types:</label>
+                {{ form_errors(form.rooms) }}
+                {{ form_row(form.rooms) }}
+            </div>
+
+            <div class="btn-holder gray-btn-holder">
+                {{ form_widget(form.submit) }}
+            </div>
+
+            {% if result.items is defined %}
+                <h2>Available accommodation options</h2>
+                <div class="result-panel type2">
+                    <span class="result-panel-title">
+                        Cost of living:
+                        <ul>
+                            <li>{{ result.nights }} nights</li>
+                            <li>{{ form.location.vars.data.title }}</li>
+                        </ul>
+                    </span>
+                    <div class="select-holder">
+                        <span class="select-title">{{ form_label(form.sorting) }}</span>
+                        {{ form_widget(form.sorting) }}
+                    </div>
+                </div>
+                <div class="results-hotels">
+                    {% for item in result.items %}
+                        {% set hotel = item.hotel %}
+                        <div class="result-item">
+                            <h4>
+                                <i class="hotel-ico"></i>
+                                {{ hotel.title }}
+                                {% if hotel.isMobileCamp %} <span class="camp">mobile camp</span>{% endif %}
+                                {% if hotel.note is not null %}
+                                    <div class="tooltip">
+                                        <i><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 16 16" style="enable-background:new 0 0 16 16;" xml:space="preserve"><path d="M8,0C3.6,0,0,3.6,0,8s3.6,8,8,8s8-3.6,8-8S12.4,0,8,0z M8,14.5c-3.6,0-6.5-2.9-6.5-6.5c0-3.6,2.9-6.5,6.5-6.5s6.5,2.9,6.5,6.5C14.5,11.6,11.6,14.5,8,14.5z M8,3.4c-0.5,0-1,0.4-1,1c0,0.5,0.4,1,1,1c0.5,0,1-0.4,1-1C9,3.8,8.5,3.4,8,3.4z M8,6.8c-0.4,0-0.7,0.3-0.7,0.7v4.4c0,0.4,0.3,0.7,0.7,0.7c0.4,0,0.7-0.3,0.7-0.7V7.5C8.7,7.1,8.4,6.8,8,6.8z"/></svg></i>
+                                        <div class="content">{{ hotel.note }}</div>
+                                    </div>
+                                {% endif %}
+                            </h4>
+                            <table>
+                                <tbody>
+                                {% for room in item.rooms %}
+                                    <tr>
+                                        <td width="15%">{{ room.title }}</td>
+                                        <td width="20%">
+                                            <div class="icons">
+                                                {% for i in range(1, room.accommodation.countAdult) if room.accommodation.countAdult > 0 %}
+                                                    <img width="10" src="{{ asset('/bundles/altezzatravel/new2/img/adult-ico.svg') }}" alt="image description">
+                                                {% endfor %}
+                                                {% for i in range(1, room.accommodation.countTeenager) if room.accommodation.countTeenager > 0 %}
+                                                    <img width="8" src="{{ asset('/bundles/altezzatravel/new2/img/teenager.svg') }}" alt="image description">
+                                                {% endfor %}
+                                                {% for i in range(1, room.accommodation.countChild) if room.accommodation.countChild > 0 %}
+                                                    <img width="8" src="{{ asset('/bundles/altezzatravel/new2/img/child.svg') }}" alt="image description">
+                                                {% endfor %}
+                                            </div>
+                                        </td>
+                                        <td class="location" width="50%">{% if hotel.area is not null %}{{ hotel.area.title }}{% endif %}</td>
+                                        <td class="price" width="15%">{{ room.price }}$</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="btn-holder">
+                    <button class="admin-btn download-btn pull-right" href="#">Download</button>
+                    <button class="admin-btn print-ico-btn pull-right" href="#">Print</button>
+                </div>
+            {% endif %}
+        </fieldset>
+        {% do form.sorting.setRendered %}
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block customjs %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('select[name="{{ form.sorting.vars.full_name }}"]').on('selectmenuchange', function () {
+                $('form[name="{{ form.vars.full_name }}"]').submit();
+            });
+
+            var getAreaSelectmenu = function() {
+                return $('select[data-type="area"]');
+            };
+
+            var ajaxUrl = '{{ url('tour_ajax_request') }}';
+            var locationSelectmenu = $('[name="{{ form.location.vars.full_name }}"]'),
+                areaSelectmenu = getAreaSelectmenu();
+
+            var refreshSelectmenu = function (selectmenu, filter, by, value) {
+                selectmenu.multipleSelect().multipleSelect('disable');
+                var previousValue = selectmenu.val();
+                var select = document.createElement('select');
+
+                $.ajax({
+                    url: ajaxUrl+'?filter='+filter+'&by='+by+'&value='+value,
+                    method: 'get',
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.status && data.result.length) {
+                            $.each(data.result, function(index, itemData) {
+                                $("<option value='" + itemData.id + "'>" + itemData.title
+                                    + "</option>").appendTo(select);
+                            });
+
+                            selectmenu.html($(select).html());
+
+                            $(previousValue).each(function (key, value) {
+                                if (selectmenu.find('option[value="' + value + '"]').length !== 0) {
+                                    selectmenu.find('option[value="' + value + '"]').prop('selected', true);
+                                }
+                            });
+
+                            selectmenu.multipleSelect("refresh");
+                            selectmenu.multipleSelect('enable');
+
+                            return;
+                        }
+
+                        selectmenu.html('');
+                        selectmenu.multipleSelect('destroy').multipleSelect().multipleSelect('disable');
+                    }
+                });
+            };
+
+            locationSelectmenu.on('selectmenuchange', function(event, ui) {
+                refreshSelectmenu(areaSelectmenu, 'area', 'location', ui.item.value);
+            });
+
+            refreshSelectmenu(areaSelectmenu, 'area', 'location', locationSelectmenu.val());
+
+            $(document).on('click', 'a.delete', function(e) {
+                e.preventDefault();
+
+                $(this).parent().remove();
+
+                return false;
+            });
+
+            $(document).on('click', 'a[data-behavior="add-room"]', function(e) {
+                e.preventDefault();
+
+                var $collectionHolder = $(this).closest('.room-block-holder');
+                $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+                addRoomForm($collectionHolder);
+            });
+
+            $(document).on('selectmenuchange', '[data-behaviour="select-room-type"]', function(event, ui) {
+                var prototype = $(ui.item.element).data('room-type-prototype');
+                var prototypeName = $(ui.item.element).closest('select').attr('name');
+                prototypeName = prototypeName.replace('[roomType]', '');
+                prototype = prototype.replace(/accommodations/g, prototypeName + '[accommodations]');
+
+                $(ui.item.element).closest('.room-block-inner').find('[data-behaviour="room-type-inner"]').html(prototype);
+            });
+        });
+
+        function addRoomForm($collectionHolder) {
+            var prototype = $collectionHolder.data('prototype');
+            var index = $collectionHolder.data('index');
+            var roomForm = prototype.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            $(roomForm).insertBefore($collectionHolder.find('.btn-holder'));
+
+            $collectionHolder.find('select').each(function() {
+                $(this).selectmenu();
+            });
+        };
+    </script>
+{% endblock %}

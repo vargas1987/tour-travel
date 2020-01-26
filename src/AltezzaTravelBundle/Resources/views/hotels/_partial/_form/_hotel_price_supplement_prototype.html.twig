@@ -1,0 +1,19 @@
+<tr>
+    <td class="select-col">
+        <div class="delete-holder">
+            <a href="#" class="delete"></a>
+        </div>
+        <div class="select-holder">
+            {{ form_widget(form.type) }}
+        </div>
+    </td>
+    <td class="input-col">
+        {{ form_widget(form.price) }}
+    </td>
+    <td class="date-col">
+        {{ form_widget(form.dateFrom, {'type': 'text', 'attr': {'class': 'text date'}}) }}
+    </td>
+    <td class="date-col">
+        {{ form_widget(form.dateTo, {'type': 'text', 'attr': {'class': 'text date'}}) }}
+    </td>
+</tr>

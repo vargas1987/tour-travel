@@ -1,0 +1,83 @@
+tour_auth:
+    prefix: /auth
+    resource: '@AltezzaTravelBundle/Resources/config/tour/auth/routing.yml'
+
+tour_dashboard:
+    path: /
+    defaults: { _controller: AltezzaTravelBundle:Tour\Hotel:index }
+
+tour_hotel_search:
+    path: /hotel/search
+    defaults: { _controller: AltezzaTravelBundle:Tour\Hotel:search }
+
+tour_hotel_make_story:
+    path: /hotel/make-story
+    defaults: { _controller: AltezzaTravelBundle:Tour\Hotel:makeStory }
+
+tour_hotel_calculate:
+    path: /hotel/calculate
+    defaults: { _controller: AltezzaTravelBundle:Tour\Hotel:calculate }
+
+tour_settings_transfer_territorial:
+    path: /settings/transfer-territorial
+    defaults: { _controller: AltezzaTravelBundle:Tour\Settings:transferTerritorial }
+
+tour_calculation_settings:
+    path: /settings/calculation-prices
+    defaults: { _controller: AltezzaTravelBundle:Tour\CalculationSettings:settings }
+
+tour_calculation_settings_domestic_flight_list:
+    path: /settings/domestic-flight
+    defaults: { _controller: AltezzaTravelBundle:Tour\CalculationSettings:domesticFlightList }
+
+tour_calculation_settings_domestic_flight_add:
+    path: /settings/domestic-flight/add
+    defaults: { _controller: AltezzaTravelBundle:Tour\CalculationSettings:domesticFlightEdit }
+
+tour_calculation_settings_domestic_flight_edit:
+    path: /settings/domestic-flight/{flight}/edit
+    defaults: { _controller: AltezzaTravelBundle:Tour\CalculationSettings:domesticFlightEdit }
+
+tour_calculation_settings_domestic_flight_remove:
+    path: /settings/domestic-flight/{flight}/remove
+    defaults: { _controller: AltezzaTravelBundle:Tour\CalculationSettings:domesticFlightRemove }
+
+tour_calculation_drafts:
+    path: /calculation/draft
+    defaults: { _controller: AltezzaTravelBundle:Tour\Calculator:draftList }
+
+tour_calculation_templates:
+    path: /calculation/template
+    defaults: { _controller: AltezzaTravelBundle:Tour\Calculator:templateList }
+
+tour_calculation_create:
+    path: /calculation/new
+    defaults: { _controller: AltezzaTravelBundle:Tour\Calculator:stepFirst }
+
+tour_calculation_step_one:
+    path: /calculation/{calculation}/step/1
+    defaults: { _controller: AltezzaTravelBundle:Tour\Calculator:stepFirst }
+
+tour_calculation_step_two:
+    path: /calculation/{calculation}/step/2
+    defaults: { _controller: AltezzaTravelBundle:Tour\Calculator:stepSecond }
+
+tour_calculation_step_three:
+    path: /calculation/{calculation}/step/3
+    defaults: { _controller: AltezzaTravelBundle:Tour\Calculator:stepThird }
+
+tour_calculation_generate_pdf:
+    path: /calculation/{calculation}.pdf
+    defaults: { _controller: AltezzaTravelBundle:Tour\Calculator:pdf }
+
+tour_calculation_remove:
+    path: /calculation/{calculation}/remove
+    defaults: { _controller: AltezzaTravelBundle:Tour\Calculator:remove }
+
+tour_calculation_ajax_request:
+    path: /{calculation}/ajax
+    defaults: { _controller: AltezzaTravelBundle:Tour\Calculator:ajaxRequest }
+
+tour_ajax_request:
+    path: /ajax
+    defaults: { _controller: AltezzaTravelBundle:Tour\Hotel:ajaxRequest }

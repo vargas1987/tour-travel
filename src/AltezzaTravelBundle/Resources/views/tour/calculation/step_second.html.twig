@@ -1,0 +1,737 @@
+{% extends '@AltezzaTravel/layout_tour.html.twig' %}
+
+{% block container_class %}hotel-redactor type2{% endblock %}
+
+{% block container %}
+    {{ form_start(form, {'attr': {'class': 'admin-edit blog-edit'}}) }}
+        {{ form_errors(form) }}
+        <fieldset>
+            {% include '@AltezzaTravel/tour/calculation/_calculation_menu_aside.html.twig' %}
+            <div class="blog-content" id="step_second">
+                <div class="result-panel">
+                    <div class="result-panel-inner">
+                        <div class="result-panel-item">
+                            <dl>
+                                <dt>Date:</dt>
+                                <dd>{{ calculation.dateFrom|date('jS F Y') }} - {{ calculation.dateTo|date('jS F Y') }}</dd>
+                            </dl>
+                        </div>
+                        <div class="result-panel-item">
+                            <dl>
+                                <dt>Total pax:</dt>
+                                <dd>{{ calculation.adultPersons.first.count }} Adults{% for childPreson in calculation.childPersons %}, {{ loop.index }} Child ({{ childPreson.age }} yo){% endfor %}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="calc-filter-tabset tabset" v-show="nights > 0">
+                    <ul class="tab-control">
+                        <li class="active">
+                            <a href="#">
+                                <i class="ico"><svg width="15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 14 16" style="enable-background:new 0 0 14 16;" xml:space="preserve"><g><g><path d="M9.6,10.2C8.7,9.1,8.4,7.7,6.9,7.7c-1.4,0-1.7,1.4-2.6,2.4c-0.8,0.9-2.3,1.1-2.3,2.8c0,2,2.2,3.1,4.9,3.1s4.9-1.2,4.9-3.1C11.8,11.3,10.3,11.1,9.6,10.2z M13.5,3.8c0,0-3,3.5-3,4.5c0,1,0.8,1.8,1.7,1.8c1,0,1.7-0.8,1.7-1.8C14,7.3,13.5,3.8,13.5,3.8z M3.5,8.3c0-1-3-4.5-3-4.5S0,7.3,0,8.3c0,1,0.8,1.8,1.7,1.8C2.7,10.1,3.5,9.3,3.5,8.3z M9.2,6.3c1,0,1.7-0.8,1.7-1.8c0-1-1.7-4.5-1.7-4.5S7.5,3.5,7.5,4.5C7.5,5.5,8.2,6.3,9.2,6.3z M4.9,6.3c1,0,1.7-0.8,1.7-1.8c0-1-1.7-4.5-1.7-4.5S3.1,3.5,3.1,4.5C3.1,5.5,3.9,6.3,4.9,6.3z"/></g></g></svg></i>
+                                Safari Lodges
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="ico"><svg width="16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 16 15" style="enable-background:new 0 0 16 15;" xml:space="preserve"><g><g><path d="M9.8,11.4l-0.1-1.1c0-0.1-0.1-0.2-0.2-0.2H6.6c-0.1,0-0.2,0.1-0.2,0.2l-0.1,1.1c-1.4,0.4-2.6,1.4-3.3,2.7C2.7,14.5,3,15,3.5,15h9c0.5,0,0.8-0.5,0.6-0.9C12.4,12.8,11.2,11.8,9.8,11.4z M16,3.5c-0.9-4.3-6.3-4.7-8-1.1C6.3-1.1,0.9-0.8,0,3.5c-0.1,0.6,0.6,1,1.1,0.6C2,3.2,3.3,2.8,4.6,2.9C2,3.8,0.7,7.1,3.1,9.7c0.4,0.5,1.2,0.1,1.1-0.5c-0.4-2,1-4,2.9-4.7L6.5,8.6c0,0.1,0.1,0.2,0.2,0.2h2.5c0.1,0,0.2-0.1,0.2-0.2L9,4.5c1.9,0.7,3.2,2.7,2.9,4.7c-0.1,0.6,0.7,1,1.1,0.5c2.4-2.6,1-5.9-1.6-6.8c1.3-0.1,2.6,0.3,3.5,1.2C15.3,4.5,16.1,4.2,16,3.5z"/></g></g></svg></i>
+                                Zanzibar hotels
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-body">
+                        <div class="tab active">
+                            <ul class="calc-room-list">
+                                <li>
+                                    <div class="col-row">
+                                        <div class="col l-2">
+                                            <div class="form-row">
+                                                <label>Night</label>
+                                                <select id="calculation_night_safari_night">
+                                                    {% for night in nights %}
+                                                        <option value="{{ night }}">{{ night }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col l-5">
+                                            <div class="form-row">
+                                                <label>Hotel name</label>
+                                                <select id="calculation_night_safari_hotel">
+                                                    {% for hotel in safariHotels %}
+                                                        <option value="{{ hotel.id }}">{{ hotel.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col l-2">
+                                            <div class="form-row">
+                                                <label>Meal Plan</label>
+                                                <select id="calculation_night_safari_meal_plan">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-row">
+                                        <div class="col l-5">
+                                            <div class="form-row">
+                                                <select id="calculation_night_safari_room_type">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col l-2">
+                                            <div class="input-holder small">
+                                                <span class="title">Qty</span>
+                                                <div class="input">
+                                                    <input id="calculation_night_safari_room_count" type="text" class="text" value="1">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col l-5">
+                                            <ul class="check-list" id=calculation_night_safari_room_accommodations>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form-row inline">
+                                        <label>Room Type:</label>
+                                        <div class="input">
+                                            <select id="calculation_night_safari_room_slug">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    {#<a href="#" class="delete">Delete</a>#}
+                                </li>
+                            </ul>
+                            <div class="btn-holder">
+                                {#<a href="#" class="button info-button">Add Room</a>#}
+                                <a href="#" class="button admin-btn" v-on:click.stop.prevent="addSafariNights">Add to calculator</a>
+                            </div>
+                        </div>
+                        <div class="tab">
+                            <ul class="calc-room-list">
+                                <li>
+                                    <div class="col-row">
+                                        <div class="col l-5">
+                                            <div class="form-row">
+                                                <label>Night</label>
+                                                <div class="combo-date-box">
+                                                    <div class="input-holder">
+                                                        <span class="title">From</span>
+                                                        <div class="input">
+                                                            <select id="calculation_night_zanzibar_night_from">
+                                                                {% for night in nights %}
+                                                                    <option value="{{ night }}">{{ night }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-holder">
+                                                        <span class="title">To</span>
+                                                        <div class="input">
+                                                            <select id="calculation_night_zanzibar_night_to">
+                                                                {% for night in nights %}
+                                                                    <option value="{{ night }}">{{ night }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col l-5">
+                                            <div class="form-row">
+                                                <label>Hotel name</label>
+                                                <select id="calculation_night_zanzibar_hotel">
+                                                    {% for hotel in zanzibarHotels %}
+                                                        <option value="{{ hotel.id }}">{{ hotel.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col l-2">
+                                            <div class="form-row">
+                                                <label>Meal Plan</label>
+                                                <select id="calculation_night_zanzibar_meal_plan">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-row">
+                                        <div class="col l-5">
+                                            <div class="form-row">
+                                                <select id="calculation_night_zanzibar_room_type">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col l-2">
+                                            <div class="input-holder small">
+                                                <span class="title">Qty</span>
+                                                <div class="input">
+                                                    <input id="calculation_night_zanzibar_room_count" type="text" class="text" value="1">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col l-5">
+                                            <ul class="check-list" id=calculation_night_zanzibar_room_accommodations>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form-row inline">
+                                        <label>Room Type:</label>
+                                        <div class="input">
+                                            <select id="calculation_night_zanzibar_room_slug">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    {#<a href="#" class="delete">Delete</a>#}
+                                </li>
+                            </ul>
+                            <div class="btn-holder">
+                                {#<a href="#" class="button info-button">Add Room</a>#}
+                                <a href="#" class="button admin-btn" v-on:click.stop.prevent="addZanzibarNights">Add to calculator</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr v-show="nights > 0">
+                <h3 v-show="nights > 0">
+                    <span class="ico"><img width="15" src="{{ asset('/bundles/altezzatravel/new2/img/paw.svg') }}" alt="image description"></span>
+                    Safari Lodges <div class="lds-ellipsis" data-behaviour="vuejs-hide"><div></div><div></div><div></div><div></div></div>
+                </h3>
+                <div class="room-block-holder" data-behaviour="vuejs-show" style="display: none;">
+                    <table class="room-block-table" v-show="safariNightsSorted.length > 0" >
+                        <thead>
+                        <tr>
+                            <th>Night</th>
+                            <th>Hotel</th>
+                            <th>Meal</th>
+                            <th>Room</th>
+                            <th>Qty</th>
+                            <th></th>
+                            <th>Room Type</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% verbatim %}
+                            <tr v-for="night, nightKey in safariNightsSorted">
+                                <td class="night">
+                                    {{ night.number }}
+                                    <input type="hidden" :id="'calculation_step_two_form_safariNights_' + nightKey + '_night'" :name="'calculation_step_two_form[safariNights][' + nightKey  + '][night]'" :value="night.number">
+                                </td>
+                                <td>
+                                    {{ night.hotel.title }}
+                                    <input type="hidden" :id="'calculation_step_two_form_safariNights_' + nightKey + '_hotel'" :name="'calculation_step_two_form[safariNights][' + nightKey + '][hotel]'" :value="night.hotel.id">
+                                </td>
+                                <td class="meal">
+                                    {{ night.hotel.mealPlan.title }}
+                                    <input type="hidden" :id="'calculation_step_two_form_safariNights_' + nightKey + '_mealPlanType'" :name="'calculation_step_two_form[safariNights][' + nightKey + '][mealPlanType]'" :value="night.hotel.mealPlan.type">
+                                </td>
+                                <td class="room">
+                                    {{ night.hotel.room.shortName }}
+                                    <input type="hidden" :id="'calculation_step_two_form_safariNights_' + nightKey + '_room'" :name="'calculation_step_two_form[safariNights][' + nightKey + '][room]'" :value="night.hotel.room.id">
+                                </td>
+                                <td class="num">
+                                    {{ night.hotel.room.count }}
+                                    <input type="hidden" :id="'calculation_step_two_form_safariNights_' + nightKey + '_count'" :name="'calculation_step_two_form[safariNights][' + nightKey + '][count]'" :value="night.hotel.room.count">
+                                </td>
+                                <td class="ico-td">
+                                    <input type="hidden" :id="'calculation_step_two_form_safariNights_' + nightKey + '_accommodation'" :name="'calculation_step_two_form[safariNights][' + nightKey + '][accommodation]'" :value="night.hotel.room.accommodation.type">
+                                    <span class="ico">
+                                        <img v-for="i in night.hotel.room.accommodation.adult" width="10" src="{% endverbatim %}{{ asset('/bundles/altezzatravel/new2/img/adult-ico.svg') }}{% verbatim %}" alt="image description">
+                                        <img v-for="i in night.hotel.room.accommodation.teenager" width="8" src="{% endverbatim %}{{ asset('/bundles/altezzatravel/new2/img/teenager.svg') }}{% verbatim %}" alt="image description">
+                                        <img v-for="i in night.hotel.room.accommodation.child" width="8" src="{% endverbatim %}{{ asset('/bundles/altezzatravel/new2/img/child.svg') }}{% verbatim %}" alt="image description">
+                                    </span>
+                                </td>
+                                <td>{{ night.hotel.room.slug }}</td>
+                                <td class="delete-holder">
+                                    <a class="delete" v-on:click.stop.prevent="removeSafariNight(nightKey)">Delete</a>
+                                </td>
+                            </tr>
+                        {% endverbatim %}
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <hr>
+                <h3>Safari Parks <div class="lds-ellipsis" data-behaviour="vuejs-hide"><div></div><div></div><div></div><div></div></div></h3>
+                <div class="room-block-holder type2" data-container="safari-days" data-behaviour="vuejs-show" style="display: none;">
+                    {% verbatim %}
+                        <div class="room-block type3" v-for="day, dayKey in safariDaysSorted">
+                            <div class="input-holder">
+                                <span class="title">Park</span>
+                                <div class="input">
+                                    <jquery-selectmenu :id="'calculation_step_two_form_safariDays_' + dayKey + '_park'" :name="'calculation_step_two_form[safariDays][' + dayKey + '][park]'" v-model="day.park">
+                                        <option v-for="safariPark in safariParks" v-bind:value="safariPark.id">{{ safariPark.title }}</option>
+                                    </jquery-selectmenu>
+                                </div>
+                            </div>
+                            <div class="input-holder small">
+                                <span class="title">Days</span>
+                                <div class="input">
+                                    <input type="text" class="text" :id="'calculation_step_two_form_safariDays_' + dayKey + '_countDays'" :name="'calculation_step_two_form[safariDays][' + dayKey + '][countDays]'" v-model="day.countDays">
+                                </div>
+                            </div>
+                            <a href="#" class="delete" v-on:click.stop.prevent="removeSafariDay(dayKey)">Delete</a>
+                        </div>
+                        <div class="btn-holder">
+                            <a href="#" class="button info-button" v-on:click.stop.prevent="addSafariDay">Add Park</a>
+                        </div>
+                    {% endverbatim %}
+                </div>
+                <hr>
+                <h3 v-show="zanzibarNightsSorted.length > 0">
+                    <span class="ico"><img width="16" src="{{ asset('/bundles/altezzatravel/new2/img/palm.svg') }}" alt="image description"></span>
+                    Zanzibar hotels <div class="lds-ellipsis" data-behaviour="vuejs-hide"><div></div><div></div><div></div><div></div></div>
+                </h3>
+                <div class="room-block-holder" data-behaviour="vuejs-show" style="display: none;">
+                    <table class="room-block-table" v-show="zanzibarNightsSorted.length > 0">
+                        <thead>
+                        <tr>
+                            <th>Night</th>
+                            <th>Hotel</th>
+                            <th>Meal</th>
+                            <th>Room</th>
+                            <th>Qty</th>
+                            <th></th>
+                            <th>Room Type</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% verbatim %}
+                            <tr v-for="night, nightKey in zanzibarNightsSorted">
+                                <td class="night">
+                                    {{ night.numberFrom }} - {{ night.numberTo }}
+                                    <input type="hidden" :id="'calculation_step_two_form_zanzibarNights_' + nightKey + '_nightFrom'" :name="'calculation_step_two_form[zanzibarNights][' + nightKey  + '][nightFrom]'" :value="night.numberFrom">
+                                    <input type="hidden" :id="'calculation_step_two_form_zanzibarNights_' + nightKey + '_nightTo'" :name="'calculation_step_two_form[zanzibarNights][' + nightKey  + '][nightTo]'" :value="night.numberTo">
+                                </td>
+                                <td>
+                                    {{ night.hotel.title }}
+                                    <input type="hidden" :id="'calculation_step_two_form_zanzibarNights_' + nightKey + '_hotel'" :name="'calculation_step_two_form[zanzibarNights][' + nightKey + '][hotel]'" :value="night.hotel.id">
+                                </td>
+                                <td class="meal">
+                                    {{ night.hotel.mealPlan.title }}
+                                    <input type="hidden" :id="'calculation_step_two_form_zanzibarNights_' + nightKey + '_mealPlanType'" :name="'calculation_step_two_form[zanzibarNights][' + nightKey + '][mealPlanType]'" :value="night.hotel.mealPlan.type">
+                                </td>
+                                <td class="room">
+                                    {{ night.hotel.room.shortName }}
+                                    <input type="hidden" :id="'calculation_step_two_form_zanzibarNights_' + nightKey + '_room'" :name="'calculation_step_two_form[zanzibarNights][' + nightKey + '][room]'" :value="night.hotel.room.id">
+                                </td>
+                                <td class="num">
+                                    {{ night.hotel.room.count }}
+                                    <input type="hidden" :id="'calculation_step_two_form_zanzibarNights_' + nightKey + '_count'" :name="'calculation_step_two_form[zanzibarNights][' + nightKey + '][count]'" :value="night.hotel.room.count">
+                                </td>
+                                <td class="ico-td">
+                                    <input type="hidden" :id="'calculation_step_two_form_zanzibarNights_' + nightKey + '_accommodation'" :name="'calculation_step_two_form[zanzibarNights][' + nightKey + '][accommodation]'" :value="night.hotel.room.accommodation.type">
+                                    <span class="ico">
+                                        <img v-for="i in night.hotel.room.accommodation.adult" width="10" src="{% endverbatim %}{{ asset('/bundles/altezzatravel/new2/img/adult-ico.svg') }}{% verbatim %}" alt="image description">
+                                        <img v-for="i in night.hotel.room.accommodation.teenager" width="8" src="{% endverbatim %}{{ asset('/bundles/altezzatravel/new2/img/teenager.svg') }}{% verbatim %}" alt="image description">
+                                        <img v-for="i in night.hotel.room.accommodation.child" width="8" src="{% endverbatim %}{{ asset('/bundles/altezzatravel/new2/img/child.svg') }}{% verbatim %}" alt="image description">
+                                    </span>
+                                </td>
+                                <td>{{ night.hotel.room.slug }}</td>
+                                <td class="delete-holder">
+                                    <a class="delete" v-on:click.stop.prevent="removeZanzibarNight(nightKey)">Delete</a>
+                                </td>
+                            </tr>
+                        {% endverbatim %}
+                        </tbody>
+                    </table>
+                </div>
+                <br v-show="zanzibarNightsSorted.length > 0">
+                <hr v-show="zanzibarNightsSorted.length > 0">
+                <div class="room-block-holder type2">
+                    <div class="total-panel">
+                        <strong>Total Days: {{ calculation.totalProgramDays }} Days</strong>
+                    </div>
+                </div>
+                <div class="result-panel">
+                    <div class="result-panel-inner">
+                        <div class="result-panel-item">
+                            <dl>
+                                <dt>Date:</dt>
+                                <dd>{{ calculation.dateFrom|date('jS F Y') }} - {{ calculation.dateTo|date('jS F Y') }}</dd>
+                            </dl>
+                        </div>
+                        <div class="result-panel-item">
+                            <dl>
+                                <dt>Total pax:</dt>
+                                <dd>{{ calculation.adultPersons.first.count }} Adults{% for childPreson in calculation.childPersons %}, {{ loop.index }} Child ({{ childPreson.age }} yo){% endfor %}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-holder">
+                    {{ form_widget(form.submit) }}
+                </div>
+            </div>
+        </fieldset>
+        {% do form.safariNights.setRendered %}
+        {% do form.safariDays.setRendered %}
+        {% do form.zanzibarNights.setRendered %}
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('/bundles/altezzatravel/admin/js/libs/vue/vue.js') }}"></script>
+    <script>
+        Vue.component('jquery-selectmenu', {
+            props: ['value'],
+            template: `<select><slot /></select>`,
+            mounted: function() {
+                const emit = value => this.$emit('input', value);
+                $(this.$el).selectmenu({
+                    change: function (event, data) {
+                        emit(data.item.value);
+                    }
+                });
+                $(this.$el).val(this.value).selectmenu('refresh');
+            },
+            watch: {
+                value: function (value) {
+                    $(this.$el).val(value).selectmenu('refresh');
+                },
+            },
+        });
+        $(document).ready(function () {
+            var stepSecond = new Vue({
+                el: '#step_second',
+                data: {
+                    dateFrom: "{{ calculation.dateFrom|date('jS F Y') }}",
+                    dateTo: "{{ calculation.dateTo|date('jS F Y') }}",
+                    nights: {{ nights|length }},
+                    safariParks: {{ safariParks|json_encode|raw }},
+                    safariDays: {{ safariDays|json_encode|raw }},
+                    safariNights: {{ safariNights|json_encode|raw }},
+                    zanzibarNights: {{ zanzibarNights|json_encode|raw }},
+                },
+                mounted: function () {
+                    let nights = {{ nights|length }};
+
+                    $(document).ready(function () {
+                        $('[data-behaviour="vuejs-show"]').show();
+                        $('[data-behaviour="vuejs-hide"]').hide();
+
+                        var safariNightFormNight = $('#calculation_night_safari_night');
+                        var safariNightFormHotel = $('#calculation_night_safari_hotel');
+                        var safariNightFormMealPlan = $('#calculation_night_safari_meal_plan');
+                        var safariNightFormRoomType = $('#calculation_night_safari_room_type');
+                        var safariNightFormRoomCount = $('#calculation_night_safari_room_count');
+                        var safariNightFormRoomAccommodations = $('#calculation_night_safari_room_accommodations');
+                        var safariNightFormRoomSlug = $('#calculation_night_safari_room_slug');
+
+                        var zanzibarNightFormNightFrom = $('#calculation_night_zanzibar_night_from');
+                        var zanzibarNightFormNightTo = $('#calculation_night_zanzibar_night_to');
+                        var zanzibarNightFormHotel = $('#calculation_night_zanzibar_hotel');
+                        var zanzibarNightFormMealPlan = $('#calculation_night_zanzibar_meal_plan');
+                        var zanzibarNightFormRoomType = $('#calculation_night_zanzibar_room_type');
+                        var zanzibarNightFormRoomCount = $('#calculation_night_zanzibar_room_count');
+                        var zanzibarNightFormRoomAccommodations = $('#calculation_night_zanzibar_room_accommodations');
+                        var zanzibarNightFormRoomSlug = $('#calculation_night_zanzibar_room_slug');
+
+                        var personAssets = {
+                            child: "{{ asset('/bundles/altezzatravel/new2/img/child.svg') }}",
+                            teenager: "{{ asset('/bundles/altezzatravel/new2/img/teenager.svg') }}",
+                            adult: "{{ asset('/bundles/altezzatravel/new2/img/adult-ico.svg') }}"
+                        };
+
+                        var refreshSelectmenu = function($selectmenu, result, value, title) {
+                            result = result || null;
+                            $selectmenu.selectmenu("disable");
+
+                            if (!result.length) {
+                                $selectmenu.html('');
+
+                                return false;
+                            }
+
+                            var previousValue = $selectmenu.val();
+                            var select = document.createElement('select');
+                            $.each(result, function(index, itemData) {
+                                $("<option value='" + itemData[value] + "'>" + itemData[title]
+                                    + "</option>").appendTo(select);
+                            });
+
+                            $selectmenu.html($(select).html());
+                            if ($selectmenu.find('option[value="' + previousValue + '"]').length !== 0) {
+                                $selectmenu.val(previousValue);
+                            } else {
+                                $selectmenu.val($selectmenu.find('option').first().val());
+                            }
+
+                            $selectmenu.selectmenu("refresh");
+                            $selectmenu.selectmenu('enable');
+                        };
+
+                        var refreshAccommodationList = function ($container, result) {
+                            $container.html('');
+
+                            $(result).each(function (key, accommodation) {
+                                var $ico = $('<span class="ico"></span>');
+
+                                for (let i = 0; i < parseInt(accommodation.adult); i++) {
+                                    let $image = $('<img width="10" src="'+personAssets.adult+'" alt="image description">');
+                                    $ico.append($image);
+                                }
+                                for (let i = 0; i < parseInt(accommodation.teenager); i++) {
+                                    let $image = $('<img width="8" src="'+personAssets.teenager+'" alt="image description">');
+                                    $ico.append($image);
+                                }
+                                for (let i = 0; i < parseInt(accommodation.child); i++) {
+                                    let $image = $('<img width="8" src="'+personAssets.child+'" alt="image description">');
+                                    $ico.append($image);
+                                }
+
+                                var $input = $('<input type="checkbox" value="'+accommodation.type+'" data-adult="'+accommodation.adult+'" data-teenager="'+accommodation.teenager+'" data-child="'+accommodation.child+'">');
+                                var $label = $('<label></label>')
+                                    .append($input)
+                                    .append($('<i></i>'))
+                                    .append($ico);
+
+                                var $li = $('<li></li>').append($label);
+
+                                $container.append($li);
+                            });
+                        };
+
+                        var updateSafariNightForm = function(scope) {
+                            var data = {
+                                hotel: safariNightFormHotel.val(),
+                                roomType: typeof safariNightFormRoomType.val() !== "undefined" ? safariNightFormRoomType.val() : null,
+                                roomAccommodations: safariNightFormRoomAccommodations.val() || null,
+                                roomSlug: typeof safariNightFormRoomSlug.val() !== "undefined" ? safariNightFormRoomSlug.val() : null,
+                            };
+
+                            $.ajax({
+                                url: '{{ url('tour_calculation_ajax_request', {calculation: calculation.id}) }}',
+                                data: data,
+                                dataType: 'JSON',
+                                success: function (result) {
+                                    if (!result.success) {
+                                        alert(result.message + ': ' + result.error);
+                                        return false;
+                                    }
+
+                                    $.each(scope, function(key, type) {
+                                        switch (type) {
+                                            case 'mealPlans':
+                                                refreshSelectmenu(safariNightFormMealPlan, result.data[type], 'type', 'title');
+                                                break;
+                                            case 'roomTypes':
+                                                refreshSelectmenu(safariNightFormRoomType, result.data[type], 'type', 'shortName');
+                                                break;
+                                            case 'roomAccommodations':
+                                                refreshAccommodationList(safariNightFormRoomAccommodations, result.data[type]);
+                                                break;
+                                            case 'roomSlugs':
+                                                refreshSelectmenu(safariNightFormRoomSlug, result.data[type], 'id', 'title');
+                                                break;
+                                        }
+                                    });
+                                }
+                            });
+                        };
+
+                        safariNightFormHotel.on('selectmenuchange', function(event, ui) {
+                            safariNightFormRoomSlug.val('');
+                            updateSafariNightForm(['mealPlans', 'roomTypes', 'roomAccommodations', 'roomSlugs']);
+                        });
+
+                        safariNightFormRoomType.on('selectmenuchange', function(event, ui) {
+                            safariNightFormRoomSlug.val('');
+                            updateSafariNightForm(['roomAccommodations', 'roomSlugs']);
+                        });
+
+                        safariNightFormRoomSlug.on('selectmenuchange', function(event, ui) {
+                            updateSafariNightForm(['roomAccommodations']);
+                        });
+
+                        updateSafariNightForm(['mealPlans', 'roomTypes', 'roomAccommodations', 'roomSlugs']);
+
+                        var updateZanzibarNightForm = function(scope) {
+                            var data = {
+                                hotel: zanzibarNightFormHotel.val(),
+                                roomType: typeof zanzibarNightFormRoomType.val() !== "undefined" ? zanzibarNightFormRoomType.val() : null,
+                                roomAccommodations: zanzibarNightFormRoomAccommodations.val() || null,
+                                roomSlug: typeof zanzibarNightFormRoomSlug.val() !== "undefined" ? zanzibarNightFormRoomSlug.val() : null,
+                            };
+
+                            $.ajax({
+                                url: '{{ url('tour_calculation_ajax_request', {calculation: calculation.id}) }}',
+                                data: data,
+                                dataType: 'JSON',
+                                success: function (result) {
+                                    if (!result.success) {
+                                        alert(result.message + ': ' + result.error);
+                                        return false;
+                                    }
+
+                                    $.each(scope, function(key, type) {
+                                        switch (type) {
+                                            case 'mealPlans':
+                                                refreshSelectmenu(zanzibarNightFormMealPlan, result.data[type], 'type', 'title');
+                                                break;
+                                            case 'roomTypes':
+                                                refreshSelectmenu(zanzibarNightFormRoomType, result.data[type], 'type', 'shortName');
+                                                break;
+                                            case 'roomAccommodations':
+                                                refreshAccommodationList(zanzibarNightFormRoomAccommodations, result.data[type]);
+                                                break;
+                                            case 'roomSlugs':
+                                                refreshSelectmenu(zanzibarNightFormRoomSlug, result.data[type], 'id', 'title');
+                                                break;
+                                        }
+                                    });
+                                }
+                            });
+                        };
+
+                        zanzibarNightFormHotel.on('selectmenuchange', function(event, ui) {
+                            zanzibarNightFormRoomSlug.val('');
+                            updateZanzibarNightForm(['mealPlans', 'roomTypes', 'roomAccommodations', 'roomSlugs']);
+                        });
+
+                        zanzibarNightFormRoomType.on('selectmenuchange', function(event, ui) {
+                            zanzibarNightFormRoomSlug.val('');
+                            updateZanzibarNightForm(['roomAccommodations', 'roomSlugs']);
+                        });
+
+                        zanzibarNightFormRoomSlug.on('selectmenuchange', function(event, ui) {
+                            updateZanzibarNightForm(['roomAccommodations']);
+                        });
+
+                        updateZanzibarNightForm(['mealPlans', 'roomTypes', 'roomAccommodations', 'roomSlugs']);
+
+
+                    });
+                },
+                computed: {
+                    safariNightsSorted: function () {
+                        function compare(a, b) {
+                            return parseInt(a.number) < parseInt(b.number) ? -1 : 1;
+                        }
+
+                        return this.safariNights.sort(compare);
+                    },
+                    zanzibarNightsSorted: function () {
+                        function compare(a, b) {
+                            return parseInt(a.numberFrom) < parseInt(b.numberFrom) ? -1 : 1;
+                        }
+
+                        return this.zanzibarNights.sort(compare);
+                    },
+                    safariDaysSorted: function () {
+                        return this.safariDays;
+                    }
+                },
+                methods: {
+                    addSafariNights: function (event) {
+                        event.preventDefault();
+
+                        var safariNightFormNight = $('#calculation_night_safari_night');
+                        var safariNightFormHotel = $('#calculation_night_safari_hotel');
+                        var safariNightFormMealPlan = $('#calculation_night_safari_meal_plan');
+                        var safariNightFormRoomType = $('#calculation_night_safari_room_type');
+                        var safariNightFormRoomCount = $('#calculation_night_safari_room_count');
+                        var safariNightFormRoomAccommodations = $('#calculation_night_safari_room_accommodations');
+                        var safariNightFormRoomSlug = $('#calculation_night_safari_room_slug');
+
+                        var safariNights = this.safariNights;
+                        safariNightFormRoomAccommodations.find('input:checked').each(function (key, accommodation) {
+                            var night = {
+                                number: safariNightFormNight.val(),
+                                hotel: {
+                                    id: safariNightFormHotel.val(),
+                                    title: safariNightFormHotel.find('option:selected').text(),
+                                    mealPlan: {
+                                        type: safariNightFormMealPlan.val(),
+                                        title: safariNightFormMealPlan.find('option:selected').text(),
+                                    },
+                                    room: {
+                                        id: safariNightFormRoomSlug.val(),
+                                        slug: safariNightFormRoomSlug.find('option:selected').text(),
+                                        count: safariNightFormRoomCount.val(),
+                                        type: safariNightFormRoomType.val(),
+                                        shortName: safariNightFormRoomType.find('option:selected').text(),
+                                        accommodation: {
+                                            type: $(accommodation).val(),
+                                            adult: $(accommodation).data('adult'),
+                                            teenager: $(accommodation).data('teenager'),
+                                            child: $(accommodation).data('child'),
+                                        }
+                                    },
+                                }
+                            };
+
+                            safariNights.push(night);
+                        });
+                    },
+                    addZanzibarNights: function (event) {
+                        event.preventDefault();
+
+                        var zanzibarNightFormNightFrom = $('#calculation_night_zanzibar_night_from');
+                        var zanzibarNightFormNightTo = $('#calculation_night_zanzibar_night_to');
+                        var zanzibarNightFormHotel = $('#calculation_night_zanzibar_hotel');
+                        var zanzibarNightFormMealPlan = $('#calculation_night_zanzibar_meal_plan');
+                        var zanzibarNightFormRoomType = $('#calculation_night_zanzibar_room_type');
+                        var zanzibarNightFormRoomCount = $('#calculation_night_zanzibar_room_count');
+                        var zanzibarNightFormRoomAccommodations = $('#calculation_night_zanzibar_room_accommodations');
+                        var zanzibarNightFormRoomSlug = $('#calculation_night_zanzibar_room_slug');
+
+                        var zanzibarNights = this.zanzibarNights;
+                        zanzibarNightFormRoomAccommodations.find('input:checked').each(function (key, accommodation) {
+                            var night = {
+                                numberFrom: zanzibarNightFormNightFrom.val(),
+                                numberTo: zanzibarNightFormNightTo.val(),
+                                hotel: {
+                                    id: zanzibarNightFormHotel.val(),
+                                    title: zanzibarNightFormHotel.find('option:selected').text(),
+                                    mealPlan: {
+                                        type: zanzibarNightFormMealPlan.val(),
+                                        title: zanzibarNightFormMealPlan.find('option:selected').text(),
+                                    },
+                                    room: {
+                                        id: zanzibarNightFormRoomSlug.val(),
+                                        slug: zanzibarNightFormRoomSlug.find('option:selected').text(),
+                                        count: zanzibarNightFormRoomCount.val(),
+                                        type: zanzibarNightFormRoomType.val(),
+                                        shortName: zanzibarNightFormRoomType.find('option:selected').text(),
+                                        accommodation: {
+                                            type: $(accommodation).val(),
+                                            adult: $(accommodation).data('adult'),
+                                            teenager: $(accommodation).data('teenager'),
+                                            child: $(accommodation).data('child'),
+                                        }
+                                    }
+                                },
+                            };
+
+                            zanzibarNights.push(night);
+                        });
+                    },
+                    addSafariDay: function(event) {
+                        event.preventDefault();
+
+                        var safariDay = {
+                            countDays: 1,
+                            park: this.safariParks[0].id
+                        };
+
+                        this.safariDays.push(safariDay);
+                    },
+                    removeSafariNight: function (nightKey) {
+                        this.safariNights.splice(nightKey, 1)
+                    },
+                    removeZanzibarNight: function (nightKey) {
+                        this.zanzibarNights.splice(nightKey, 1)
+                    },
+                    removeSafariDay: function (dayKey) {
+                        this.safariDays.splice(dayKey, 1)
+                    },
+                }
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,10 @@
+{{ form_start(popupOurCommissionForm, {'attr': {'class': 'form-popup'}}) }}
+    {{ form_errors(popupOurCommissionForm) }}
+<strong class="title-form">Our Commission</strong>
+<div class="input-holder">
+    {{ form_widget(popupOurCommissionForm.ourCommission, {'attr': {'class': 'text'}}) }}
+</div>
+<div class="btn-holder">
+    {{ form_widget(popupOurCommissionForm.submit) }}
+</div>
+{{ form_end(popupOurCommissionForm) }}

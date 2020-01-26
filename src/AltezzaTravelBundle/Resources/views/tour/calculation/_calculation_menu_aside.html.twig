@@ -1,0 +1,32 @@
+{% import _self as helper %}
+
+<div class="blog-aside">
+    <ul class="admin-menu-list">
+        {% if not calculation.id %}
+            {{ helper.hotelMenuItem(calculation, 'tour_calculation_create', 'Dates and Group details') }}
+        {% else %}
+            {{ helper.hotelMenuItem(calculation, 'tour_calculation_step_one', 'Dates and Group details') }}
+        {% endif %}
+        {{ helper.hotelMenuItem(calculation, 'tour_calculation_step_two', 'Hotels and National Parks') }}
+        <li class="divider"></li>
+        {{ helper.hotelMenuItem(calculation, 'tour_calculation_step_three', 'Final price for Safari-package') }}
+    </ul>
+</div>
+
+{% macro hotelMenuItem(calculation, route, title) %}
+    {% set class = '' %}
+    {% if app.request.attributes.get('_route') == route %}
+        {% set class = class ~ 'active' %}
+    {% endif %}
+    {% if route == 'tour_calculation_step_two'%}
+        {% set class = class ~ ' before-divider' %}
+    {% endif %}
+
+    <li class="{{ class }}">
+        {% if calculation.id is not null %}
+            <a href="{{ url(route, {'calculation': calculation.id}) }}">{{ title }}</a>
+        {% else %}
+            <a href="#">{{ title }}</a>
+        {% endif %}
+    </li>
+{% endmacro %}

@@ -1,0 +1,38 @@
+{% extends '@AltezzaTravel/hotels/admin/layout.html.twig' %}
+
+{% block content %}
+    <h3>Hotel chain list</h3>
+    <div class="search-panel type2">
+        <fieldset>
+            <div class="col-row">
+                <div class="col l-6">
+                </div>
+            </div>
+        </fieldset>
+        <div class="pagination-holder">
+            <a href="{{ url('hotels_admin_hotel_chain_add') }}" class="admin-btn">Add hotel chain</a>
+        </div>
+    </div>
+    <table class="hotels-table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for hotelChain in hotelChains %}
+            <tr>
+                <td>{{ hotelChain.id }}</td>
+                <td>{{ hotelChain.title }}</td>
+                <td><a href="{{ url('hotels_admin_hotel_chain_edit', {'hotelChain': hotelChain.id}) }}" class="button info-button">Edit</a></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Hotel chain not exists</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

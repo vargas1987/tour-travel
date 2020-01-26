@@ -1,0 +1,51 @@
+{% extends '@AltezzaTravel/layout_tour.html.twig' %}
+
+{% form_theme form '@AltezzaTravel/tour/_partial/_form/_tour_partial.html.twig' %}
+
+{% block container_class %}hotel-redactor type2{% endblock %}
+
+{% block container %}
+    {{ form_start(form, {'attr': {'class': 'admin-edit blog-edit'}}) }}
+        <fieldset>
+            <div class="col-row">
+                <div class="col l-3">
+                    {{ form_row(form.departure, {'type': 'text', 'attr': {'class': 'text'}}) }}
+                </div>
+                <div class="col l-3">
+                    {{ form_row(form.departureTime, {'attr': {'class': 'text'}}) }}
+                </div>
+                <div class="col l-3">
+                    {{ form_row(form.arrival, {'type': 'text', 'attr': {'class': 'text date'}}) }}                    </div>
+                <div class="col l-3">
+                    {{ form_row(form.arrivalTime, {'type': 'time', 'attr': {'class': 'text time'}}) }}
+                </div>
+            </div>
+            <div class="col-row">
+                <div class="col l-2">
+                    {{ form_row(form.adultPrice, {'type': 'text', 'attr': {'class': 'text'}}) }}
+                </div>
+                <div class="col l-2">
+                    {{ form_row(form.childPrice, {'type': 'text', 'attr': {'class': 'text'}}) }}
+                </div>
+                <div class="col l-2">
+                    {{ form_row(form.adultXlPrice, {'type': 'text', 'attr': {'class': 'text'}}) }}
+                </div>
+                <div class="col l-2">
+                    {{ form_row(form.childXlPrice, {'type': 'text', 'attr': {'class': 'text'}}) }}
+                </div>
+                <div class="col l-4">
+                    {{ form_row(form.tax, {'type': 'text', 'attr': {'class': 'text'}}) }}
+                </div>
+            </div>
+            <div class="col-row">
+                <div class="col l-12">
+                    {{ form_row(form.description, {'type': 'text', 'attr': {'class': 'text'}}) }}
+                </div>
+            </div>
+            <div class="btn-holder">
+                {{ form_widget(form.submit) }}
+                {{ form_widget(form.submit) }}
+            </div>
+        </fieldset>
+    {{ form_end(form) }}
+{% endblock%}

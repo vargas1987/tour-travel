@@ -1,0 +1,23 @@
+{{ form_errors(form) }}
+{% if form.accommodations is defined %}
+    {{ form_errors(form.accommodations) }}
+{% endif %}
+<div class="room-block">
+    <div class="room-block-inner">
+        <div class="select-holder">
+            {{ form_widget(form.roomType) }}
+        </div>
+
+        <div data-behaviour="room-type-inner">
+            {% if form.accommodations is defined %}
+                <ul class="check-list">
+                    {%- for child in form.accommodations %}
+                        {{ include('@AltezzaTravel/hotels/_partial/_form/_hotel_room_entry_accommodation_prototype.html.twig', {'form': child }) }}
+                    {% endfor -%}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+
+    <a href="#" class="delete">Delete</a>
+</div>

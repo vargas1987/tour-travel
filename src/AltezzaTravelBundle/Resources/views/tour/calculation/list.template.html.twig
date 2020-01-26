@@ -1,0 +1,120 @@
+{% extends '@AltezzaTravel/layout_tour.html.twig' %}
+
+{% block container_class %}hotel-redactor type3{% endblock %}
+
+{% block container %}
+    <div class="search-panel type2">
+        <form action="{{ url('tour_calculation_templates') }}" method="get" class="search">
+            <fieldset>
+                <div class="col-row">
+                    <div class="col l-6">
+                        <label class="label">&nbsp;</label>
+                        <label class="label">&nbsp;</label>
+                        <h4 style="">My&nbsp;templates</h4>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-row">
+                            <label class="label">&nbsp;</label>
+                            <div class="search-row">
+                                <div class="input-holder">
+                                    <input type="text" name="search" value="{{ search }}" class="text" placeholder="Search"></input>
+                                </div>
+                                <button>Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <div class="pagination-holder">
+            <div class="pagination">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    </div>
+    {% if search is not null %}
+        <div class="search-result-panel">
+            <h3>Search results: <strong>{{ search }}</strong></h3>
+            <a class="back" href="{{ url('tour_calculation_templates') }}">Return to all templates</a>
+        </div>
+    {% endif %}
+    <table class="hotels-table">
+        <thead>
+            <tr>
+                <th>Template</th>
+                <th>days</th>
+                <th>Pax</th>
+                <th>Created</th>
+                <th>Last update</th>
+                <th>Edit</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for calculation in pagination %}
+            <tr>
+                <td class="name-col">{{ calculation.title }}</td>
+                <td class="num-col">{{ calculation.totalProgramDays }}</td>
+                <td class="">
+                    <ul class="list-ico">
+                        <li class="blue">
+                            <span class="ico">
+                                <img width="10" src="{{ asset('bundles/altezzatravel/new2/img/adult-ico.svg') }}" alt="image description">
+                            </span>
+                            Adult:
+                            <span class="number">{{ calculation.adultPax }}</span>
+                        </li>
+                        {#<li class="green">#}
+                            {#<span class="ico">#}
+                                {#<img width="8" src="new2/img/teenager.svg" alt="image description">#}
+                            {#</span>#}
+                            {#Teen.:#}
+                            {#<span class="number">2</span>#}
+                        {#</li>#}
+                        <li class="pink">
+                            <span class="ico">
+                                <img width="8" src="{{ asset('bundles/altezzatravel/new2/img/child.svg') }}" alt="image description">
+                            </span>
+                            Child:
+                            <span class="number">{{ calculation.childPax }}</span>
+                        </li>
+                    </ul>
+                </td>
+                <td class="text-col">{{ calculation.createdAt|date('d M Y') }}</td>
+                <td class="text-col">{{ calculation.updatedAt|date('d M Y') }}</td>
+                <td class="btn-col"><a href="{{ url('tour_calculation_step_one', {'calculation': calculation.id}) }}" class="button info-button">Edit</a></td>
+                <td class="btn-col"><a href="{{ url('tour_calculation_remove', {'calculation': calculation.id}) }}" data-calculation="remove" class="button delete-btn open-confirm-popup">Delete</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="pagination">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}
+
+{% block popup_holder %}
+    <div class="popup-holder" id="confirm-popup" style="display:none;">
+        <div class="bg">&nbsp;</div>
+        <div class="popup">
+            <h2>Are you sure you want to delete this template?</h2>
+            <div class="btn-panel">
+                <a id="remove_calculation" class="button btn-warn">Yes</a>
+                <a href="#" class="button btn-success close-popup">No, I did not want to :(</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function () {
+            $(document).on('click', '.delete-btn[data-calculation="remove"]', function () {
+                $('#remove_calculation').attr('href', $(this).attr('href'));
+            });
+        });
+    </script>
+{% endblock %}
+

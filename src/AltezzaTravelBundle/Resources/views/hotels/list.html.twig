@@ -1,0 +1,148 @@
+{% extends '@AltezzaTravel/layout_hotels.html.twig' %}
+
+{% block container %}
+    <div class="search-panel type2">
+        <form action="{{ path('hotels_list') }}" class="search">
+            <fieldset>
+                <div class="col-row">
+                    <div class="col l-6">
+                        <label class="label">Location</label>
+                        <select name="select_location" style="max-height: 150px;">
+                            <option value="" {#disabled selected hidden#}>Please Choose Location...</option>
+                            {% for option in options %}
+                                <option value="{{ option.id }}"
+                                        {% if(option.id == select_location) %}
+                                            selected
+                                        {% endif %}
+                                >{{ option.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-row">
+                            <label class="label">&nbsp;</label>
+                            <div class="search-row">
+                                <div class="input-holder">
+                                    <input type="text" name="search" value="{{ search }}" class="text" placeholder="Search"></input>
+                                </div>
+                                <button>Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <div class="pagination-holder">
+            <a href="{{ url('hotels_add') }}" class="admin-btn">Add hotel</a>
+            <div class="pagination">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    </div>
+    {% if(filter) %}
+        <div class="search-result-panel">
+            <h3>Searching results: <strong>{{ search }}</strong></h3>
+            <a class="back" href="{{ path('hotels_dashboard') }}">Back to all hotels</a>
+        </div>
+    {% endif %}
+    <table class="hotels-table">
+        <thead>
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(
+                    pagination,
+                    '',
+                    'h.title',
+                    {'template' :
+                        {
+                            'width' : 17,
+                            'src' : '/bundles/altezzatravel/new2/img/table-ico.svg',
+                        }}
+                ) }}
+                Hotel
+            </th>
+            <th>Location</th>
+            <th>Area</th>
+            <th>
+                <div class="table-site-logo"><img width="28" src="{{ asset('/bundles/altezzatravel/new2/img/booking_logo.svg') }}"></div>
+            </th>
+            <th>
+                <div class="table-site-logo"><img width="28" src="{{ asset('/bundles/altezzatravel/new2/img/tripadvisor-2.svg') }}"></div>
+            </th>
+            <th class="date-col">{% spaceless %}
+                {{ knp_pagination_sortable(
+                    pagination,
+                    '',
+                    'h.updatedAt',
+                    {'template' :
+                        {
+                            'width' : 10,
+                            'src' : '/bundles/altezzatravel/new2/img/arrow-down2.svg',
+                        }}
+                ) }}
+                Last update
+            {% endspaceless %}</th>
+            <th class="date-col">
+                {{ knp_pagination_sortable(
+                    pagination,
+                    '',
+                    'h.priceUpTo',
+                    {'template' :
+                        {
+                            'width' : 10,
+                            'src' : '/bundles/altezzatravel/new2/img/arrow-down2.svg',
+                        }
+                    }
+                ) }}
+                Price up to
+            </th>
+            <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for hotel in pagination %}
+                {% set hotelRowClass = '' %}
+                {% if hotel.getPriceMonthCountFromNow() < 1 %}
+                    {% set hotelRowClass = 'error-row' %}
+                {% elseif hotel.getPriceMonthCountFromNow() < 3 %}
+                    {% set hotelRowClass = 'warning-row' %}
+                {% endif %}
+                <tr class="{{ hotelRowClass }}">
+                    <td class="name-col">{{ hotel.title }}</td>
+                    <td>
+                        {{ hotel.location.title|default('---') }}
+                    </td>
+                    <td>
+                        {{ hotel.area.title|default('---') }}
+                    </td>
+                    <td>
+                        {{ hotel.getExtraData('booking', 'rate') }}
+                    </td>
+                    <td>
+                        {{ hotel.getExtraData('tripadvisor', 'rate') }}
+                    </td>
+                    <td class="date-col">{{ hotel.updatedAt|date('d M Y')|default('---') }}</td>
+                    <td class="date-col">{% if hotel.priceUpTo is not null %}{{ hotel.priceUpTo|date('d M Y') }}{% else %}---{% endif %}</td>
+                    <td><a href="{{ url('hotels_edit', {'hotel': hotel.id}) }}" class="button info-button">Edit</a></td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">Hotels not found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="pagination">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}
+
+{% block footer_content %}
+    {% if(filter) %}
+        <div class="add-btn-panel">
+            <div class="container">
+                <a href="{{ url('hotels_add') }}" class="admin-btn">Add hotel</a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

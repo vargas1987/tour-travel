@@ -1,0 +1,38 @@
+{% extends '@AltezzaTravel/layout.html.twig' %}
+
+{%- block title -%}
+    {% if hotel is defined %}
+        {{ hotel.title }} -
+    {% endif %}
+
+    {{ parent() }}
+{%- endblock -%}
+
+{% block header_left %}
+    <span class="admin-info-text">
+        {% if hotel is defined %}
+            <strong>Hotels Database:</strong> {{ hotel.title }}
+        {% else %}
+            <strong>Hotels Database</strong>
+        {% endif %}
+    </span>
+    <div class="user-panel">
+        <ul class="user-menu-list">
+            {% if app.user %}
+                <li>
+                    <a href="#">
+                        <span class="avatar" style="background-image:url({{ asset('/bundles/altezzatravel/new2/img/avatar.jpg') }});"></span>
+                        {{ app.user.username }}
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('hotels_logout') }}">Exit</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{{ url('hotels_login') }}">Login</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+{% endblock %}

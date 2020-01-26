@@ -1,0 +1,51 @@
+# Rooms
+hotels_admin_room_type_list:
+  path: /room-type/list
+  defaults: { _controller: AltezzaTravelBundle:Hotels\Admin\Dictionary:roomTypeList }
+
+hotels_admin_room_type_add:
+  path: /room-type/add
+  defaults: { _controller: AltezzaTravelBundle:Hotels\Admin\Dictionary:roomTypeEdit }
+
+hotels_admin_room_type_edit:
+  path: /room-type/edit/{roomType}
+  defaults: { _controller: AltezzaTravelBundle:Hotels\Admin\Dictionary:roomTypeEdit }
+
+# Accommodations
+hotels_admin_accommodation_type_list:
+  path: /accommodation-type/list
+  defaults: { _controller: AltezzaTravelBundle:Hotels\Admin\Dictionary:accommodationTypeList }
+
+hotels_admin_accommodation_type_add:
+  path: /accommodation-type/add
+  defaults: { _controller: AltezzaTravelBundle:Hotels\Admin\Dictionary:accommodationTypeEdit }
+
+hotels_admin_accommodation_type_edit:
+  path: /accommodation-type/edit/{accommodationType}
+  defaults: { _controller: AltezzaTravelBundle:Hotels\Admin\Dictionary:accommodationTypeEdit }
+
+# Seasons
+hotels_admin_season_type_list:
+  path: /season-type/list
+  defaults: { _controller: AltezzaTravelBundle:Hotels\Admin\Dictionary:seasonTypeList }
+
+hotels_admin_season_type_add:
+  path: /season-type/add
+  defaults: { _controller: AltezzaTravelBundle:Hotels\Admin\Dictionary:seasonTypeEdit }
+
+hotels_admin_season_type_edit:
+  path: /season-type/edit/{seasonType}
+  defaults: { _controller: AltezzaTravelBundle:Hotels\Admin\Dictionary:seasonTypeEdit }
+
+# Hotel chain
+hotels_admin_hotel_chain_list:
+  path: /hotel-chain/list
+  defaults: { _controller: AltezzaTravelBundle:Hotels\Admin\Dictionary:hotelChainList }
+
+hotels_admin_hotel_chain_add:
+  path: /hotel-chain/add
+  defaults: { _controller: AltezzaTravelBundle:Hotels\Admin\Dictionary:hotelChainEdit }
+
+hotels_admin_hotel_chain_edit:
+  path: /hotel-chain/edit/{hotelChain}
+  defaults: { _controller: AltezzaTravelBundle:Hotels\Admin\Dictionary:hotelChainEdit }

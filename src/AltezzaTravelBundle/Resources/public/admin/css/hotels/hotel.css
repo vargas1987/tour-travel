@@ -1,0 +1,56 @@
+.hotel-redactor .hotel-contact-container {
+    position: relative;
+}
+.hotel-redactor .contact-list .delete{
+    position: absolute;
+    top: 7px;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 4px;
+    text-indent: -9999px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #cacaca;
+    -webkit-transition: all .35s ease;
+    -o-transition: all .35s ease;
+    transition: all .35s ease;
+}
+.hotel-redactor .contact-list .delete:before {
+    opacity: 0;
+    background-image: url(../../../new2/img/close-ico_white.svg);
+}
+.hotel-redactor .contact-list .delete:after,
+.hotel-redactor .contact-list .delete:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    margin: -4px 0 0 -4px;
+    background-size: 100% 100%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    -webkit-transition: opacity .35s ease;
+    -o-transition: opacity .35s ease;
+    transition: opacity .35s ease;
+}
+.hotel-redactor .contact-list .delete:hover {
+    border-color: #d83030;
+    background-color: #d83030;
+}
+.hotel-redactor .contact-list .delete:hover:after {
+    opacity: 0;
+}
+.hotel-redactor .contact-list .delete:after {
+    background-image: url(../../../new2/img/close-ico_red.svg);
+}
+.hotel-redactor .contact-list .delete:hover:before {
+    opacity: 1;
+}
+.hotel-redactor .contact-list .delete:hover:after {
+    opacity: 0;
+}

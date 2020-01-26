@@ -1,0 +1,11 @@
+hotels_login_check:
+  path: /check_login
+  defaults: { _controller: AltezzaTravelBundle:Hotels\Auth:checkLogin }
+
+hotels_login:
+  path: /login
+  defaults: { _controller: AltezzaTravelBundle:Hotels\Auth:login }
+
+hotels_logout:
+  path: /logout
+  defaults: { _controller: AltezzaTravelBundle:Hotels\Auth:logout }

@@ -1,0 +1,36 @@
+{% extends '@AltezzaTravel/hotels/hotel_edit_layout.html.twig' %}
+
+{% block content %}
+    {% include "@AltezzaTravel/hotels/_partial/hotel_prices.html.twig" %}
+{% endblock %}
+
+{% block popup_holder %}
+    {{ parent() }}
+
+    <div class="popup-holder confirm-popup" id="confirm-popup3" style="display:none;">
+        <div class="bg">&nbsp;</div>
+        <div class="popup">
+            <h2 id="confirm-popup3-title">Copy rates from other hotel?</h2>
+            {{ form_start(copyRatesForm, {'action': url('hotels_prices_rates_copy', {'hotel': hotel.id, 'year': year}) }) }}
+            <div class="btn-panel">
+                <a href="#" class="button btn-warn close-popup">No</a>
+                <a href="#" id="copy-rates-confirm" class="button btn-success btn-success-filled">Yes</a>
+            </div>
+            {{ form_end(copyRatesForm) }}
+        </div>
+    </div>
+
+    <div class="popup-holder confirm-popup" id="error-copy-rates" style="display:none;">
+        <div class="bg">&nbsp;</div>
+        <div class="popup">
+            <h2 id="error-copy-rates-title">Sorry! Some error on copy rates.</h2>
+            <div class="btn-panel">
+                <a href="#" class="button btn-warn close-popup">Close</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block customjs %}
+    {{ parent() }}
+{% endblock %}

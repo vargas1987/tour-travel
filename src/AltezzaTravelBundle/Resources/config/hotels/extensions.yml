@@ -1,0 +1,6 @@
+services:
+  # Twig Extension
+  twig.extension.filter_data:
+    class: AltezzaTravelBundle\Twig\Hotels\DataFilterExtension
+    tags:
+    - { name: twig.extension }

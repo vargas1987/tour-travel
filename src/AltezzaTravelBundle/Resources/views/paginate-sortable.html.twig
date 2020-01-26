@@ -1,0 +1,18 @@
+<a
+    {% for attr, value in options %}
+        {% if(attr == 'class') %}
+            {%- set value = 'sortable ' ~ value -%}
+        {% endif %}
+        {% if(attr != 'template') %}
+            {{ attr }}="{{ value }}"
+        {% endif %}
+    {% endfor %}
+    style="display: inline;
+    padding:  0;"
+>
+
+    {% if options.template is defined %}
+        <span class="ico"><img width="{{ options.template.width }}" src="{{ asset(options.template.src) }}" alt="image description"></span>
+    {% endif %}
+    {{ title }}
+</a>

@@ -1,0 +1,129 @@
+.content-page .team-bg {
+	background: url("../img/team-img/team-bg-01.jpg") no-repeat 50% 0;
+	-webkit-background-size: cover;
+	background-size: cover;
+}
+.content-page .team-bg .heading-promo {
+	padding: 45px 0 0;
+}
+.content-page .team-bg .heading-promo h1 {
+	margin: 0 0 29px;
+}
+.content-page .team-bg .promo-desc {
+	max-width: 590px;
+}
+.team-descr {
+	background: #2e2e2e;
+	padding: 20px 0 24px;
+}
+.team-text {
+	color: #b5b5b5;
+	font-family: "Open Sans", "Arial", sans-serif;
+	font-size: 15px;
+	font-weight: 400;
+	line-height: 23px;
+	text-align: justify;
+	letter-spacing: -0.027em;
+}
+.team-block {
+	padding: 31px 0 53px;
+}
+.team-block .title-center {
+	font-size: 32px;
+	margin: 0 0 44px;
+}
+.list-team {
+	list-style: none;
+	margin: 0 -15px;
+	padding: 0;
+	font-size: 0;
+	line-height: 0;
+	position: relative;
+}
+.list-team:after {
+	position: absolute;
+	content: '';
+	width: 1px;
+	background: #fff;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+.list-team li {
+	width: 25%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 0 15px 0;
+	margin: 0 0 51px;
+	text-align: center;
+	display: inline-block;
+	vertical-align: top;
+	border-right: 1px solid rgba(225,225,225,0.8);
+}
+.avatar {
+	margin: 0 auto 14px;
+	width: 100%;
+	max-width: 190px;
+	border-radius: 50%;
+	overflow: hidden;
+}
+.avatar img {
+	max-width: 100%;
+	height: auto;
+	vertical-align: top;
+}
+.name {
+	display: block;
+	margin: 0 0 5px;
+	color: #242424;
+	font-family: "SF UI Text", "Open Sans", "Arial", sans-serif;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 16px;
+}
+.post {
+	display: block;
+	margin: 0 0 12px;
+	color: #9a9a9a;
+	font-family: "SF UI Text", "Open Sans", "Arial", sans-serif;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 16px;
+	font-style: italic;
+}
+.list-team .descr {
+	color: #505050;
+	font-family: "Open Sans", "Arial", sans-serif;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 18px;
+}
+
+@media screen and (max-width: 980px) {
+	.list-team li {
+		width: 33.3%;
+	}
+}
+@media screen and (max-width: 600px) {
+	.team-text {
+		font-size: 13px;
+		line-height: 18px;
+	}
+	.list-team li {
+		width: 50%;
+	}
+}
+@media screen and (max-width: 380px) {
+	.list-team {
+		margin: 0;
+	}
+	.list-team:after {
+		display: none;
+	}
+	.list-team li {
+		width: 100%;
+		padding: 0;
+		border: none;
+	}
+}

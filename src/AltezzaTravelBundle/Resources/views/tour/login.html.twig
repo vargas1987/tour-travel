@@ -1,0 +1,40 @@
+{% extends '@AltezzaTravel/layout_tour.html.twig' %}
+
+{% block container_class %}login-page{% endblock %}
+
+{% block container %}
+    <div class="trip-details safari dark">
+        <div class="l-centered-block">
+            <h3 class="trip-details__title">Log in</h3>
+            <form action="{{ path('tour_login_check') }}" method="post" id="trip_details_form" class="trip-details__form js-trip-details__form ">
+                <div class="trip-details__form-inner trip-details__form-inner--mini">
+                    <i class="icon-user-1"></i>
+                    <input type="text" name="_username" id="email" class="trip-details__input form-validation-1" placeholder="Your name">
+                    <label for="trip_details_name" class="trip-details__label">Tipe in your name here</label>
+                </div>
+                <div class="trip-details__form-inner trip-details__form-inner--mini">
+                    <i class="icon-password"></i>
+                    <input type="password" name="_password" id="password" class="trip-details__input form-validation-1" placeholder="Your password">
+                    <label for="trip_details_email" class="trip-details__label">Tipe in your password</label>
+                </div>
+                <div class="form-row">
+                    <div class="inline-check-list">
+                        <label for="remember_me" class="checkbox" style="color: #fff;">
+                            <input type="checkbox" id="remember_me" name="_remember_me" class="text" checked>
+                            <i></i>
+                            Remember me
+                        </label>
+                    </div>
+                </div>
+                <div class="trip-details__form-inner trip-details__form-inner--btn">
+                    <button type="submit" class="trip-details__btn btn">Login</button>
+                </div>
+            </form>
+            {% if error is not empty %}
+                <div class="error-row">
+                    {{ error.message }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

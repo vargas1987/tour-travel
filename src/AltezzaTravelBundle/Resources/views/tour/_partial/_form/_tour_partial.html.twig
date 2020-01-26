@@ -1,0 +1,169 @@
+{% extends '@AltezzaTravel/_partial/_form/form_div_layout.html.twig' %}
+
+{% block hotel_room_collection_row %}
+    {% set prototype %}
+        {% filter escape %}
+            {{ include('@AltezzaTravel/tour/_partial/_form/_hotel_room_prototype.html.twig', {'form': form.vars.prototype }) }}
+        {% endfilter %}
+    {% endset %}
+
+    <div class="room-block-holder" {{ block('widget_attributes') }} data-prototype="{{ prototype }}">
+        {% for child in form %}
+            {{ include('@AltezzaTravel/tour/_partial/_form/_hotel_room_prototype.html.twig', {'form': child}) }}
+        {% endfor %}
+
+        <div class="btn-holder">
+            <a href="#" data-behavior="add-room" class="button info-button">Add Room</a>
+        </div>
+    </div>
+{% endblock hotel_room_collection_row %}
+
+{%- block hotel_room_type_choice_widget -%}
+    {%- if required and placeholder is none and not placeholder_in_choices and not multiple and (attr.size is not defined or attr.size <= 1) -%}
+        {% set required = false %}
+    {%- endif -%}
+    <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+        {%- if placeholder is not none -%}
+            <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
+        {%- endif -%}
+        {%- if preferred_choices|length > 0 -%}
+            {% set options = preferred_choices %}
+            {{- block('hotel_room_type_choice_widget_options') -}}
+            {%- if choices|length > 0 and separator is not none -%}
+                <option disabled="disabled">{{ separator }}</option>
+            {%- endif -%}
+        {%- endif -%}
+        {%- set options = choices -%}
+        {{- block('hotel_room_type_choice_widget_options') -}}
+    </select>
+{%- endblock hotel_room_type_choice_widget -%}
+
+{%- block hotel_room_type_choice_widget_options -%}
+    {% for group_label, choice in options %}
+        {%- if choice is iterable -%}
+            <optgroup label="{{ choice_translation_domain is same as(false) ? group_label : group_label|trans({}, choice_translation_domain) }}">
+                {% set options = choice %}
+                {{- block('hotel_room_type_choice_widget_options') -}}
+            </optgroup>
+        {%- else -%}
+            <option value="{{ choice.value }}"{% if choice.attr %}{% with { attr: choice.attr } %}{{ block('hotel_room_type_choice_attributes') }}{% endwith %}{% endif %}{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice_translation_domain is same as(false) ? choice.label : choice.label|trans({}, choice_translation_domain) }}</option>
+        {%- endif -%}
+    {% endfor %}
+{%- endblock hotel_room_type_choice_widget_options -%}
+
+{% block hotel_room_type_choice_attributes -%}
+    {%- for attrname, attrvalue in attr -%}
+        {{- " " -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ translation_domain is same as(false) ? attrvalue : attrvalue|trans({}, translation_domain) }}"
+        {%- elseif attrname in ['data-room-type-prototype'] -%}
+            {% set form = attrvalue %}
+            {% set prototype %}
+                {% filter escape %}
+                    <ul class="check-list">
+                        {%- for child in form %}
+                            {{ include('@AltezzaTravel/hotels/_partial/_form/_hotel_room_entry_accommodation_prototype.html.twig', {'form': child }) }}
+                        {% endfor -%}
+                    </ul>
+                {% endfilter %}
+            {% endset %}
+            {{- attrname }}="{{ prototype }}"
+        {%- elseif attrvalue is same as(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not same as(false) -%}
+            {{- attrname }}="{{ attrvalue }}"
+        {%- endif -%}
+    {%- endfor -%}
+{%- endblock hotel_room_type_choice_attributes -%}
+
+{% block _hotel_calculate_form_typeMealPlan_row %}
+    <div class="row">
+        {{ form_label(form, null, {'label_attr': {'class': 'label'}}) }}
+        {{ form_widget(form) }}
+    </div>
+{% endblock _hotel_calculate_form_typeMealPlan_row %}
+
+{% block _hotel_calculate_form_typeMealPlan_widget %}
+    <ul class="inline-check-list">
+        {%- for child in form %}
+            <li>
+                {{ form_row(child) }}
+            </li>
+        {% endfor -%}
+    </ul>
+{% endblock _hotel_calculate_form_typeMealPlan_widget %}
+
+{% block calculation_person_collection_row %}
+    {% if not form.vars.prototype == false %}
+        {% set prototype %}
+            {% filter escape %}
+                {{ include('@AltezzaTravel/tour/_partial/_form/_calculation_person_prototype.html.twig', {'form': form.vars.prototype }) }}
+            {% endfilter %}
+        {% endset %}
+    {% endif %}
+
+    <div class="input-col" data-person-container="{{ form.vars.person_type }}" {% if prototype is defined %}data-prototype="{{ prototype }}"{% endif %}>
+        {% for child in form %}
+            <div data-person-item="{{ form.vars.person_type }}">
+                {{ include('@AltezzaTravel/tour/_partial/_form/_calculation_person_prototype.html.twig', {'form': child}) }}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock calculation_person_collection_row %}
+
+{% block _calculation_step_one_form_transfers_row %}
+    {% set prototype %}
+        {% filter escape %}
+            {{ include('@AltezzaTravel/tour/_partial/_form/_calculation_transfer_prototype.html.twig', {'form': form.vars.prototype }) }}
+        {% endfilter %}
+    {% endset %}
+    <div data-container="calculation-transfers">
+        <ul class="airports-list" data-prototype="{{ prototype }}" {% if form|length <= 0 %}style="display: none;"{% endif %}>
+            {% for child in form %}
+                {{ include('@AltezzaTravel/tour/_partial/_form/_calculation_transfer_prototype.html.twig', {'form': child}) }}
+            {% endfor %}
+        </ul>
+
+        <div class="btn-holder">
+            <a href="#" class="button info-button" data-behavior="add-transfer">Add transfer</a>
+        </div>
+    </div>
+{% endblock _calculation_step_one_form_transfers_row %}
+
+{% block _calculation_step_one_form_flights_row %}
+    {% set prototype %}
+        {% filter escape %}
+            {{ include('@AltezzaTravel/tour/_partial/_form/_calculation_flight_prototype.html.twig', {'form': form.vars.prototype }) }}
+        {% endfilter %}
+    {% endset %}
+    <div data-container="calculation-flights">
+        <ul class="airports-list" data-prototype="{{ prototype }}" {% if form|length <= 0 %}style="display: none;"{% endif %}>
+            {% for child in form %}
+                {{ include('@AltezzaTravel/tour/_partial/_form/_calculation_flight_prototype.html.twig', {'form': child}) }}
+            {% endfor %}
+        </ul>
+
+        <div class="btn-holder">
+            <a href="#" class="button info-button" data-behavior="add-flight">Add flight</a>
+        </div>
+    </div>
+{% endblock _calculation_step_one_form_flights_row %}
+
+{#{% block _calculation_setting_domestic_flight_form_deparute_row %}#}
+    {#{% set prototype %}#}
+        {#{% filter escape %}#}
+            {#{{ include('@AltezzaTravel/tour/_partial/_form/_calculation_flight_prototype.html.twig', {'form': form.vars.prototype }) }}#}
+        {#{% endfilter %}#}
+    {#{% endset %}#}
+    {#<div data-container="calculation-flights">#}
+        {#<ul class="airports-list" data-prototype="{{ prototype }}">#}
+            {#{% for child in form %}#}
+                {#{{ include('@AltezzaTravel/tour/_partial/_form/_calculation_flight_prototype.html.twig', {'form': child}) }}#}
+            {#{% endfor %}#}
+        {#</ul>#}
+
+        {#<div class="btn-holder">#}
+            {#<a href="#" class="button info-button" data-behavior="add-flight">Add flight</a>#}
+        {#</div>#}
+    {#</div>#}
+{#{% endblock _calculation_setting_domestic_flight_form_deparute_row %}#}

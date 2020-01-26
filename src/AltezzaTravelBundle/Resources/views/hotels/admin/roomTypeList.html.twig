@@ -1,0 +1,44 @@
+{% extends '@AltezzaTravel/hotels/admin/layout.html.twig' %}
+
+{% block content %}
+    <h3>Room types</h3>
+    <div class="search-panel type2">
+        <fieldset>
+            <div class="col-row">
+                <div class="col l-6">
+                </div>
+            </div>
+        </fieldset>
+        <div class="pagination-holder">
+            <a href="{{ url('hotels_admin_room_type_add') }}" class="admin-btn">Add room type</a>
+        </div>
+    </div>
+    <table class="hotels-table">
+        <thead>
+        <tr>
+            <th>Position</th>
+            <th>Type</th>
+            <th>Name</th>
+            <th>Short name</th>
+            <th>Description</th>
+            <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for roomType in roomTypes %}
+            <tr>
+                <td>{{ roomType.sort }}</td>
+                <td>{{ roomType.type }}</td>
+                <td>{{ roomType.name|default('---') }}</td>
+                <td class="name-col">{{ roomType.shortName|default('---') }}</td>
+                <td>{{ roomType.description|default('---') }}</td>
+                <td><a href="{{ url('hotels_admin_room_type_edit', {'roomType': roomType.type}) }}" class="button info-button">Edit</a></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Room types not exists</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

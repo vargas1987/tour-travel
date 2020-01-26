@@ -1,0 +1,53 @@
+{% extends '@AltezzaTravel/layout_tour.html.twig' %}
+
+{% form_theme form '@AltezzaTravel/tour/_partial/_form/_settings_transfer_territorial.html.twig' %}
+
+{% block container_class %}hotel-redactor type2{% endblock %}
+
+{% block container %}
+    {{ form_start(form, {'attr': {'class': 'admin-edit blog-edit'}}) }}
+    <h2>Transfer territorial</h2>
+    {{ form_errors(form.transferTerritorial) }}
+    <div class="hotels-settings">
+        {{ form_row(form.transferTerritorial) }}
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(document).on('click', 'a.delete', function(e) {
+                e.preventDefault();
+
+                $(this).closest('tr').remove();
+                return false;
+            });
+
+            $(document).on('click', 'a[data-behavior="add-setting"]', function(e) {
+                e.preventDefault();
+
+                var $collectionHolder = $(this).closest('.hotels-settings-item');
+                $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+                addSettingForm($collectionHolder);
+            });
+        });
+
+        function addSettingForm($collectionHolder) {
+            var prototype = $collectionHolder.data('prototype');
+            var index = $collectionHolder.data('index');
+            var settingForm = prototype.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            $collectionHolder.find('[data-type="hotels-settings-item-container"]').append(settingForm);
+
+            $collectionHolder.find('select').each(function() {
+                $(this).selectmenu();
+            });
+        }
+    </script>
+{% endblock %}

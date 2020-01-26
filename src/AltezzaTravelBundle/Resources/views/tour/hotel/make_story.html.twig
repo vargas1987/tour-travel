@@ -1,0 +1,327 @@
+{% extends '@AltezzaTravel/layout_tour.html.twig' %}
+
+{% block container %}
+    {% import _self as helper %}
+
+    <div class="content-page admin-main hotel-redactor make-story">
+        <div class="container">
+            {{ form_start(form, {'attr': {'class': 'admin-edit blog-edit'}}) }}
+                <fieldset>
+                    <h2>Make a Story</h2>
+                    <div class="col-row">
+                        <div class="col l-3">
+                            <div class="row">
+                                <label class="label">{{ form.language.vars.label }}</label>
+                                <div class="select-holder">
+                                    {{ form_widget(form.language) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col l-3">
+                            <div class="row">
+                                <label class="label">{{ form.tariff.vars.label }}</label>
+                                <div class="select-holder">
+                                    {{ form_widget(form.tariff) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-row">
+                        <div class="col l-6">
+                            <div class="row">
+                                {{ form_errors(form) }}
+                                <span class="label">{{ form.program.vars.label }}</span>
+                                <div class="make-story__flex-wrapper">
+                                    {% for child in form.program %}
+                                        {% if child.vars.value == 'climbing' %}
+                                            <label class="make-story__button">
+                                                {{ form_widget(child) }}
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="10" viewBox="0 0 19 10">
+                                                    <g>
+                                                        <g>
+                                                            <path fill="#2e2e2e" d="M11.227 0L7.945 4.167l2.505 3.166-1.382 1c-1.468-1.833-3.886-5-3.886-5L0 10h19z"/>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                                Climbing
+                                            </label>
+                                        {% endif %}
+                                        {% if child.vars.value == 'safari' %}
+                                            <label class="make-story__button">
+                                                {{ form_widget(child) }}
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="17" viewBox="0 0 15 17">
+                                                    <g>
+                                                        <g>
+                                                            <path fill="#2e2e2e" d="M12.309 13.202c0 1.917-2.216 3.039-4.95 3.039-2.732 0-4.948-1.122-4.948-3.04 0-1.61 1.533-1.807 2.338-2.674.905-.977 1.164-2.295 2.61-2.295 1.519 0 1.794 1.35 2.702 2.398.724.837 2.248 1.102 2.248 2.572zm1.732-8.763s.459 3.358.459 4.321c0 .964-.782 1.747-1.747 1.747a1.747 1.747 0 0 1-1.745-1.747c0-.963 3.033-4.32 3.033-4.32zM2.286 10.507A1.747 1.747 0 0 1 .541 8.76c0-.963.457-4.32.457-4.32s3.034 3.357 3.034 4.32c0 .964-.782 1.747-1.746 1.747zM7.951 5.08c0-.963 1.745-4.32 1.745-4.32s1.747 3.357 1.747 4.32a1.747 1.747 0 0 1-3.492 0zm-4.344 0c0-.963 1.745-4.32 1.745-4.32s1.746 3.357 1.746 4.32a1.747 1.747 0 0 1-3.491 0z"/>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                                Safari
+                                            </label>
+                                        {% endif %}
+                                        {% if child.vars.value == 'climbing-safari' %}
+                                            <label class="make-story__button">
+                                                {{ form_widget(child) }}
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="10" viewBox="0 0 19 10">
+                                                    <g>
+                                                        <g>
+                                                            <path fill="#2e2e2e" d="M11.227 0L7.945 4.167l2.505 3.166-1.382 1c-1.468-1.833-3.886-5-3.886-5L0 10h19z"/>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                                Climbing &
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="17" viewBox="0 0 15 17">
+                                                    <g>
+                                                        <g>
+                                                            <path fill="#2e2e2e" d="M12.309 13.202c0 1.917-2.216 3.039-4.95 3.039-2.732 0-4.948-1.122-4.948-3.04 0-1.61 1.533-1.807 2.338-2.674.905-.977 1.164-2.295 2.61-2.295 1.519 0 1.794 1.35 2.702 2.398.724.837 2.248 1.102 2.248 2.572zm1.732-8.763s.459 3.358.459 4.321c0 .964-.782 1.747-1.747 1.747a1.747 1.747 0 0 1-1.745-1.747c0-.963 3.033-4.32 3.033-4.32zM2.286 10.507A1.747 1.747 0 0 1 .541 8.76c0-.963.457-4.32.457-4.32s3.034 3.357 3.034 4.32c0 .964-.782 1.747-1.746 1.747zM7.951 5.08c0-.963 1.745-4.32 1.745-4.32s1.747 3.357 1.747 4.32a1.747 1.747 0 0 1-3.492 0zm-4.344 0c0-.963 1.745-4.32 1.745-4.32s1.746 3.357 1.746 4.32a1.747 1.747 0 0 1-3.491 0z"/>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                                Safari
+                                            </label>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-row">
+                        <div class="col l-9 make-story__section">
+                            <label class="label">С размещением на даты:</label>
+                            <div class="datepicker-holder type2">
+                                <div class="input-holder">
+                                    <span class="title">From</span>
+                                    <div class="input">
+                                        {{ form_widget(form.period.locateSinceAt, {'type': 'text', 'attr': {'class': 'text date'}}) }}
+                                    </div>
+                                </div>
+                                <div class="input-holder">
+                                    <span class="title">To</span>
+                                    <div class="input">
+                                        {{ form_widget(form.period.locateEndAt, {'type': 'text', 'attr': {'class': 'text date'}}) }}
+                                    </div>
+                                </div>
+                                <strong class="date-total">Total Nights: </strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="check-filter">
+                        <div class="form-row">
+                            {{ form_widget(form.isHideLocateDates) }}
+                            <label for="{{ form.isHideLocateDates.vars.id }}">Скрыть даты</label>
+                        </div>
+                    </div>
+                    <div class="col-row">
+                        <div class="col l-9">
+                            <div class="btn-holder make-btn-holder">
+                                <button class="admin-btn pull-right" type="submit">Далее</button>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Safari program</h2>
+                    <div class="col-row">
+                        <div class="col l-9">
+                            <table class="room-block-table admin-styled-table">
+                                <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Itinerary</th>
+                                    <th>Overnight</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody id="program-details-list" data-prototype="{{ helper.programDetailLine(form.programDetails.vars.prototype, '__number__')|e }}">
+                                {% for programDetail in form.programDetails %}
+                                    {{ helper.programDetailLine(programDetail, loop.index) }}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="btn-holder btn-holder--block-end">
+                        <button id="add-extra-day-button" class="button info-button"
+                                data-prototype="{{ form_row(form.programDetails.vars.prototype)|e|raw }}"
+                                type="button">
+                            Add extra day
+                        </button>
+                    </div>
+
+                    <div class="check-filter">
+                        <div class="form-row">
+                            <input type="checkbox" id="ch3">
+                            <label for="ch3">Extra options</label>
+                        </div>
+                    </div>
+                    <div class="col-row">
+                        <div class="col l-3">
+                            <div class="row">
+                                <label class="label">Дата</label>
+                            </div>
+                        </div>
+                        <div class="col l-2">
+                            <div class="row">
+                                <label class="label">Время</label>
+                            </div>
+                        </div>
+                        <div class="col l-4">
+                            <div class="row">
+                                <label class="label">Extra option</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="extra-options-list" data-prototype="{{ helper.extraOptionLine(form.extraOptions.vars.prototype, '__number__')|e }}">
+                    {% for extraOption in form.extraOptions %}
+                        {{ helper.extraOptionLine(extraOption, loop.index) }}
+                    {% endfor %}
+                    </div>
+
+                    <div class="btn-holder btn-holder--block-end">
+                        <button id="add-extra-option-button" class="button info-button"
+                                data-prototype="{{ form_row(form.extraOptions.vars.prototype)|e|raw }}"
+                                type="button">
+                            Add an option
+                        </button>
+                    </div>
+                    <div class="col-row">
+                        <div class="col l-9">
+                            <div class="btn-holder make-btn-holder make-btn-holder--last">
+                                <button type="submit" class="admin-btn pull-right">Generate Itinerary</button>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block customjs %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var $dateLocateSince = $("[data-behavior=date-locate-since]")
+            var $dateLocateEnd = $("[data-behavior=date-locate-end]")
+
+            $("[data-behavior=date-locate-since], [data-behavior=date-locate-end]").datepicker({
+                dateFormat: 'DD, d MM, yy',
+                onSelect: function(a, b) {
+                    var dateLocateSince = $dateLocateSince.datepicker("getDate");
+                    var dateLocateEnd = $dateLocateEnd.datepicker("getDate");
+                    var $dateTotal = $('.date-total');
+
+                    if (!dateLocateSince || !dateLocateEnd) {
+                        $(dateLocateSince).focus();
+
+                        return;
+                    }
+
+                    var diff = dateLocateSince - dateLocateEnd;
+                    diff = Math.floor(diff / (1000 * 60 * 60 * 24) * -1) + 1;
+
+                    if (diff <= 0) {
+                        $dateTotal.text('Total Nights: ');
+
+                        return;
+                    }
+
+                    $dateTotal.text('Total Nights: '+diff);
+                }
+            });
+
+            $('.make-story__button').each(function(idx, item) {
+                $(item).on('click', function() {
+                    $(this).siblings().removeClass('make-story__button--active');
+                    $(this).addClass('make-story__button--active');
+                });
+            });
+
+            $('#add-extra-day-button').on('click',function () {
+                addRow('#program-details-list');
+            });
+
+            $('#add-extra-option-button').on('click',function () {
+                addRow('#extra-options-list');
+            });
+
+            $(document).on('click', '[data-behaviour="remove-program"], [data-behaviour="remove-option"]', function (e) {
+                e.preventDefault();
+                $($(this).data('target')).hide(500, function () {
+                    $(this).remove();
+                });
+            });
+        });
+
+        function addRow(listId) {
+            var list = $(listId);
+            var last = list.find('.item:last');
+            var index = last.size() ? last.data('index') + 1 : 0;
+
+            var prototype = list.data('prototype')
+                .replace(/__name__/g, index)
+                .replace(/__number__/g, index + 1)
+            ;
+
+            list.append(prototype);
+
+            var lastChild = list.find('> :last-child');
+
+            $('html, body').animate({'scrollTop': lastChild.offset().top}, 1000, 'swing');
+        }
+    </script>
+{% endblock %}
+
+{% macro extraOptionLine(form,  number) %}
+    {% form_theme form with ['bootstrap_3_layout.html.twig', _self] %}
+    <div class="col-row item" data-index="{{ form.vars.name }}" id="option-{{ form.vars.name }}">
+        <div class="col l-3">
+            <div class="row">
+                <div class="input-holder">
+                    <div class="input">
+                        {{ form_widget(form.date, {'type': 'text', 'attr': {'class': 'text date'}}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col l-2">
+            <div class="row">
+                {{ form_widget(form.time, {'attr': {'class': 'text'}}) }}
+            </div>
+        </div>
+        <div class="col l-4">
+            <div class="row make-story__delete">
+                {{ form_widget(form.name, {'attr': {'class': 'text'}}) }}
+                <div class="room-block">
+                    <a href="javascript:;" class="delete" data-behaviour="remove-option"
+                       data-target="#option-{{ form.vars.name }}">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro programDetailLine(form,  number) %}
+    {% form_theme form with ['bootstrap_3_layout.html.twig', _self] %}
+    <tr class="item" data-index="{{ form.vars.name }}" id="detail-{{ form.vars.name }}">
+        <td class="night">Day 3. 28/09/19</td>
+        <td class="make-story__table-select">
+            <div class="item select-holder">
+                {{ form_widget(form.itinerary) }}
+            </div>
+        </td>
+        <td class="make-story__table-select">
+            <div class="item select-holder">
+                {{ form_widget(form.overnight) }}
+            </div>
+        </td>
+        <td class="make-story__table-delete">
+            <div class="delete-holder">
+                <a href="javascript:;" class="delete" data-behaviour="remove-program"
+                   data-target="#detail-{{ form.vars.name }}">
+                </a>
+            </div>
+        </td>
+    </tr>
+{% endmacro %}

@@ -1,0 +1,13 @@
+{% form_theme form '@AltezzaTravel/hotels/_partial/_form/_hotel_partial.html.twig' %}
+
+{{ form_start(form, {'action': url('hotels_seasons_edit', {'hotel': hotel.id}), 'attr': {'class': 'admin-edit blog-edit', 'data-behaviour': 'beforeunload'}}) }}
+
+    <div class="season-names">
+        <label class="label">Names of seasons</label>
+        {{ form_row(form.hotelSeasonTypes) }}
+        <div class="btn-holder">
+            <a href="#" class="button info-button white" data-type="add-season-type">Add season</a>
+            <button type="submit" class="admin-btn update-btn">Update</button>
+        </div>
+    </div>
+{{ form_end(form) }}

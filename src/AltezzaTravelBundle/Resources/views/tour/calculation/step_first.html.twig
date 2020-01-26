@@ -1,0 +1,259 @@
+{% extends '@AltezzaTravel/layout_tour.html.twig' %}
+
+{% form_theme form '@AltezzaTravel/tour/_partial/_form/_tour_partial.html.twig' %}
+
+{% block container_class %}hotel-redactor type2{% endblock %}
+
+{% block container %}
+    {{ form_start(form, {'attr': {'class': 'admin-edit blog-edit'}}) }}
+        {{ form_errors(form) }}
+        <fieldset>
+            {% include '@AltezzaTravel/tour/calculation/_calculation_menu_aside.html.twig' %}
+            <div class="blog-content">
+                <h3>Select dates</h3>
+                {{ form_errors(form.period) }}
+                <div class="datepicker-holder">
+                    <div class="input-holder">
+                        <span class="title">From</span>
+                        <div class="input">
+                            {{ form_widget(form.period.dateFrom, {'type': 'text', 'attr': {'class': 'text date'}}) }}
+                        </div>
+                    </div>
+                    <div class="input-holder">
+                        <span class="title">To</span>
+                        <div class="input">
+                            {{ form_widget(form.period.dateTo, {'type': 'text', 'attr': {'class': 'text date'}}) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="days-holder room-block">
+                    {{ form_errors(form.countSafariDays) }}
+                    <div class="input-holder">
+                        <span class="title">Days of Safari:</span>
+                        <div class="input">
+                            {{ form_widget(form.countSafariDays) }}
+                        </div>
+                    </div>
+                </div>
+                <h3>Transfers</h3>
+                {{ form_errors(form.transfers) }}
+                {{ form_row(form.transfers) }}
+                <h3>Domestic Flights</h3>
+                {{ form_errors(form.flights) }}
+                {{ form_row(form.flights) }}
+                <div class="row">
+                    {{ form_errors(form.foreigners) }}
+                    <ul class="inline-check-list">
+                        {% for child in form.foreigners %}
+                            <li>
+                                {{ form_row(child) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {{ form_errors(form.adultPersons) }}
+                {{ form_errors(form.childPersons) }}
+                <div class="people-picker" data-container="calculation-persons">
+                    <h3>Number of persons</h3>
+                    <div class="people-block">
+                        <div class="form-row">
+                            <div class="info-col adult">
+                                <span class="ico"><img width="10" src="{{ asset('/bundles/altezzatravel/new2/img/adult-ico.svg') }}" alt="image description"></span>
+                                <div class="info-col-content">
+                                    <strong class="title">Adult</strong>
+                                    from 16
+                                </div>
+                            </div>
+                            {{ form_row(form.adultPersons) }}
+                        </div>
+                    </div>
+
+                    <div class="child-block">
+                        <div class="form-row">
+                            <div class="info-col child">
+                                <span class="ico"><img width="8" src="{{ asset('/bundles/altezzatravel/new2/img/child.svg') }}" alt="image description"></span>
+                                <div class="info-col-content">
+                                    <strong class="title">Child</strong>
+                                </div>
+                            </div>
+                            {{ form_row(form.childPersons) }}
+                        </div>
+                        <div class="form-row add-btn-holder">
+                            <a href="#" class="button info-button" data-behavior="add-person" data-person-type="child">Add Child</a>
+                        </div>
+                    </div>
+                    <div class="form-row add-btn-holder type2">
+                        <a href="#" class="button info-button add-child" data-behavior="add-person" data-person-type="child"><span>Add Child</span></a>
+                    </div>
+                </div>
+                <div class="btn-holder">
+                    {{ form_widget(form.submit) }}
+                </div>
+            </div>
+        </fieldset>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block stylsheet %}
+    {{ parent() }}
+
+    <link href="{{ asset('/bundles/altezzatravel/admin/css/tour/calculation.css') }}?v=20181219" rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function () {
+            var getDate = function( element ) {
+                var dateFormat = "d M yy";
+                try {
+                    return $.datepicker.parseDate( dateFormat, element.value );
+                } catch(error) {
+                    return null
+                }
+            };
+
+            var periodDateFrom = $('[name="{{ form.period.dateFrom.vars.full_name }}"]'),
+                periodDateTo = $('[name="{{ form.period.dateTo.vars.full_name }}"]');
+
+            periodDateFrom.on("change", function() {
+                periodDateTo.datepicker("option", "minDate", getDate(this));
+                periodDateTo.datepicker("option", "defaultDate", getDate(this));
+
+                $('.ui-datepicker-trigger').remove();
+            });
+            periodDateTo.on("change", function() {
+                periodDateFrom.datepicker("option", "maxDate", getDate(this));
+
+                $('.ui-datepicker-trigger').remove();
+            });
+
+            $(document).on('click', 'a.delete', function(e) {
+                e.preventDefault();
+
+                $(this).parent().remove();
+
+                updateRowNumber($('[data-person-container="child"]'));
+                toggleAddChildButton($('[data-person-container="child"]'));
+
+                toggleDataContainer($('[data-container="calculation-flights"]').find('ul'));
+                toggleDataContainer($('[data-container="calculation-transfers"]').find('ul'));
+
+                return false;
+            });
+
+            $(document).on('click', 'a[data-behavior="add-person"]', function(e) {
+                e.preventDefault();
+                var personType = $(this).data('person-type');
+
+                var $collectionHolder = $(this).closest('[data-container="calculation-persons"]')
+                    .find('[data-person-container="' + personType + '"]');
+                $collectionHolder.data('index', $collectionHolder.find(':input').length + 1);
+
+                addPersonForm($collectionHolder);
+            });
+
+            function addPersonForm($collectionHolder) {
+                var prototype = $collectionHolder.data('prototype');
+                var index = $collectionHolder.data('index');
+                var personForm = prototype.replace(/__name__/g, index);
+
+                // increase the index with one for the next item
+                $collectionHolder.data('index', index + 1);
+
+                $collectionHolder.append(personForm);
+                updateRowNumber($collectionHolder);
+                toggleAddChildButton($collectionHolder);
+            }
+
+            function updateRowNumber($collectionHolder) {
+                var index = 1;
+                $collectionHolder.find('.num').each(function (key, item) {
+                    $(item).html(index + '.');
+                    index++;
+                });
+            }
+
+            function toggleAddChildButton($collectionHolder) {
+                if ($collectionHolder.find('.input-holder').length > 0) {
+                    $collectionHolder
+                        .closest('[data-container="calculation-persons"]')
+                        .find('.child-block').show();
+                    $collectionHolder
+                        .closest('[data-container="calculation-persons"]')
+                        .find('.add-btn-holder.type2').hide();
+                } else {
+                    $collectionHolder
+                        .closest('[data-container="calculation-persons"]')
+                        .find('.child-block').hide();
+                    $collectionHolder
+                        .closest('[data-container="calculation-persons"]')
+                        .find('.add-btn-holder.type2').show();
+                }
+            }
+
+            updateRowNumber($('[data-person-container="child"]'));
+            toggleAddChildButton($('[data-person-container="child"]'));
+
+            $(document).on('click', 'a[data-behavior="add-flight"]', function(e) {
+                e.preventDefault();
+
+                var $collectionHolder = $(this).closest('[data-container="calculation-flights"]')
+                    .find('.airports-list');
+                $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+                addFlightForm($collectionHolder);
+            });
+
+            function addFlightForm($collectionHolder) {
+                var prototype = $collectionHolder.data('prototype');
+                var index = $collectionHolder.data('index');
+                var flightForm = prototype.replace(/__name__/g, index);
+
+                // increase the index with one for the next item
+                $collectionHolder.data('index', index + 1);
+
+                $collectionHolder.append(flightForm);
+                toggleDataContainer($collectionHolder);
+
+                $collectionHolder.find('select').each(function() {
+                    $(this).selectmenu();
+                });
+            }
+
+            $(document).on('click', 'a[data-behavior="add-transfer"]', function(e) {
+                e.preventDefault();
+
+                var $collectionHolder = $(this).closest('[data-container="calculation-transfers"]')
+                    .find('.airports-list');
+                $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+                addTransferForm($collectionHolder);
+            });
+
+            function addTransferForm($collectionHolder) {
+                var prototype = $collectionHolder.data('prototype');
+                var index = $collectionHolder.data('index');
+                var transferForm = prototype.replace(/__name__/g, index);
+                // increase the index with one for the next item
+                $collectionHolder.data('index', index + 1);
+
+                $collectionHolder.append(transferForm);
+                toggleDataContainer($collectionHolder);
+
+                $collectionHolder.find('select').each(function() {
+                    $(this).selectmenu();
+                });
+            }
+
+            function toggleDataContainer($collectionHolder) {
+                if ($collectionHolder.find('li').length > 0) {
+                    $collectionHolder.show();
+                } else {
+                    $collectionHolder.hide();
+                }
+            }
+        });
+    </script>
+{% endblock %}

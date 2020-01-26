@@ -1,0 +1,1 @@
+$(document).ready(function(){firstTime=false;$('#popup-book').click(function(){$('.overlay').remove();});$('#close_book_modal').click(function(){$('#popup-book').fadeOut('fast',function(){$('.overlay').remove();});});});

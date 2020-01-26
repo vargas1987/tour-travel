@@ -1,0 +1,38 @@
+<div class="mobile-camp-container">
+
+    <label class="label">Area</label>
+    <ul class="season-list">
+        <li>
+            <div class="select-holder">
+                {{ form_widget(form.area, {'attr': {'data-type': 'area'}}) }}
+            </div>
+
+            <div class="input-holder">
+                <span class="title">From</span>
+                <div class="input">
+                    {{ form_widget(form.dateFrom, {'type': 'text', 'attr': {'class': 'text date'}}) }}
+                </div>
+            </div>
+            <div class="input-holder">
+                <span class="title">To</span>
+                <div class="input">
+                    {{ form_widget(form.dateTo, {'type': 'text', 'attr': {'class': 'text date'}}) }}
+                </div>
+            </div>
+
+            <a href="#" class="delete">Delete</a>
+        </li>
+    </ul>
+    <div class="col-row">
+        <div class="col l-4">
+            <div class="row">
+                {{ form_row(form.airstrip, {'attr': {'data-type': 'airstrip'}}) }}
+            </div>
+        </div>
+        <div class="col l-4">
+            {{ form_row(form.timeToAirstrip) }}
+        </div>
+    </div>
+
+    <hr>
+</div>

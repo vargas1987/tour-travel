@@ -1,0 +1,42 @@
+{% extends '@AltezzaTravel/hotels/admin/layout.html.twig' %}
+
+{% block content %}
+    <h3>Season types</h3>
+    <div class="search-panel type2">
+        <fieldset>
+            <div class="col-row">
+                <div class="col l-6">
+                </div>
+            </div>
+        </fieldset>
+        <div class="pagination-holder">
+            <a href="{{ url('hotels_admin_season_type_add') }}" class="admin-btn">Add season type</a>
+        </div>
+    </div>
+    <table class="hotels-table">
+        <thead>
+        <tr>
+            <th>Position</th>
+            <th>Type</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for seasonType in seasonTypes %}
+            <tr>
+                <td>{{ seasonType.sort|default('---') }}</td>
+                <td>{{ seasonType.type }}</td>
+                <td>{{ seasonType.title|default('---') }}</td>
+                <td>{{ seasonType.description|default('---') }}</td>
+                <td><a href="{{ url('hotels_admin_season_type_edit', {'seasonType': seasonType.type}) }}" class="button info-button">Edit</a></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Season types not exists</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

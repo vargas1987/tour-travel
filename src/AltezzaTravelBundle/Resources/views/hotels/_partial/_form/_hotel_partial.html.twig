@@ -1,0 +1,261 @@
+{% extends '@AltezzaTravel/_partial/_form/form_div_layout.html.twig' %}
+
+{% block _hotel_form_mealPlans_row %}
+    <div class="row">
+        {{ form_label(form, null, {'label_attr': {'class': 'label'}}) }}
+        {{ form_widget(form) }}
+    </div>
+{% endblock _hotel_form_mealPlans_row %}
+
+{% block _hotel_form_mealPlans_widget %}
+    <ul class="inline-check-list">
+        {%- for child in form %}
+            <li>
+                {{ form_row(child) }}
+            </li>
+        {% endfor -%}
+    </ul>
+{% endblock _hotel_form_mealPlans_widget %}
+
+{% block _hotel_form_mobileCamps_row %}
+    {% set prototype %}
+        {% filter escape %}
+            {{ include('@AltezzaTravel/hotels/_partial/_form/_hotel_mobileCamp_prototype.html.twig', {'form': form.vars.prototype }) }}
+        {% endfilter %}
+    {% endset %}
+
+    <div class="mobile-camps-list" data-prototype="{{ prototype }}">
+        {% for child in form %}
+            {{ include('@AltezzaTravel/hotels/_partial/_form/_hotel_mobileCamp_prototype.html.twig', {'form': child }) }}
+        {% endfor %}
+
+        <div class="btn-holder">
+            <a href="#" class="button info-button" data-type="add-mobile-camp">Add mobile camp</a>
+        </div>
+    </div>
+{% endblock _hotel_form_mobileCamps_row %}
+
+{% block _hotel_form_contacts_row %}
+    {% set prototype %}
+        {% filter escape %}
+            {{ include('@AltezzaTravel/hotels/_partial/_form/_hotel_form_contacts_prototype.html.twig', {'form': form.vars.prototype }) }}
+        {% endfilter %}
+    {% endset %}
+
+    <h3>Contacts</h3>
+    <div class="contact-list" data-prototype="{{ prototype }}">
+        {% for child in form %}
+            {{ include('@AltezzaTravel/hotels/_partial/_form/_hotel_form_contacts_prototype.html.twig', {'form': child }) }}
+        {% endfor %}
+
+        <div class="btn-holder">
+            <a href="#" class="button info-button" data-type="add-hotel-contact">Add contact</a>
+        </div>
+    </div>
+{% endblock _hotel_form_contacts_row %}
+
+{% block hotel_room_collection_row %}
+    {% set prototype %}
+        {% filter escape %}
+            {{ include('@AltezzaTravel/hotels/_partial/_form/_hotel_room_prototype.html.twig', {'form': form.vars.prototype }) }}
+        {% endfilter %}
+    {% endset %}
+
+    <h3>{{ form.vars.room_type.name }}</h3>
+    <div class="room-block-holder" {{ block('widget_attributes') }} data-prototype="{{ prototype }}">
+        {% for child in form %}
+            {{ include('@AltezzaTravel/hotels/_partial/_form/_hotel_room_prototype.html.twig', {'form': child}) }}
+        {% endfor %}
+
+        <div class="btn-holder">
+            <a href="#" data-behavior="add-room" data-type="{{ form.vars.room_type.type ~ '_room' }}" class="button info-button">Add Room</a>
+        </div>
+    </div>
+    <hr>
+{% endblock hotel_room_collection_row %}
+
+{% block _hotel_seasons_form_seasons_row %}
+    {% set prototype %}
+        {% filter escape %}
+            {{ include('@AltezzaTravel/hotels/_partial/_form/_hotel_season_prototype.html.twig', {'form': form.vars.prototype }) }}
+        {% endfilter %}
+    {% endset %}
+
+    {% set yearPrototype %}
+        {% filter escape %}
+            <li class="open" data-year="__year__">
+                <div class="season-years-heading">
+                    <strong class="title">__year__ Year</strong>
+                    <a href="#" class="delete-btn delete-year">Delete</a>
+                    <i class="arrow"></i>
+                </div>
+                <div class="expanded">
+                    <ul class="season-list">
+                    </ul>
+                    <div class="btn-holder">
+                        <a href="#" class="button info-button white" data-type="add-season" data-year="__year__">Add season</a>
+                    </div>
+                </div>
+            </li>
+        {% endfilter %}
+    {% endset %}
+
+    {% set hotel = form.parent.vars.data %}
+    {% set yearsList = hotel.yearsList(false, false) %}
+    <ul class="season-years-list" data-prototype="{{ prototype }}" data-year-prototype="{{ yearPrototype }}">
+        {% for year in yearsList %}
+            <li class="{% if year == 'now'|date('Y') %}open{% endif %}" data-year="{{ year }}">
+                <div class="season-years-heading">
+                    <strong class="title">{{ year }} Year</strong>
+                    <a href="#" class="delete-btn delete-year">Delete</a>
+                    <i class="arrow"></i>
+                </div>
+                <div class="expanded">
+                    <ul class="season-list">
+                        {% for child in form %}
+                            {% if child.vars.data.year == year %}
+                                {{ include('@AltezzaTravel/hotels/_partial/_form/_hotel_season_prototype.html.twig', {'form': child }) }}
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                    <div class="btn-holder">
+                        <a href="#" class="button info-button white" data-type="add-season" data-year="{{ year }}">Add season</a>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock _hotel_seasons_form_seasons_row %}
+
+{% block _hotel_seasons_form_seasons_entry_widget %}
+    <li>
+        <div class="input-holder">
+            <span class="title">From</span>
+            <div class="input">
+                {{ form_widget(form.dateFrom, {'type': 'text', 'attr': {'class': 'text date'}}) }}
+            </div>
+        </div>
+        <div class="input-holder">
+            <span class="title">To</span>
+            <div class="input">
+                {{ form_widget(form.dateTo, {'type': 'text', 'attr': {'class': 'text date'}}) }}
+            </div>
+        </div>
+        <div class="select-holder">
+            {{ form_widget(form.type) }}
+        </div>
+        <a href="#" class="delete">Delete</a>
+    </li>
+{% endblock %}
+
+{% block _hotel_prices_form_priceSupplements_row %}
+    {% set prototype %}
+        {% filter escape %}
+            {{ include('@AltezzaTravel/hotels/_partial/_form/_hotel_price_supplement_prototype.html.twig', {'form': form.vars.prototype }) }}
+        {% endfilter %}
+    {% endset %}
+
+
+    <table class="admin-price-table price-supplement-list" data-prototype="{{ prototype }}">
+        <thead>
+        <tr>
+            <th>Festive holiday supplements per person</th>
+            <th>Price</th>
+            <th>From</th>
+            <th>To</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for child in form %}
+                {{ include('@AltezzaTravel/hotels/_partial/_form/_hotel_price_supplement_prototype.html.twig', {'form': child }) }}
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="btn-holder">
+        <a href="#" class="button info-button" data-type="add-price-supplement">Add Supplement</a>
+    </div>
+{% endblock _hotel_prices_form_priceSupplements_row %}
+
+{% block _hotel_prices_form_priceAdditionalFees_row %}
+    {% set prototype %}
+        {% filter escape %}
+            {{ include('@AltezzaTravel/hotels/_partial/_form/_hotel_price_additional_fee_prototype.html.twig', {'form': form.vars.prototype }) }}
+        {% endfilter %}
+    {% endset %}
+
+    <h3>Additional fees ($)</h3>
+    <ul class="additional-feels-list" data-prototype="{{ prototype }}">
+        {% for child in form %}
+            {{ include('@AltezzaTravel/hotels/_partial/_form/_hotel_price_additional_fee_prototype.html.twig', {'form': child }) }}
+        {% endfor %}
+    </ul>
+
+    <div class="btn-holder">
+        <a href="#" class="button info-button" data-type="add-price-additional-fee">Add Additional Fee</a>
+    </div>
+{% endblock _hotel_prices_form_priceAdditionalFees_row %}
+
+{% block _hotel_prices_form_basedOnMealPlan_row %}
+    <span class="inline-row-title">{{ form.vars.label }}</span>
+    <ul class="inline-check-list">
+        {% for child in form %}
+            <li>
+                {{ form_row(child) }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block _hotel_prices_form_hotelPriceAdditionalPerson_hotelPriceAdditionalPersonRadio_widget %}
+    {% for child in form %}
+        <label class="ico">
+            {{ form_widget(child) }}
+            <i></i>
+            <span class="text">
+                {{ child.vars.attr['data-price-value'] }}
+            </span>
+        </label>
+    {% endfor %}
+{% endblock %}
+
+{% block _hotel_prices_form_hotelPriceMealPlanPersonType_row %}
+    <h3>{{ form_label(form) }}</h3>
+    {% for child in form %}
+        <label class="ico">
+            {{ form_widget(child) }}
+            <i></i>
+            <span class="text">
+                {{ child.vars.attr['data-price-value'] }}
+            </span>
+        </label>
+    {% endfor %}
+{% endblock %}
+
+{% block _hotel_season_type_form_hotelSeasonTypes_row %}
+    {% set prototype %}
+        {% filter escape %}
+            {{ include('@AltezzaTravel/hotels/_partial/_form/_hotel_season_type_prototype.html.twig', {'form': form.vars.prototype }) }}
+        {% endfilter %}
+    {% endset %}
+
+    {% set dataIndex = form.children|last ? (form.children|last).vars.name + 1 : 0%}
+    <ol class="season-names-list" data-prototype="{{ prototype }}" data-index="{{ dataIndex }}">
+        {% for child in form %}
+            {{ include('@AltezzaTravel/hotels/_partial/_form/_hotel_season_type_prototype.html.twig', {'form': child }) }}
+        {% endfor %}
+    </ol>
+{% endblock %}
+
+{% block _hotel_form_ratio_row%}
+    <div class="head-rate-list" data-target="{{ form.vars.full_name }}" data-value="{{ form.vars.value }}"></div>
+    {{ form_widget(form) }}
+    <script>
+        $(document).ready(function () {
+            $('[data-target="{{ form.vars.full_name }}"]').on('rateyo.set', function (e, data) {
+                var target = $(this).data('target');
+                $('[name="'+target+'"]').val(data.rating);
+            });
+        });
+    </script>
+{% endblock %}

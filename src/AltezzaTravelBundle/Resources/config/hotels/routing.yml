@@ -1,0 +1,51 @@
+hotels_auth:
+    prefix: /auth
+    resource: '@AltezzaTravelBundle/Resources/config/hotels/auth/routing.yml'
+
+hotels_admin:
+    prefix: /admin
+    resource: '@AltezzaTravelBundle/Resources/config/hotels/admin/routing.yml'
+
+hotels_dashboard:
+    path: /
+    defaults: { _controller: AltezzaTravelBundle:Hotels\Dashboard:index }
+
+hotels_ajax_request:
+    path: /hotel/ajax
+    defaults: { _controller: AltezzaTravelBundle:Hotels\Admin:ajaxRequest }
+
+hotels_list:
+    path: /hotel/list
+    defaults: { _controller: AltezzaTravelBundle:Hotels\Admin:listHotel }
+
+hotels_add:
+    path: /hotel/add
+    defaults: { _controller: AltezzaTravelBundle:Hotels\Admin:addHotel }
+
+hotels_edit:
+    path: /hotel/{hotel}
+    defaults: { _controller: AltezzaTravelBundle:Hotels\Admin:editHotel }
+
+hotels_remove:
+    path: /hotel/{hotel}/remove
+    defaults: { _controller: AltezzaTravelBundle:Hotels\Admin:removeHotel }
+
+hotels_rooms_edit:
+    path: /hotel/{hotel}/rooms
+    defaults: { _controller: AltezzaTravelBundle:Hotels\Admin:editRoom }
+
+hotels_seasons_edit:
+    path: /hotel/{hotel}/seasons
+    defaults: { _controller: AltezzaTravelBundle:Hotels\Admin:editSeason }
+
+hotels_years_list:
+    path: /hotel/{hotel}/years
+    defaults: { _controller: AltezzaTravelBundle:Hotels\Admin:yearsHotelList }
+
+hotels_prices_edit:
+    path: /hotel/{hotel}/prices
+    defaults: { _controller: AltezzaTravelBundle:Hotels\Admin:editPrices }
+
+hotels_prices_rates_copy:
+    path: /hotel/{hotel}/prices/{year}/copy-rates
+    defaults: { _controller: AltezzaTravelBundle:Hotels\Admin:copyPricesRates }

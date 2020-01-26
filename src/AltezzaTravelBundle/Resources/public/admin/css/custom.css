@@ -1,0 +1,76 @@
+.admin-price-table .badge {
+    display: inline-flex;
+    text-align: center;
+    padding: 5px 10px;
+    min-width: 100px;
+    writing-mode: unset;
+    transform: rotate(0deg);
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    justify-content: center;
+}
+.hotel-redactor .room-block .room-block-inner {
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: start;
+}
+
+.hotel-redactor .room-block .select-holder {
+    min-width: 280px;
+    width: 280px;
+    margin-right: 10px;
+}
+
+.admin-price-table th.lvl {
+    min-width: 75px;
+}
+.admin-price-table .cell-text {
+    padding: 10px 16px;
+}
+.hotel-redactor .inline-check-list input[type="checkbox"][disabled] + i {
+    background: #f0f0f0;
+}
+
+.blog-edit input[type="time"] {
+    border-radius: 0;
+    box-shadow: none;
+    color: #5f5f5f;
+    font-size: 14px;
+    padding: 10px 16px;
+    line-height: 22px;
+}
+.admin-edit input[type="time"] {
+    width: 100%;
+    font-size: 13px;
+    line-height: 20px;
+    height: 40px;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0px 2px 3px 0px rgba(50,50,50,0.1);
+    -moz-box-shadow: inset 0px 2px 3px 0px rgba(50,50,50,0.1);
+    box-shadow: inset 0px 2px 3px 0px rgba(50,50,50,0.1);
+    outline: none !important;
+    padding: 0 12px;
+    border-color: #cecece;
+    color: #787878;
+}
+input[type="time"] {
+    height: 38px;
+    padding: 0 9px;
+    margin: 0;
+    width: 100%;
+    font-size: 0.929em;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    border: 1px solid #c9cdcf;
+    background-color: #fff;
+}
+input[type="time"]::-webkit-clear-button,
+input[type="time"]::-webkit-inner-spin-button,
+input[type="time"]::-ms-clear,
+input[type="time"]::-ms-fill-lower,
+input[type="time"]::-ms-fill-upper {
+    -webkit-appearance: none;
+    display: none;
+}

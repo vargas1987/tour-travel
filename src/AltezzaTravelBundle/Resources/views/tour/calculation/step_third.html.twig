@@ -1,0 +1,78 @@
+{% extends '@AltezzaTravel/layout_tour.html.twig' %}
+
+{% block container %}
+    <form action="#" class="admin-edit blog-edit">
+        <fieldset>
+            {% include '@AltezzaTravel/tour/calculation/_calculation_menu_aside.html.twig' %}
+            <div class="blog-content">
+                {% include '@AltezzaTravel/tour/calculation/_calculation_summary.html.twig' %}
+
+                <div class="btn-holder">
+                    <a href="{{ url('tour_calculation_generate_pdf', {calculation: calculation.id}) }}" target="_blank" class="admin-btn download-btn pull-right">Download</a>
+                    <a href="{{ url('tour_calculation_generate_pdf', {calculation: calculation.id, print: true}) }}" target="_blank" class="admin-btn print-ico-btn pull-right">Print</a>
+
+                    <button class="admin-btn info-button2 open-save-popup">
+                        {% if calculation.status is not constant('AltezzaTravelBundle\\Entity\\Calculation::CALCULATION_STATUS_TEMPLATE') %}
+                            Save template
+                        {% else %}
+                            Rename template
+                        {% endif %}
+                    </button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}
+
+{% block popup_holder %}
+    {{ parent() }}
+
+    <div class="popup-holder save-name-popup" id="save-name-popup" {% if not popupTemplateNameForm.vars.errors|length %}style="display:none;"{% endif %}>
+        <div class="bg">&nbsp;</div>
+        <div class="popup">
+            <a href="#" class="button-close"></a>
+            {% include '@AltezzaTravel/tour/calculation/_calculation_template_name_popup_form.html.twig' %}
+        </div>
+    </div>
+
+    <div class="popup-holder change-our-commission-popup" id="save-name-popup" {% if not popupOurCommissionForm.vars.errors|length %}style="display:none;"{% endif %}>
+        <div class="bg">&nbsp;</div>
+        <div class="popup">
+            <a href="#" class="button-close"></a>
+            {% include '@AltezzaTravel/tour/calculation/_calculation_our_commission_popup_form.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block customjs %}
+<script>
+    $(document).ready(function () {
+        $('body')
+            .popup({
+                "opener": ".open-save-popup",
+                "popup_holder": ".save-name-popup",
+                "popup": ".popup",
+                "close_btn": ".button-close",
+                "beforeOpen": function(popup) {
+                    $(popup).css({
+                        'left': 0,
+                        'top': 0
+                    }).hide();
+                }
+            })
+            .popup({
+                "opener": ".open-change-our-commission-popup",
+                "popup_holder": ".change-our-commission-popup",
+                "popup": ".popup",
+                "close_btn": ".button-close",
+                "beforeOpen": function(popup) {
+                    $(popup).css({
+                        'left': 0,
+                        'top': 0
+                    }).hide();
+                }
+            })
+        ;
+    });
+</script>
+{% endblock %}

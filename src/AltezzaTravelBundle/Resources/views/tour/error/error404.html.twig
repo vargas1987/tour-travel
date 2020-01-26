@@ -1,0 +1,24 @@
+{% extends '@AltezzaTravel/layout_tour.html.twig' %}
+
+{%- block title -%}
+    Page not found -
+
+    {{ parent() }}
+{%- endblock -%}
+
+{% block template %}
+    <div class="content-page">
+        <div class="page error-page js-full-height" style="margin-top: 0; min-height: 357.5px;">
+            <div class="error">
+                <br><br><br>
+                <div class="ep__code">Page Not Found</div>
+                <br>
+                <div class="ep__desc">The page you requested could not be found.</div>
+                <div class="ep__link">
+                    <br><br>
+                    <a class="btn admin-btn" href="{{ url('tour_dashboard') }}">Go to dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

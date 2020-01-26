@@ -1,0 +1,58 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+
+    encoders:
+        Symfony\Component\Security\Core\User\UserInterface:
+            algorithm:           md5
+            encode_as_base64:    true
+            iterations:          5000
+
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_CALCULATION, ROLE_HOTEL_MANAGER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_HOTEL_MANAGER: [ROLE_HOTEL_MANAGER]
+        ROLE_CALCULATION: [ROLE_CALCULATION]
+
+    providers:
+        users:
+            id: AltezzaTravelBundle\Service\UserAuthService
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        hotels:
+            host: ^%domain_hotels%$
+            provider: users
+            anonymous: true
+            remember_me: false
+            switch_user: { role: ROLE_ADMIN }
+            form_login:
+                check_path: hotels_login_check
+                login_path: hotels_login
+                use_referer: true
+            logout:
+                path: hotels_logout
+                target: hotels_login
+
+        tour:
+            host: ^%domain_tour%$
+            provider: users
+            anonymous: true
+            remember_me: false
+            switch_user: { role: ROLE_ADMIN }
+            form_login:
+                check_path: tour_login_check
+                login_path: tour_login
+                use_referer: true
+            logout:
+                path: tour_logout
+                target: tour_login
+
+    access_control:
+        - { host: ^%domain_hotels%$, path: ^/auth/.*$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { host: ^%domain_hotels%$, path: ^/.*$, roles: ROLE_HOTEL_MANAGER }
+        - { host: ^%domain_tour%$, path: ^/auth/.*$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { host: ^%domain_tour%$, path: ^/.*$, roles: ROLE_CALCULATION }

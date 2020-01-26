@@ -1,0 +1,6 @@
+MAILTO="altezza@presta-studio.ru"
+
+# m h dom mon dow command
+
+0 0 * * * /usr/bin/php /srv/system.altezza.travel/current/bin/console altezza:hotels:date-last-price -e prod >/dev/null 2>&1
+0 0 * * 0 /usr/bin/php /srv/system.altezza.travel/current/bin/console altezza:hotels:rates -e prod >/dev/null 2>&1

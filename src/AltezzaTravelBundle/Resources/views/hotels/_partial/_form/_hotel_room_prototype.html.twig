@@ -1,0 +1,19 @@
+<div class="room-block">
+    {{ form_errors(form) }}
+    <div class="input-holder">
+        <div class="title-input">
+            <span class="title">Special name</span>
+            <div class="input">
+                {{ form_widget(form.title) }}
+            </div>
+        </div>
+    </div>
+
+    <ul class="check-list">
+        {%- for child in form.accommodations %}
+            {{ include('@AltezzaTravel/hotels/_partial/_form/_hotel_room_entry_accommodation_prototype.html.twig', {'form': child }) }}
+        {% endfor -%}
+    </ul>
+
+    <a href="#" class="delete">Delete</a>
+</div>

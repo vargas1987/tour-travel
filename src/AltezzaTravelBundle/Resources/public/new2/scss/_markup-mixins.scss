@@ -1,0 +1,21 @@
+// breakpoints
+$mobile-small: 479px; // mobile 480px and less
+$mobile: 720px; // mobile 767px and less
+$tablet: 1023px; // tablet 1023px and less
+$desk-small: 1280px; // desktop 1300px and less
+$retina: 1.5;  // standart retina > 1.5x
+$retina-hd: 2.5; // hd retina > 2.5x
+
+// breakpoints mixin
+@mixin breakpoint($rule){
+  @if ($rule == $retina or $rule == $retina-hd){
+    @media only screen and ( min-resolution : #{$retina*96} ), ( -webkit-min-device-pixel-ratio : #{$retina} ){
+     @content;
+    }
+  }
+  @else{
+    @media only screen and (max-width: #{$rule}){
+     @content;
+    }  
+  }
+}

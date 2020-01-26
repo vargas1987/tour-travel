@@ -1,0 +1,16 @@
+{% import _self as helper %}
+
+<div class="blog-aside">
+    <ul class="admin-menu-list">
+        {{ helper.hotelMenuItem('hotels_admin_hotel_chain_list', 'Hotel Chain') }}
+        {{ helper.hotelMenuItem('hotels_admin_room_type_list', 'Room types') }}
+        {{ helper.hotelMenuItem('hotels_admin_accommodation_type_list', 'Accommodation types') }}
+        {{ helper.hotelMenuItem('hotels_admin_season_type_list', 'Season types') }}
+    </ul>
+</div>
+
+{% macro hotelMenuItem(route, title) %}
+    <li{% if app.request.attributes.get('_route') == route %} class="active"{% endif %}>
+        <a href="{{ url(route) }}">{{ title }}</a>
+    </li>
+{% endmacro %}

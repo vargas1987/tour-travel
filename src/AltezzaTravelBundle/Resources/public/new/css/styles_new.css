@@ -1,0 +1,229 @@
+.nav__sub_visible{
+    display: block!important;
+    opacity: 1!important
+}
+.nav__sub_full{
+    max-width: 1170px;
+    margin: 0 auto;
+}
+.nav__sub_full .nav__sub__structure__label{
+    padding-left: 22px;
+    padding-top: 3px;
+    margin-bottom: 35px;
+}
+.nav__sub_full .nav__sub__structure__label_last{
+    padding-left: 17px;
+    margin-bottom: 40px;
+}
+.structure-block-large{
+    width: 53%;
+}
+.structure-block-small{
+    width: 25%;
+}
+.structure-block-small+.structure-block-small{
+    width: 22%;
+    
+}
+.structure-block-small+.structure-block-small .block-border{
+    padding-left: 12px;
+}
+.nav__sub__structure_inline{
+    display: block;
+}
+.nav__sub__structure_inline .structure-block{
+    display: inline-block;
+    vertical-align: top;
+    margin-right: -4px;
+    -webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.ts-full_three .ts-col{    
+    vertical-align: top;    
+}
+.list-nav{
+    padding: 0 0 0 5px;
+    margin-right: -10px;
+    margin-top: -8px;
+	margin-bottom: -5px;
+}
+.list-nav-item{
+    padding: 7px 0 9px 15px;
+    position: relative;
+    list-style-type: none;
+}
+.list-nav-link{
+    display: block;
+    font-size: 13px;
+    line-height: 14px;
+    color: #ffffff;
+    text-decoration: none;
+}
+.list-nav-link:hover{
+    color: #72a816;
+}
+.list-nav-item:before{
+    display: block;
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: 50%;
+    width: 5px;
+    height: 5px;
+    border-right: 2px solid #72a816;
+    border-bottom: 2px solid #72a816;
+    transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    margin-top: -3px;
+}
+.inf__item{
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 -4px 0px 0;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 50%;
+    -webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.inf__item:first-child{
+    padding-left: 0px;
+}
+.inf__item:last-child{
+    padding-right: 0px;
+}
+.inf__link{
+    display: block;
+    margin: 0 0 0 0;
+    background: #474646;
+    border-radius: 5px;
+    box-shadow: 0 2px 1px 0 rgba(0,0,0,0.08);
+    text-align: center;
+        overflow: hidden;
+}
+.inf__img{
+    display: block;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 5px 5px 0 0;
+    height: 121px;
+   
+}
+.inf__text{
+    padding: 8px 9px 8px 30px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 15px;
+    letter-spacing: -0.2px;
+    color: #ffffff;
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+}
+.inf__link:hover .inf__text{
+    color: #7ab01f;
+}
+.ts-full_three .ts-col{
+    width: 37%;
+}
+.ts-full_three .ts-col_inf{
+    width: 63%;
+}
+.media-list{
+    margin: -12px -5px -8px -5px; width:256px;
+}
+.media-list__item{
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 -4px 0 0;
+    padding: 12px 5px 11px 5px;
+    -webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+    width: 50%;
+    
+}
+.media-list__item .media{
+    min-width: 110px;
+    overflow: visible;
+}
+.icon-nav{
+    display: inline-block;
+    vertical-align: top;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(0,-50%);
+    -moz-transform: translate(0,-50%);
+    -webkit-transform: translate(0,-50%);
+    opacity: 0.62;
+}
+.icon-nav_inf{
+    background: url(../img/icon_inf.svg) no-repeat left top;
+    width: 21px; height: 26px;
+    left: 4px;
+}
+.icon-nav_cost{
+    background: url(../img/icon_cost.svg) no-repeat left top;
+    width: 24px; height: 24px;
+    left: 0px;
+}
+.media-cost{
+    display: block;
+    padding: 2px 0 0 0;
+    font-size: 11px;
+    line-height: 14px;
+    color: #d0d0d0;
+}
+.media-list__item .media-heading{
+    white-space: nowrap;
+}
+@media screen and (max-width: 1152px) {
+    .media-list__item .media-heading{
+        white-space: normal;
+    }
+    .media-list{
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+    .structure-block-large .list-nav{
+        padding-left: 0px;
+    }
+    .structure-block-large{
+        width: 55%;
+    }
+    .structure-block-large{
+        width: 55%;
+    }
+    .structure-block-small{
+        
+    }
+    .structure-block-small+.structure-block-small{
+        width: 20%;
+    }
+}
+@media screen and (max-width: 1115px) {
+    .inf__text{
+        font-size: 12px;
+        white-space: nowrap;
+        letter-spacing: -0.5px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

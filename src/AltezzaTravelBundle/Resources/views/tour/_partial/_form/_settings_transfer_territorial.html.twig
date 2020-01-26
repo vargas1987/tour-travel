@@ -1,0 +1,33 @@
+{% extends '@AltezzaTravel/tour/_partial/_form/_tour_partial.html.twig' %}
+
+{% block _settings_transfer_territorial_form_transferTerritorial_row %}
+    <div class="hotels-settings-item full-width" data-prototype="{{ form_widget(form.vars.prototype)|escape }}">
+        <table class="hotels-table">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody data-type="hotels-settings-item-container">
+            {% for child in form %}
+                {{ form_widget(child) }}
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="btn-holder">
+            <a href="#" class="button info-button" data-behavior="add-setting">Add Territory</a>
+        </div>
+    </div>
+{% endblock _settings_transfer_territorial_form_transferTerritorial_row %}
+
+{% block _settings_transfer_territorial_form_transferTerritorial_entry_widget %}
+    <tr>
+        <td class="input-col">
+            {{ form_widget(form.title) }}
+        </td>
+        <td class="delete-holder">
+            <a href="#" class="delete">Delete</a>
+        </td>
+    </tr>
+{% endblock _settings_transfer_territorial_form_transferTerritorial_entry_widget %}

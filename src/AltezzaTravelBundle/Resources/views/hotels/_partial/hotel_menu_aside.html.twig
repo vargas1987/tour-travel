@@ -1,0 +1,37 @@
+{% import _self as helper %}
+
+<div class="blog-aside">
+    <ul class="admin-menu-list">
+        {% if hotel.id is null %}
+            {{ helper.hotelMenuItem(hotel, 'hotels_add', 'Hotel') }}
+        {% else %}
+            {{ helper.hotelMenuItem(hotel, 'hotels_edit', 'Hotel') }}
+        {% endif %}
+        {{ helper.hotelMenuItem(hotel, 'hotels_rooms_edit', 'Rooms') }}
+        {{ helper.hotelMenuItem(hotel, 'hotels_seasons_edit', 'Seasons') }}
+        {{ helper.hotelMenuItem(hotel, 'hotels_prices_edit', 'Prices') }}
+    </ul>
+    {% if form.status is defined %}
+        <ul class="inline-check-list">
+            {% for child in form.status %}
+                <li>
+                    {{ form_row(child, {'attr': {'form': form.vars.full_name}}) }}
+                </li>
+            {% endfor %}
+        </ul>
+        <br>
+    {% endif %}
+    {% if hotel.id is not null %}
+        <a href="#" data-id="{{ hotel.id }}" class="delete-btn open-confirm-popup">Delete hotel</a>
+    {% endif %}
+</div>
+
+{% macro hotelMenuItem(hotel, route, title) %}
+    <li{% if app.request.attributes.get('_route') == route %} class="active"{% endif %}>
+        {% if hotel.id is not null %}
+            <a href="{{ url(route, {'hotel': hotel.id}) }}">{{ title }}</a>
+        {% else %}
+            <a href="#">{{ title }}</a>
+        {% endif %}
+    </li>
+{% endmacro %}

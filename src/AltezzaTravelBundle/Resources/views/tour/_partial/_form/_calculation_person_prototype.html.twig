@@ -1,0 +1,15 @@
+{% if form['count'] is defined %}
+    {{ form_errors(form.count) }}
+    {{ form_widget(form.count) }}
+{% endif %}
+{% if form.age is defined %}
+    {{ form_errors(form.age) }}
+    <div class="input-holder">
+        <span class="num">.</span>
+        <span class="title">Age</span>
+        <div class="input">
+            {{ form_widget(form.age) }}
+        </div>
+        <a href="#" class="delete"><i></i></a>
+    </div>
+{% endif %}

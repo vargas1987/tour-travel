@@ -1,0 +1,15 @@
+hotels:
+    host:     "{domain}"
+    resource: '@AltezzaTravelBundle/Resources/config/hotels/routing.yml'
+    defaults:
+        domain: "%domain_hotels%"
+    requirements:
+        domain: "%domain_hotels%"
+
+tour:
+    host:     "{domain}"
+    resource: '@AltezzaTravelBundle/Resources/config/tour/routing.yml'
+    defaults:
+        domain: "%domain_tour%"
+    requirements:
+        domain: "%domain_tour%"

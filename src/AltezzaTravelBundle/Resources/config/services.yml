@@ -1,0 +1,51 @@
+services:
+    gedmo.listener.timestampable:
+        class: Gedmo\Timestampable\TimestampableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+    # EventListener
+    AltezzaTravelBundle\EventListener\ExceptionListener:
+        autowire: true
+        autoconfigure: true
+        public: true
+        arguments:
+            $firewall: '@security.firewall.map'
+            $environment: '%kernel.environment%'
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 255 }
+    # Forms
+    AltezzaTravelBundle\Form\:
+        resource: '../../Form/*'
+        exclude: '../../Form/{Traits,Type,DataTransformer}'
+        autowire: true
+        autoconfigure: true
+        public: true
+    # Subscribers
+    AltezzaTravelBundle\Subscriber\:
+        resource: '../../Subscriber/*'
+        exclude: '../../Subscriber/{Kernel}'
+        autowire: true
+        autoconfigure: true
+        public: true
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+    # Helpers
+    AltezzaTravelBundle\Helper\:
+        resource: '../../Helper/*'
+        autowire: true
+        autoconfigure: true
+        public: true
+    # Services
+    AltezzaTravelBundle\Service\:
+        resource: '../../Service/*'
+        autowire: true
+        autoconfigure: true
+        public: true
+    AltezzaTravelBundle\Service\ChromiumService:
+        autowire: true
+        autoconfigure: true
+        public: true
+        arguments:
+            $binChromium: '%chromium.bin%'

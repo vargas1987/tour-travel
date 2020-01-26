@@ -1,0 +1,322 @@
+.flex-img{
+	display: none;
+}
+.content-page.guides-detail .article-promo{
+	background: #b0b0b0;
+}
+.guides-detail  .promo__breadcrumbs{
+	margin: 15px auto -40px;
+	max-width: 1200px;
+	padding: 0 15px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.guides-detail .breadcrumbs--promo .breadcrumbs__item{
+	font-size: 12px;
+}
+.guides-detail .promo-desc{
+	color: #fff;
+	margin: 0 0 30px;
+	font-size: 18px;
+	line-height: 20px;
+	width: 100%;
+	max-width: 600px;
+	letter-spacing: 0;
+	font-family: "SF UI Text", "Open Sans", "Arial", sans-serif;
+	font-weight: 300;
+}
+.guides-detail .article-promo .btn-promo{
+	max-width: 210px;
+	text-transform: none;
+	font-size: 17px;
+}
+.guides-detail .heading-promo h1{
+	margin: 0 0 20px;
+}
+.content-page..guides-detail .article-promo{
+	height: 380px;
+}
+.content-page.guides-detail .heading-promo{
+	padding-top: 32px;
+}
+.guides-block{
+	padding: 36px 0 30px;
+	background: #fff;
+	text-align: center;
+}
+.content-page.guides-detail h3{
+	font-size: 32px;
+	line-height: 36px;
+	text-align: center;
+	margin: 0 0 45px;
+}
+.guides-list{
+	overflow: hidden;
+}
+.guides-list ul{
+	font-size: 0;
+	line-height: 0;
+	margin:0 0 0 -1px;
+	padding:0;
+	list-style:none;
+	text-align: left;
+}
+.guides-list li{
+	display: inline-block;
+	vertical-align: top;
+	width: 25%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	position: relative;
+	margin: 0 0 58px;
+}
+.guides-list li:after{
+	content:'';
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 1px;
+	background: #e7e7e7;
+}
+.guides-list .guides-frame{
+	text-align: center;
+	font-size: 13px;
+	line-height: 16px;
+}
+.guides-frame{
+	padding: 0 10px;
+	font-size: 13px;
+	line-height: 16px;
+	color: #505050;
+}
+.guides-frame .visual{
+	width: 170px;
+	height: 170px;
+	border-radius: 50%;
+	margin: 0 auto 15px;
+	position: relative;
+}
+.guides-frame .visual img{
+	vertical-align: top;
+	width: 100%;
+	height: auto;
+}
+.guides-frame .label{
+	position: absolute;
+	bottom: -2px;
+	left: 50%;
+	-moz-transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+	-o-transform: translateX(-50%);
+	-ms-transform: translateX(-50%);
+	transform: translateX(-50%);
+	white-space: nowrap;
+	background: #76b211;
+	text-transform: uppercase; 
+	color: #fff;
+	font-family: "SF UI Text", "Open Sans", "Arial", sans-serif;
+	font-weight: 600;
+	padding: 6px 6px 6px 27px;
+	-webkit-box-shadow:0 1px 3px rgba( 0, 0, 0, 0.33);
+	box-shadow:0 1px 3px rgba( 0, 0, 0, 0.33);
+	border-radius: 2px 0 0 2px;
+	z-index: 2;
+}
+.guides-frame .label:after{
+	content:'';
+	background: url(../img/guides-img/guides-icon1.png) no-repeat;
+	-webkit-background-size: 16px 16px;
+	background-size: 16px 16px;
+	position: absolute;
+	left: 5px;
+	top: 5px;
+	width: 16px;
+	height: 16px;
+}
+.guides-frame .label:before{
+	content:'';
+	background: url(../img/guides-img/guides-icon2.png) no-repeat;
+	position: absolute;
+	left: 100%;
+	top: 0px;
+	width: 11px;
+	height: 32px;
+	margin: 0 0 0 -1px;
+}
+.guides-descript strong{
+	font-family: "SF UI Text", "Open Sans", "Arial", sans-serif;
+	font-weight: 500;
+	font-size: 15px;
+	line-height: 18px;
+	color: #242424;
+	display: block;
+	margin: 0 0 4px;
+}
+.guides-descript em{
+	color: #9a9a9a;
+	display: block;
+	margin: 0 0 10px;
+}
+.guides-descript b{
+	color: #9a9a9a;
+	font-weight: 400;
+	display: block;
+	margin: 0 0 10px;
+}
+.guides-detail .guides-descript p{
+	margin: 0 0 16px;
+	font-size: 14px;
+	line-height: 19px;
+}
+.guides-descript .read-more{
+	text-transform: uppercase;
+	text-decoration: none;
+	color: #76aa20;
+	font-family: "SF UI Text", "Open Sans", "Arial", sans-serif;
+	font-weight: 500;
+}
+.guides-descript .read-more:hover{
+	color: #2e2e2e;
+}
+.l-guides__stars{
+	font-size: 0;
+	line-height: 0;
+	display: inline-block;
+	vertical-align: top;
+	margin: 0 0 14px;
+}
+.l-guides__stars .icon-star-f{
+	padding: 0;
+	width: 16px;
+	height: 16px;
+	text-align: center;
+	font-size: 8px;
+	line-height: 16px;
+	margin: 0 0 0 1px;
+	border-radius: 1px;
+}
+.view-all{
+	display: inline-block;
+	vertical-align: top;
+	color: #76aa20;
+	font-family: "SF UI Text", "Open Sans", "Arial", sans-serif;
+	font-weight: 400;
+	text-transform: uppercase;
+	font-size: 16px;
+	line-height: 20px;
+	text-decoration: underline;
+}
+.view-all:hover{
+	text-decoration: none;
+}
+.guides-section{
+	overflow: hidden;
+}
+.guides-section .guides-frame{
+	float: left;
+	width: 25%;
+}
+.guides-info{
+	position: relative;
+	text-align: left;
+	overflow: hidden;
+	padding: 0 0 0 16px;
+}
+.guides-info:after{
+	content:'';
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 9999px;
+	width: 1px;
+	background: #e7e7e7;
+}
+.guides-info strong{
+	font-family: "SF UI Text", "Open Sans", "Arial", sans-serif;
+	font-weight: 500;
+	font-size: 22px;
+	line-height: 26px;
+	color: #242424;
+	display: block;
+	margin: 0 0 12px;
+	letter-spacing: -0.04em;
+}
+.guides-info em{
+	color: #9a9a9a;
+	display: block;
+}
+.guides-info b{
+	color: #9a9a9a;
+	font-weight: 400;
+	display: block;
+}
+.guides-detail .guides-info p{
+	margin: 21px 0 0;
+	font-size: 14px;
+	line-height: 21px;
+}
+@media screen and (max-width:1000px){
+	.guides-list li{
+		width: 50%;
+	}
+}
+@media screen and (max-width:850px){
+	.guides-detail .promo-desc{
+		max-width: 100%;
+		text-align: center;
+		font-size: 15px;
+	}
+	.guides-detail .article-promo .btn-promo{
+		margin: 0 auto;
+	}
+	.guides-block{
+		padding: 24px 0;
+	}
+	.content-page.guides-detail h3{
+		font-size: 20px;
+		line-height: 24px;
+	}
+	.guides-section{
+		margin: 0 0 10px;
+	}
+	.guides-section .guides-frame{
+		width: 100%;
+		padding: 0;
+		margin: 0 0 20px;
+		float: none;
+	}
+	.guides-info{
+		text-align: center;
+		padding: 0; 
+	}
+	.guides-info:after{
+		display: none;
+	}
+}
+@media screen and (max-width:600px){
+	.content-page.guides-detail .btn-faq{
+		margin: 0 auto 20px;
+	}
+	.guides-detail .promo__breadcrumbs{
+		margin-top: 8px;
+		padding: 0 10px;
+	}
+	.view-all{
+		font-size: 14px;
+		line-height: 18px;
+	}
+}
+@media screen and (max-width:480px){
+	.content-page.guides-detail .article-promo{
+		height: 200px;
+	}
+	.content-page.guides-detail .heading-promo{
+		padding-top: 55px;
+	}
+	.guides-list li{
+		width: 100%;
+	}
+}

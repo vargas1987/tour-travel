@@ -1,0 +1,435 @@
+{% extends '@AltezzaTravel/hotels/hotel_edit_layout.html.twig' %}
+
+{% form_theme form '@AltezzaTravel/hotels/_partial/_form/_hotel_partial.html.twig' %}
+
+{% block content %}
+    {{ form_start(form, {'attr': {'class': 'admin-edit blog-edit', 'data-behaviour': 'beforeunload', 'id': form.vars.full_name}}) }}
+    <h3>
+        Hotel
+        {{ form_row(form.ratio) }}
+    </h3>
+    <div class="warning-row">
+        {{ form_errors(form) }}
+    </div>
+    <div class="col-row">
+        <div class="col l-4">
+            {{ form_row(form.title) }}
+        </div>
+        <div class="col l-4">
+            {{ form_row(form.chain) }}
+        </div>
+    </div>
+    <div class="col-row">
+        <div class="col l-4">
+            {{ form_row(form.type) }}
+        </div>
+        <div class="col l-8">
+            {{ form_row(form.mealPlans) }}
+        </div>
+    </div>
+    <div class="col-row">
+        <div class="col l-4">
+            {{ form_row(form.location) }}
+        </div>
+        <div class="col l-4" data-toggle="mobile-camp" data-behavior="hidden" {% if form.isMobileCamp.vars.data %}style="display: none;"{% endif %}>
+            {{ form_row(form.area, {'attr': {'data-type': 'area'}}) }}
+        </div>
+    </div>
+    <div class="col-row">
+        <div class="col l-12">
+            {{ form_row(form.isMobileCamp) }}
+        </div>
+    </div>
+
+    <hr data-toggle="mobile-camp" data-behavior="hidden" {% if form.isMobileCamp.vars.data %}style="display: none;"{% endif %}>
+
+    <div class="col-row" data-toggle="mobile-camp" data-behavior="hidden" {% if form.isMobileCamp.vars.data %}style="display: none;"{% endif %}>
+        <div class="col l-4">
+            {{ form_row(form.airstrip, {'attr': {'data-type': 'airstrip'}}) }} {#data-type="area"#}
+        </div>
+        <div class="col l-4">
+            {{ form_row(form.timeToAirstrip) }}
+        </div>
+    </div>
+
+    <hr data-toggle="mobile-camp" data-behavior="hidden" {% if form.isMobileCamp.vars.data %}style="display: none;"{% endif %}>
+
+    <div class="gray-block" data-toggle="mobile-camp" data-behavior="visible" {% if not form.isMobileCamp.vars.data %}style="display: none;"{% endif %}>
+        <h3><span class="title"><img class="ico" width="27" src="{{ asset('/bundles/altezzatravel/new2/img/camp.svg') }}"> Mobile Camp</span> - Locations</h3>
+
+        {{ form_row(form.mobileCamps) }}
+    </div>
+
+    <div class="age-block-holder">
+        <div class="age-block{% if form.childTo.vars.value == 0 %} disabled{% endif %}">
+            <span class="ico-holder child">
+                <span class="ico"><img src="{{ asset('/bundles/altezzatravel/new2/img/child.svg') }}" width="8" alt="image description"></span>
+                Child
+            </span>
+            <div class="input-holder">
+                <span class="title"
+                    {% if form.childTo.vars.errors|length %} style="background-color: #d83031" {% endif %}
+                >
+                    To
+                </span>
+                <div class="input">
+                    {{ form_widget(form.childTo) }}
+                </div>
+            </div>
+            <br>
+        </div>
+        <div class="age-block{% if form.teenagerFrom.vars.value == 0 or form.teenagerTo.vars.value == 0 %} disabled{% endif %}">
+            <span class="ico-holder teenager">
+                <span class="ico"><img src="{{ asset('/bundles/altezzatravel/new2/img/teenager.svg') }}" width="8" alt="image description"></span>
+                Teenager
+            </span>
+            <div class="input-holder">
+                <span class="title"
+                    {% if form.teenagerFrom.vars.errors|length %} style="background-color: #d83031"{% endif %}
+                >
+                    From
+                </span>
+                <div class="input">
+                    {{ form_widget(form.teenagerFrom) }}
+                </div>
+            </div>
+            <div class="input-holder">
+                <span class="title"
+                    {% if form.teenagerTo.vars.errors|length %} style="background-color: #d83031" {% endif %}
+                >
+                    To
+                </span>
+                <div class="input">
+                    {{ form_widget(form.teenagerTo) }}
+                </div>
+            </div>
+        </div>
+        <div class="age-block{% if form.adultFrom.vars.value == 0 %} disabled{% endif %}">
+            <span class="ico-holder adult">
+                <span class="ico"><img src="{{ asset('/bundles/altezzatravel/new2/img/adult-ico.svg') }}" width="10" alt="image description"></span>
+                Adult
+            </span>
+            <div class="input-holder">
+                <span class="title"
+                    {% if form.adultFrom.vars.errors|length %} style="background-color: #d83031" {% endif %}
+                >
+                    From
+                </span>
+                <div class="input">
+                    {{ form_widget(form.adultFrom) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <ul class="inline-check-list">
+        {% for child in form.concessionFeesIncl %}
+            <li>
+                {{ form_row(child) }}
+            </li>
+        {% endfor %}
+    </ul>
+    <hr>
+
+    <ul class="inline-check-list">
+        {% for child in form.wmaIncl %}
+            <li>
+                {{ form_row(child) }}
+            </li>
+        {% endfor %}
+    </ul>
+    <hr>
+    <div class="col-row">
+        <div class="col l-12">
+            {{ form_row(form.note) }}
+        </div>
+    </div>
+    <hr>
+    <div class="attach-link-holder">
+        <div class="attach-link">
+            <div class="hotel">
+                <i class="ico"><img src="{{ asset('/bundles/altezzatravel/new2/img/booking_logo.svg') }}" alt="image description"></i>
+                <span class="attach-link-title">Booking.com:</span>
+            </div>
+            <div class="input-holder">
+                {{ form_widget(form.booking) }}
+            </div>
+        </div>
+        <div class="attach-link">
+            <div class="hotel">
+                <i class="ico"><img src="{{ asset('/bundles/altezzatravel/new2/img/tripadvisor-2.svg') }}" alt="image description"></i>
+                <span class="attach-link-title">TripAdvisor.com:</span>
+            </div>
+            <div class="input-holder">
+                {{ form_widget(form.tripadvisor) }}
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    {{ form_row(form.contacts) }}
+
+    <div class="btn-holder">
+        {{ form_widget(form.submit) }}
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block stylsheet %}
+    {{ parent() }}
+
+    <link href="{{ asset('/bundles/altezzatravel/admin/css/hotels/hotel.css') }}?v=20181219" rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('/bundles/altezzatravel/admin/js/hotels/hotel-contacts.js') }}?v=20181219" defer></script>
+    <script>
+        $(document).ready(function () {
+            $('.age-block').on('change', 'input', function () {
+                var ageBlock = $(this).closest('.age-block');
+                var ageRangesInit = true;
+                ageBlock.removeClass('disabled');
+
+                ageBlock.find('input').each(function (key, input) {
+                    var ageValue = $(input).val();
+                    if (!ageValue || ageValue == 0) {
+                        ageRangesInit = false;
+                    }
+                });
+
+                if (!ageRangesInit) {
+                    ageBlock.addClass('disabled');
+                }
+            });
+
+            var ajaxUrl = '{{ url('hotels_ajax_request') }}';
+
+            var getAreaSelectmenu = function() {
+                return $('select[data-type="area"]');
+            };
+
+            var getAirstripSelectmenu = function() {
+                return $('select[data-type="airstrip"]');
+            };
+
+            var mobileCampCheckbox = $('#hotel_form_isMobileCamp'),
+                locationSelectmenu = $('#hotel_form_location'),
+                areaSelectmenu = getAreaSelectmenu(),
+                airstripSelectmenu = getAirstripSelectmenu(),
+                transferTime = $('#hotel_form_timeToAirstrip'),
+                toggleMobileCampElements = $('[data-toggle="mobile-camp"]');
+
+            var refreshSelectmenu = function (selectmenu, filter, by, value, callback, alterCallback) {
+                callback = callback || function() { };
+                alterCallback = alterCallback || function() { };
+
+                selectmenu.selectmenu().selectmenu('disable');
+                var previousValue = selectmenu.val();
+                var select = document.createElement('select');
+
+                $.ajax({
+                    url: ajaxUrl+'?filter='+filter+'&by='+by+'&value='+value,
+                    method: 'get',
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.status && data.result.length) {
+                            $.each(data.result, function(index, itemData) {
+                                $("<option value='" + itemData.id + "'>" + itemData.title
+                                    + "</option>").appendTo(select);
+                            });
+
+                            selectmenu.html($(select).html());
+
+                            if (selectmenu.find('option[value="' + previousValue + '"]').length !== 0) {
+                                selectmenu.val(previousValue);
+                            } else {
+                                selectmenu.val(selectmenu.find('option').first().val());
+                            }
+
+                            selectmenu.selectmenu("refresh");
+                            selectmenu.selectmenu('enable');
+
+                            if (selectmenu.find('option[value="' + previousValue + '"]').length !== 0) {
+                                callback(previousValue);
+                            } else {
+                                callback(selectmenu.find('option').first().val());
+                            }
+
+                            return;
+                        }
+
+                        selectmenu.html('');
+                        selectmenu.selectmenu('destroy').selectmenu().selectmenu('disable');
+
+                        alterCallback(value);
+                    }
+                });
+
+                rebindAreaSelectmenuChange();
+            };
+
+            locationSelectmenu.on('selectmenuchange', function(event, ui) {
+                refreshSelectmenu(areaSelectmenu, 'area', 'location', ui.item.value, function (areaId) {
+                    refreshSelectmenu(airstripSelectmenu, 'airstrip', 'areas', areaId);
+                }, function (locationId) {
+                    refreshSelectmenu(airstripSelectmenu, 'airstrip', 'locations', locationId);
+                });
+
+                var mobileCampContainer = $('.mobile-camp-container');
+
+                mobileCampContainer.each(function (key, mobileCamp) {
+                    var areaSelectmenu = $(mobileCamp).find('select[data-type="area"]:enabled');
+                    var airstripSelectmenu = $(mobileCamp).find('select[data-type="airstrip"]:enabled');
+
+                    refreshSelectmenu(areaSelectmenu, 'area', 'location', ui.item.value, function (areaId) {
+                        refreshSelectmenu(airstripSelectmenu, 'airstrip', 'areas', areaId);
+                    }, function (locationId) {
+                        refreshSelectmenu(airstripSelectmenu, 'airstrip', 'locations', locationId);
+                    });
+                });
+            });
+
+            var rebindAreaSelectmenuChange = function() {
+                areaSelectmenu.unbind('selectmenuchange');
+
+                areaSelectmenu = getAreaSelectmenu();
+                airstripSelectmenu = getAirstripSelectmenu();
+
+                areaSelectmenu.bind('selectmenuchange', function(event, ui) {
+                    var mobileCampAirstripSelectmenu = $(ui.item.element).closest('.mobile-camp-container').find('select[data-type="airstrip"]').first();
+                    if (mobileCampAirstripSelectmenu.length > 0) {
+                        refreshSelectmenu(mobileCampAirstripSelectmenu, 'airstrip', 'areas', ui.item.value);
+
+                        return;
+                    }
+                    refreshSelectmenu(airstripSelectmenu, 'airstrip', 'areas', ui.item.value);
+                });
+            };
+
+            mobileCampCheckbox.on('change', function (event) {
+                var isTrigger = typeof event.isTrigger !== 'undefined';
+                var isMobileCampChecked = $(this).is(':checked');
+
+                $(transferTime).attr('disabled', false);
+                if (isMobileCampChecked) {
+                    $(transferTime).attr('disabled', true);
+                }
+
+                toggleMobileCampElements.each(function (tkey, toggleElement) {
+                    var elementBehavior = isMobileCampChecked
+                        ? $(toggleElement).data('behavior') === 'visible'
+                        : $(toggleElement).data('behavior') === 'hidden';
+
+                    switch (elementBehavior) {
+                        case false:
+                            $(toggleElement).hide();
+
+                            $(toggleElement).find('select').each(function (sKey, selectElement) {
+                                $(selectElement).selectmenu('disable');
+                            });
+
+                            $(toggleElement).find('input').each(function (iKey, inputElement) {
+                                $(inputElement).attr('disabled', true);
+                            });
+
+                            $(toggleElement).find('button').each(function (bKey, buttonElement) {
+                                $(buttonElement).attr('disabled', true);
+                            });
+                            break;
+                        default:
+                            $(toggleElement).show();
+
+                            $(toggleElement).find('select').each(function (sKey, selectElement) {
+                                $(selectElement).selectmenu('enable');
+                            });
+
+                            $(toggleElement).find('input').each(function (iKey, inputElement) {
+                                $(inputElement).attr('disabled', false);
+                            });
+
+                            $(toggleElement).find('button').each(function (bKey, buttonElement) {
+                                $(buttonElement).attr('disabled', false);
+                            });
+                    }
+                });
+
+                rebindAreaSelectmenuChange();
+            });
+
+            setTimeout(function () {
+                rebindAreaSelectmenuChange();
+            }, 100);
+
+            var $collectionHolder = $('div.mobile-camps-list');
+            $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+            $collectionHolder.on('click', 'a.delete', function(e) {
+                e.preventDefault();
+
+                $(this).closest('.mobile-camp-container').remove();
+
+                return false;
+            });
+
+            $(document).on('click', 'a[data-type="add-mobile-camp"]', function(e) {
+                e.preventDefault();
+
+                addMobileCampForm($collectionHolder);
+            });
+
+            function addMobileCampForm($collectionHolder) {
+                var prototype = $collectionHolder.data('prototype');
+                var index = $collectionHolder.data('index');
+                var mobileCampForm = prototype.replace(/__name__/g, index);
+
+                $collectionHolder.data('index', index + 1);
+                $(mobileCampForm).insertBefore($collectionHolder.find('.btn-holder'));
+
+                $collectionHolder.find('input.date').each(function() {
+                    var format = $(this).data('format') || "d M yy";
+                    $(this).datepicker({
+                        dateFormat: format
+                    });
+                });
+
+                $collectionHolder.find('select').each(function() {
+                    $(this).selectmenu();
+                });
+
+                var addedMobileCampForm = $collectionHolder.find('.mobile-camp-container').last();
+                var addedAreaSelectmenu = addedMobileCampForm.find('select[data-type="area"]');
+                var addedAirstripSelectmenu = addedMobileCampForm.find('select[data-type="airstrip"]');
+
+                refreshSelectmenu(addedAreaSelectmenu, 'area', 'location', locationSelectmenu.val(), function (areaId) {
+                    refreshSelectmenu(addedAirstripSelectmenu, 'airstrip', 'areas', areaId);
+                }, function (locationId) {
+                    refreshSelectmenu(addedAirstripSelectmenu, 'airstrip', 'locations', locationId);
+                });
+            }
+
+            if (!$(mobileCampCheckbox).is(':checked')) {
+                refreshSelectmenu(areaSelectmenu, 'area', 'location', locationSelectmenu.val(), function (areaId) {
+                    refreshSelectmenu(airstripSelectmenu, 'airstrip', 'areas', areaId);
+                }, function (locationId) {
+                    refreshSelectmenu(airstripSelectmenu, 'airstrip', 'locations', locationId);
+                });
+            } else {
+                var mobileCampContainer = $('.mobile-camp-container');
+                mobileCampContainer.each(function (key, mobileCamp) {
+                    var areaSelectmenu = $(mobileCamp).find('select[data-type="area"]');
+                    var airstripSelectmenu = $(mobileCamp).find('select[data-type="airstrip"]');
+
+                    refreshSelectmenu(areaSelectmenu, 'area', 'location', locationSelectmenu.val(), function (areaId) {
+                        refreshSelectmenu(airstripSelectmenu, 'airstrip', 'areas', areaId);
+                    }, function (locationId) {
+                        refreshSelectmenu(airstripSelectmenu, 'airstrip', 'locations', locationId);
+                    });
+                });
+            }
+        });
+    </script>
+{% endblock %}

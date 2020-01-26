@@ -1,0 +1,5 @@
+$(document).ready(function(){$('.unshow_btn').click(function(){$('.unshow_block').slideDown('fast');$(this).remove();});$('#popup-testimonial-full').find('.prev').click(function(){$('#popup-testimonial-full').find('.icon-close').click();setTimeout(function(){var prev=parseInt($('#full_review_num').val())- 1;var count_reviews=$('.show_review_data').length- 1;if($('.rev_'+ prev).length!=0)
+$('.rev_'+ prev).find('.list-testimonials__lnk-more').click();else
+$('.rev_'+ count_reviews).find('.list-testimonials__lnk-more').click();},500);});$('#popup-testimonial-full').find('.next').click(function(){$('#popup-testimonial-full').find('.icon-close').click();setTimeout(function(){var next=parseInt($('#full_review_num').val())+ 1;if($('.rev_'+ next).length!=0)
+$('.rev_'+ next).find('.list-testimonials__lnk-more').click();else
+$('.rev_0').find('.list-testimonials__lnk-more').click();},500);});});

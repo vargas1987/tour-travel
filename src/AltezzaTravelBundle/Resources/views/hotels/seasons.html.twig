@@ -1,0 +1,40 @@
+{% extends '@AltezzaTravel/hotels/hotel_edit_layout.html.twig' %}
+
+{% form_theme form '@AltezzaTravel/hotels/_partial/_form/_hotel_partial.html.twig' %}
+
+{% block content %}
+    <h3>Seasons</h3>
+
+    {{ include('@AltezzaTravel/hotels/_partial/_form/_hotel_season_type_form.html.twig', {'form': seasonTypeForm }) }}
+
+    {{ form_start(form, {'attr': {'class': 'admin-edit blog-edit', 'data-behaviour': 'beforeunload'}}) }}
+    <div class="warning-row">
+        {{ form_errors(form) }}
+    </div>
+
+    {{ form_row(form.seasons) }}
+
+    <div class="btn-holder">
+        <a href="#" class="button info-button white big" data-behaviour="empty" data-type="add-year">+ Add Year</a>
+        <a href="#" class="button info-button white big" data-behaviour="same-season" data-type="add-year">+ Add year with the same seasons</a>
+        {{ form_widget(form.submit) }}
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block customjs %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        window.seasonsFormName = '{{ form.vars.full_name }}';
+        window.seasonTypeFormName = '{{ seasonTypeForm.vars.full_name }}';
+    </script>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('/bundles/altezzatravel/admin/js/hotel-season.js') }}?v=20181219" defer></script>
+    <script src="{{ asset('/bundles/altezzatravel/admin/js/hotel-season-type.js') }}?v=20181219" defer></script>
+{% endblock %}

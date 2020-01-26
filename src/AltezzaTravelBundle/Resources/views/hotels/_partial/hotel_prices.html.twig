@@ -1,0 +1,600 @@
+{% form_theme form '@AltezzaTravel/hotels/_partial/_form/_hotel_partial.html.twig' %}
+
+{% import _self as helper %}
+
+{{ form_start(form, {'attr': {'class': 'admin-edit blog-edit', 'data-behaviour': 'beforeunload'}}) }}
+<h3>Prices</h3>
+
+<div class="warning-row">
+    {{ form_errors(form) }}
+</div>
+
+<div class="control-panel">
+    <div class="control-panel">
+        <div class="col-row">
+            <div class="col l-4">
+                {{ form_row(form.year) }}
+            </div>
+            {% set previousYear = year - 1 %}
+            {% if hotel.hasYear(previousYear) %}
+                <div class="col l-8">
+                    <div class="top-link-holder">
+                        <a href="#" id="copy-rates-previous" data-copy-rates-hotel="{{ hotel.id }}" data-copy-rates-year="{{ previousYear }}" class="button info-button">Copy rates from the previous year</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if hotel.mealPlans.count > 0 %}
+        <div class="row" data-based-on="{{ hotel.mealPlans.first.type }}">
+            <strong class="title">BASED ON:</strong>&nbsp;{{ hotel.mealPlans.first.description }}
+        </div>
+    {% endif %}
+
+    {% if form.hotelPriceAdditionalPerson.count > 0 %}
+        {% spaceless %}
+            <div class="tabset price-tabs">
+                <ul class="tab-control">
+                    {% for roomSlug in hotel.roomSlugs(true, true) %}
+                        <li class="{% if loop.index0 == 0 %}active{% endif %}"><a href="#">{{ roomSlug.title }}</a></li>
+                    {% endfor %}
+                </ul>
+
+                <div class="tab-body">
+                    {% for roomSlug in hotel.roomSlugs(true, true) %}
+                        <div class="tab{% if loop.index0 == 0 %} active{% endif %}">
+                            <table class="default-price-table" data-price-block="person-option-list" data-room-slug="{{ roomSlug.slug }}" style="margin-top: 0;">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    {% for seasonType in hotel.seasonTypes(year) %}
+                                        <th>{{ seasonType.title }}</th>
+                                    {% endfor %}
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for additionalPersonOption, additionalPersonLabel in additionalPersonOptions %}
+                                    <tr data-person-option-name="{{ additionalPersonOption }}">
+                                        {% set additionalPersonOption = roomSlug.slug ~ '-' ~ additionalPersonOption %}
+                                        {% set additionalOptionalSupplementOption = 'optional-supplement-' ~ additionalPersonOption %}
+                                        {% set additionalOptionalSupplementIsDefined = attribute(form.hotelPriceAdditionalPerson, additionalOptionalSupplementOption) is defined %}
+
+                                        <td data-persion-option-supplement="{{ additionalOptionalSupplementIsDefined ? 'true' : 'false' }}">
+                                            {{ additionalPersonLabel }}
+
+                                            {% if additionalOptionalSupplementIsDefined %}
+                                                <div style="margin-left: 10px; margin-bottom: -15px; float: right;">
+                                                    {{ form_row(attribute(form.hotelPriceAdditionalPerson, additionalOptionalSupplementOption)) }}
+                                                </div>
+                                            {% endif %}
+                                        </td>
+                                        <td data-person-option-type="true">
+                                            {{ form_widget(attribute(form.hotelPriceAdditionalPerson, additionalPersonOption)) }}
+                                        </td>
+
+                                        {% for seasonType in hotel.seasonTypes(year) %}
+                                            {% set additionalPersonOptionName = additionalPersonOption ~ '-' ~ seasonType.type %}
+                                            <td class="input-td" data-person-option-season="{{ seasonType.type }}">
+                                                {{ form_widget(attribute(form.hotelPriceAdditionalPerson, additionalPersonOptionName), {}) }}
+                                            </td>
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endspaceless %}
+    {% endif %}
+    {% if form.hotelPriceAdditionalPerson is not null %}
+        {% do form.hotelPriceAdditionalPerson.setRendered %}
+    {% endif %}
+
+    {% if form.hotelPriceMealPlanPerson.count > 0 %}
+        {% spaceless %}
+            <h3>{{ form.hotelPriceMealPlanPerson.vars.label }}</h3>
+            <div class="meal-plans-list">
+                {% for mealPlan in hotel.mealPlans %}
+                    {% if loop.index0 != 0 %}
+                        <li data-meal-plan-type="{{ mealPlan.type }}" data-meal-plan-priority="{{ mealPlan.sort }}">
+                            <strong class="title">Price for {{ mealPlan.title }}</strong>
+                            <ul class="category">
+                                {% for mealPlanPersonOption, mealPLanPersonLabel in mealPlanPersonOptions %}
+                                    <li data-person-type="{{ mealPLanPersonLabel }}">
+                                            <span class="ico {{ mealPLanPersonLabel }}">
+                                                {% if mealPLanPersonLabel == 'adult' %}
+                                                    <img width="10" src="{{ asset('/bundles/altezzatravel/new2/img/adult-ico.svg') }}" alt="image description">
+                                                    Adult
+                                                {% endif %}
+                                                {% if mealPLanPersonLabel == 'teenager' %}
+                                                    <img width="8" src="{{ asset('/bundles/altezzatravel/new2/img/teenager.svg') }}" alt="image description">
+                                                    Teenager
+                                                {% endif %}
+                                                {% if mealPLanPersonLabel == 'child' %}
+                                                    <img width="8" src="{{ asset('/bundles/altezzatravel/new2/img/child.svg') }}" alt="image description">
+                                                    Child
+                                                {% endif %}
+                                            </span>
+                                        {% set mealPlanPersonOptionName = mealPlanPersonOption ~ '-' ~ mealPlan.type %}
+                                        <div class="input">{{ form_widget(attribute(form.hotelPriceMealPlanPerson, mealPlanPersonOptionName)) }}</div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endspaceless %}
+    {% endif %}
+    {% if form.hotelPriceMealPlanPerson is not null %}
+        {% do form.hotelPriceMealPlanPerson.setRendered %}
+    {% endif %}
+
+    {{ form_row(form.priceAdditionalFees) }}
+
+    <div class="admin-styled-table">
+        {{ form_row(form.priceSupplements) }}
+    </div>
+
+    {% if form.prices.count > 0 %}
+        {% spaceless %}
+            <div class="btn-holder">
+                <button type="button" class="admin-btn pull-right show-load-btn" id="calculate">Calculate the price</button>
+            </div>
+            <hr>
+            <div class="row">
+                <div style="float:left;">
+                    <h3>Prices</h3>
+                </div>
+                <div style="float:left; margin-left: 20px;">
+                    {{ form_row(form.recalculate) }}
+                </div>
+            </div>
+
+            <div class="row">
+                {{ form_row(form.roomSlugs) }}
+            </div>
+
+            <div class="tabset price-tabs">
+                <ul class="tab-control">
+                    {% for mealPlan in hotel.mealPlans %}
+                        <li class="{% if loop.index0 == 0 %}active{% endif %}"><a href="#">{{ mealPlan.title }}</a></li>
+                    {% endfor %}
+                </ul>
+
+                <div class="tab-body">
+                    {% set seasonTypes = hotel.seasonTypes(year) %}
+                    {% for mealPlan in hotel.mealPlans %}
+                        <div class="tab{% if loop.index0 == 0 %} active{% endif %}" data-meal-plan-type="{{ mealPlan.type }}">
+                            <table class="admin-price-table" data-type="table-price">
+                                <thead>
+                                <tr>
+                                    <th colspan="2">Accommodation</th>
+                                    {% for seasonType in hotel.seasonTypes(year) %}
+                                        <th class="lvl" data-season-type="{{ seasonType.type }}">{{ seasonType.title }}</th>
+                                    {% endfor %}
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for roomType in roomTypes %}
+                                    {{ helper.accommodationRoomBlock(form.prices, hotel, mealPlan, seasonTypes, roomType, hotel.roomsByType(roomType)) }}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endspaceless %}
+    {% endif %}
+</div>
+
+<div class="copy-hotel-block closed">
+    <span class="heading">Copy rates from other hotel</span>
+    <div class="expanded">
+        <div class="copy-hotel-item">
+            <div class="select-holder hotel-select">
+                <select id="hotel-list-rates" name="hotel_list_rates">
+                    <option value="" disabled selected>Select hotel</option>
+                    {% for hotelItem in hotelList %}
+                        <option value="{{ hotelItem.id }}">{{ hotelItem.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="select-holder year-select">
+                <select id="hotel-list-years" name="hotel_list_years" disabled="disabled">
+                </select>
+            </div>
+            <div class="btn-holder">
+                <button id="copy-rates" class="admin-btn">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="btn-holder">
+    {{ form_widget(form.submit) }}
+</div>
+{{ form_end(form) }}
+
+{% macro accommodationRoomBlock(prices, hotel, mealPlan, seasonTypes, roomType, rooms) %}
+    {% set rowspanRoomType = 0 %}
+    {% for room in rooms %}
+        {% set rowspanRoomType = rowspanRoomType + room.accommodations|length %}
+    {% endfor %}
+
+    {% for room in rooms if not rooms.empty %}
+        {% set firstRoom = loop.index0 == 0 %}
+        {% for accommodation in room.accommodations %}
+            <tr data-room-id="{{ room.id }}"
+                data-room-slug="{{ room.slug }}"
+                data-filter-room-slug="{{ room.slug(true) }}"
+                data-room-type="{{ room.roomType.type }}"
+                data-room-type-specific="{{ room.roomType.specific ? 'true':'false' }}"
+                data-accommodation-type="{{ accommodation.type }}"
+                data-accommodation-count-adult="{{ accommodation.countAdult }}"
+                data-accommodation-count-teenager="{{ accommodation.countTeenager }}"
+                data-accommodation-count-child="{{ accommodation.countChild }}"
+            >
+                {% if firstRoom %}
+                    {% set firstRoom = false %}
+                    <td rowspan="{{ rowspanRoomType }}" class="badge-td">
+                        <span class="badge" style="background-color: #{{ room.roomType.color|default('000') }};">{{ room.roomType.shortName }}</span>
+                    </td>
+                {% endif %}
+
+                <td>
+                    <div class="description" style="padding: 0;">
+                        {{ room.title(true) }}
+
+                        <div class="ico-holder" style="width: 120px;">
+                            <span class="ico">
+                                {% for i in range(1, accommodation.countAdult) if accommodation.countAdult > 0 %}
+                                    <img width="10" src="{{ asset('/bundles/altezzatravel/new2/img/adult-ico.svg') }}" alt="image description">
+                                {% endfor %}
+                                {% for i in range(1, accommodation.countTeenager) if accommodation.countTeenager > 0 %}
+                                    <img width="8" src="{{ asset('/bundles/altezzatravel/new2/img/teenager.svg') }}" alt="image description">
+                                {% endfor %}
+                                {% for i in range(1, accommodation.countChild) if accommodation.countChild > 0 %}
+                                    <img width="8" src="{{ asset('/bundles/altezzatravel/new2/img/child.svg') }}" alt="image description">
+                                {% endfor %}
+                            </span>
+                        </div>
+                    </div>
+                </td>
+                {% for seasonType in seasonTypes %}
+                    <td data-season-type="{{ seasonType.type }}">
+                        {% set hotelPriceSlug = hotel.id ~ '-' ~ room.id ~ '-' ~ mealPlan.type ~ '-' ~ accommodation.type ~ '-' ~ seasonType.type %}
+                        {{ form_widget(attribute(prices, hotelPriceSlug)) }}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endfor %}
+{% endmacro %}
+
+
+{% set defaultDate = 'now'|date('d M Y') %}
+{% if year != 'now'|date('Y') %}
+    {% set defaultDate = (year~'-01-01')|date('d M Y') %}
+{% endif %}
+<script src="{{ asset('/bundles/altezzatravel/admin/js/price-calculator.js') }}" ></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var year = parseInt('{{ year }}');
+        var yearSelectmenu = $('#hotel_prices_form_year');
+        var urlSeasonsByYear = '{{ url('hotels_prices_edit', {'hotel': hotel.id, 'year': '__year__'}) }}';
+        yearSelectmenu.on('selectmenuchange', function (event, ui) {
+            var year = ui.item.value;
+
+            location.href = urlSeasonsByYear.replace('__year__', parseInt(year));
+        });
+
+        var $collectionPriceSupplementHolder = $('table.price-supplement-list');
+        $collectionPriceSupplementHolder.data('index', $collectionPriceSupplementHolder.find(':input').length);
+
+        $collectionPriceSupplementHolder.on('click', 'a.delete', function (e) {
+            e.preventDefault();
+
+            $(this).closest('tr').remove();
+
+            return false;
+        });
+
+        $(document).on('click', 'a[data-type="add-price-supplement"]', function (e) {
+            e.preventDefault();
+
+            addPriceSupplementForm($collectionPriceSupplementHolder);
+        });
+
+        function addPriceSupplementForm($collectionPriceSupplementHolder) {
+            var prototype = $collectionPriceSupplementHolder.data('prototype');
+            var index = $collectionPriceSupplementHolder.data('index');
+            var priceSupplementForm = prototype.replace(/__name__/g, index);
+
+            $collectionPriceSupplementHolder.data('index', index + 1);
+            $collectionPriceSupplementHolder.find('tbody').append(priceSupplementForm);
+
+            $collectionPriceSupplementHolder.find('input.date').each(function () {
+                var format = $(this).data('format') || "d M yy";
+                $(this).datepicker({
+                    hideIfNoPrevNext: true,
+                    dateFormat: format,
+                    yearRange: year+':'+year,
+                    defaultDate: '{{ defaultDate }}'
+                });
+            });
+
+            $collectionPriceSupplementHolder.find('select').each(function () {
+                $(this).selectmenu();
+            });
+        }
+
+        $collectionPriceSupplementHolder.find('input.date').each(function () {
+            var format = $(this).data('format') || "d M yy";
+            $(this).datepicker({
+                hideIfNoPrevNext: true,
+                dateFormat: format,
+                yearRange: year+':'+year,
+                defaultDate: '{{ defaultDate }}'
+            });
+        });
+
+        var $collectionPriceAdditionalFeeHolder = $('ul.additional-feels-list');
+        $collectionPriceAdditionalFeeHolder.data('index', $collectionPriceAdditionalFeeHolder.find(':input').length);
+
+        $collectionPriceAdditionalFeeHolder.on('click', 'a.delete', function (e) {
+            e.preventDefault();
+
+            $(this).closest('li').remove();
+
+            return false;
+        });
+
+        $(document).on('click', 'a[data-type="add-price-additional-fee"]', function (e) {
+            e.preventDefault();
+
+            addPriceAdditionalFeeForm($collectionPriceAdditionalFeeHolder);
+        });
+
+        function addPriceAdditionalFeeForm($collectionPriceAdditionalFeeHolder) {
+            var prototype = $collectionPriceAdditionalFeeHolder.data('prototype');
+            var index = $collectionPriceAdditionalFeeHolder.data('index');
+            var priceAdditionalFeeForm = prototype.replace(/__name__/g, index);
+
+            $collectionPriceAdditionalFeeHolder.data('index', index + 1);
+            $collectionPriceAdditionalFeeHolder.append(priceAdditionalFeeForm);
+
+            $collectionPriceAdditionalFeeHolder.find('select').each(function () {
+                $(this).selectmenu();
+            });
+        }
+
+        var calculatorConfig = {
+            'teenagerRangeInit': '{{ hotel.teenageRangeInit }}',
+            'personOptionsList': '[data-price-block="person-option-list"]',
+            'calculateButton': '#calculate',
+            'mealPlansList': '.meal-plans-list',
+        };
+
+        $('.blog-content').priceCalculator(calculatorConfig);
+
+        $('button[name="{{ form.submit.vars.full_name }}"]').on('click', function (event) {
+            if (!$('[name="{{ form.recalculate.vars.full_name }}"]').is(':checked')) {
+                return true;
+            }
+
+            event.preventDefault();
+            var form = $('form[name="{{ form.vars.full_name }}"]');
+
+            $(calculatorConfig.calculateButton).trigger('click');
+            setTimeout(function () {
+                $(form).submit();
+            }, 500);
+        });
+
+        var hotelListRates = $('select#hotel-list-rates');
+        var hotelListYears = $('select#hotel-list-years');
+
+        hotelListRates.on('selectmenuchange', function(event, ui) {
+            var ajaxUrl = '{{ url('hotels_years_list', {hotel: '__hotelId__'}) }}';
+            var hotelId = ui.item.value;
+            ajaxUrl = ajaxUrl.replace('__hotelId__', hotelId);
+
+            hotelListYears.selectmenu().selectmenu('disable');
+            let previousValue = hotelListYears.val();
+            let select = document.createElement('select');
+
+            $.get(ajaxUrl, function(data) {
+                if (data.status && data.result.length) {
+                    $.each(data.result, function(index, itemData) {
+                        $("<option value='" + itemData + "'>" + itemData
+                            + "</option>").appendTo(select);
+                    });
+
+                    hotelListYears.html($(select).html());
+
+                    if (hotelListYears.find('option[value="' + previousValue + '"]').length !== 0) {
+                        hotelListYears.val(previousValue);
+                    } else {
+                        hotelListYears.val(hotelListYears.find('option').first().val());
+                    }
+
+                    hotelListYears.selectmenu("refresh");
+                    hotelListYears.selectmenu('enable');
+
+                    return;
+                }
+
+                hotelListYears.html('');
+                hotelListYears.selectmenu('destroy').selectmenu().selectmenu('disable');
+            });
+        });
+
+        $('#copy-rates').bind('click', function (event) {
+            event.preventDefault();
+
+            var hotel = $('#hotel-list-rates').selectmenu().val();
+            var year = $('#hotel-list-years').selectmenu().val();
+
+            if (!hotel || !year) {
+                return false;
+            }
+
+            $('#confirm-popup3-title').html('Copy rates from other hotel?');
+
+            copyRates(hotel, year);
+        });
+
+        $('#copy-rates-previous').bind('click', function (event) {
+            event.preventDefault();
+
+            var hotel = $(this).data('copy-rates-hotel');
+            var year = $(this).data('copy-rates-year');
+
+            if (!hotel || !year) {
+                return false;
+            }
+
+            $('#confirm-popup3-title').html('Copy rates from the previous year?');
+
+            copyRates(hotel, year);
+        });
+
+        var copyRates = function (hotel, year) {
+            $('#confirm-popup3').popup('show');
+            var form = $('form[name="{{ copyRatesForm.vars.full_name }}"]');
+            form.find('[name="{{ copyRatesForm.hotel.vars.full_name }}"]').val(hotel);
+            form.find('[name="{{ copyRatesForm.year.vars.full_name }}"]').val(year);
+
+            $('#copy-rates-confirm').bind('click', function (event) {
+                $('#copy-rates').unbind('click');
+                $('#copy-rates-previous').unbind('click');
+                $('#copy-rates-confirm').unbind('click');
+
+                event.preventDefault();
+
+                $.ajax({
+                    url: form.attr('action'),
+                    method: form.attr('method'),
+                    data: form.serialize(),
+                    dataType: 'json',
+                    async: false,
+                    success: function (data) {
+                        if (data.status !== true) {
+                            $('#confirm-popup3').popup('hide');
+                            $('#error-copy-rates').find('#error-copy-rates-title').html(data.error);
+                            $('#error-copy-rates').popup('show');
+
+                            return;
+                        }
+
+                        $('.blog-content').html(data.result.template);
+                        $('select').selectmenu();
+
+                        initPopups();
+                        initDatepicker();
+                        initTabs();
+                        initFormPreloader();
+                        var ua = detect.parse(navigator.userAgent);
+                        if(ua.browser.family == "Firefox"){
+                            $('html').addClass('firefox');
+                        }
+                        $('.admin-price-table .badge').each(function() {
+                            if(parseInt($(this).closest('td').attr('rowspan')) > 1){
+                                $(this).css('height', parseInt($(this).closest('td').attr('rowspan')) * 44);
+                            }
+                        });
+                        initSeasonsAccordion();
+                        initAdminEditPriceTable();
+                        initAdminPriceUpdate();
+
+                        $.each(data.result.rates, function(index, itemData) {
+                            var option = $('[data-type-option="'+itemData.slug+'"]');
+
+                            switch (option.attr('type')) {
+                                case 'radio':
+                                    option.removeAttr('checked');
+                                    option.filter('[value="'+itemData.value+'"]').trigger('click');
+                                    break;
+                                case 'checkbox':
+                                    option.removeAttr('checked');
+                                    if (itemData.value) {
+                                        option.attr('checked', 'checked');
+                                        option.trigger('click');
+                                    }
+                                    break;
+                                default:
+                                    option.val(itemData.value);
+                            }
+                        });
+
+                        $('#calculate').trigger('click');
+
+                        $.each(data.result.prices, function(index, itemData) {
+                            var price = $('.price-tabs')
+                                .find('.tab[data-meal-plan-type="'+itemData.mealPlan+'"]')
+                                .find('tr[data-room-id="'+itemData.room+'"][data-accommodation-type="'+itemData.accommodation+'"]')
+                                .find('td[data-season-type="'+itemData.season+'"]')
+                                .find('input');
+
+                            price.val(itemData.value);
+                        });
+
+                        $('#confirm-popup3').popup('hide');
+                    },
+                    error: function (error) {
+                        $('#confirm-popup3').popup('hide');
+                        $('#error-copy-rates').popup('show');
+                    }
+                });
+            });
+        };
+
+
+        var roomSlugs = $('[name="{{ form.roomSlugs.vars.full_name }}"]');
+        var rooms = $('[data-type="table-price"]').find('tbody').find("tr");
+
+        roomSlugs.on('selectmenuchange', function () {
+            if (!this.value) {
+                rooms.show();
+                updateRoomBadge();
+
+                return;
+            }
+
+            rooms.hide();
+
+            var selectedSlug = this.value;
+            rooms.filter(function (key, item) {
+                var room = $(item);
+                if (room.data('filter-room-slug') === selectedSlug) {
+                    return true;
+                }
+
+                return false;
+            }).show();
+
+            updateRoomBadge();
+        });
+
+        var updateRoomBadge = function () {
+            rooms.find('td[rowspan]').each(function (key, item) {
+                var parentRoom = $(item).closest('tr');
+                var roomType = parentRoom.data('room-type');
+                var roomRows = $(item).closest('tbody').find('tr[data-room-type="'+roomType+'"]:visible');
+
+                $(item).attr('rowspan', roomRows.length);
+
+                roomRows.first().find('td:first').before(parentRoom.find('td[rowspan]'));
+            });
+
+            updateRoomBadgeSize();
+        };
+
+    });
+</script>

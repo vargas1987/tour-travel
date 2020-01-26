@@ -1,0 +1,59 @@
+{% extends '@AltezzaTravel/hotels/hotel_edit_layout.html.twig' %}
+
+{% form_theme form '@AltezzaTravel/hotels/_partial/_form/_hotel_partial.html.twig' %}
+
+{% block content %}
+    {{ form_start(form, {'attr': {'class': 'admin-edit blog-edit', 'data-behaviour': 'beforeunload'}}) }}
+    <div class="warning-row">
+        {{ form_errors(form) }}
+    </div>
+
+    {% for roomTypeSlug, roomType in formRoomTypes %}
+        {{ form_row(attribute(form, roomTypeSlug), {'attr': {'data-container': roomType.type ~ '_room'}}) }}
+    {% endfor %}
+
+    <div class="btn-holder">
+        {{ form_widget(form.submit) }}
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block customjs %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            // handle the removal, just for this example
+            $(document).on('click', 'a.delete', function(e) {
+                e.preventDefault();
+
+                $(this).parent().remove();
+
+                return false;
+            });
+
+            $(document).on('click', 'a[data-behavior="add-room"]', function(e) {
+                e.preventDefault();
+
+                var $collectionHolder = $(this).closest('.room-block-holder');
+                $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+                addRoomForm($collectionHolder);
+            });
+
+
+        });
+
+        function addRoomForm($collectionHolder) {
+            var prototype = $collectionHolder.data('prototype');
+            var index = $collectionHolder.data('index');
+            var roomForm = prototype.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            $(roomForm).insertBefore($collectionHolder.find('.btn-holder'));
+        }
+    </script>
+{% endblock %}
