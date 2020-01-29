@@ -201,8 +201,22 @@
     {{ parent() }}
     <script type="text/javascript">
         $(document).ready(function() {
-            var $dateLocateSince = $("[data-behavior=date-locate-since]")
-            var $dateLocateEnd = $("[data-behavior=date-locate-end]")
+            var $dateLocateSince = $("[data-behavior=date-locate-since]");
+            var $dateLocateEnd = $("[data-behavior=date-locate-end]");
+            var $isHideLocateDates = $("#{{ form.isHideLocateDates.vars.id }}");
+
+            $isHideLocateDates.on('change', function () {
+                if ($(this).prop('checked')) {
+                    $dateLocateSince.closest('.col-row').hide();
+                    $dateLocateSince.attr('disabled', 'disabled');
+                    $dateLocateEnd.attr('disabled', 'disabled');
+                } else {
+                    $dateLocateSince.closest('.col-row').show();
+                    $dateLocateSince.removeAttr('disabled');
+                    $dateLocateEnd.removeAttr('disabled');
+                }
+
+            });
 
             $("[data-behavior=date-locate-since], [data-behavior=date-locate-end]").datepicker({
                 dateFormat: 'DD, d MM, yy',
