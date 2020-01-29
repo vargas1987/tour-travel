@@ -4,14 +4,9 @@
 bin/*
 !bin/console
 !bin/crontab
-/docker/sql/*
-!/docker/sql/.gitkeep
-docker-compose.override.yml
 /node_modules/
 /npm-debug.log
 /var/*
-!/var/SymfonyRequirements.php
 /vendor/
-/vendor-web/*
 *.php~
 *.gpg

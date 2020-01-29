@@ -12,6 +12,6 @@ parameters:
     secret: ThisTokenIsNotSoSecretChangeIt
     protocol: http
     domain_hotels: hotels.travel.local
-    domain_tour: tour.travel.local
+    domain_tour: 62.109.28.57
     page_range: 20
     chromium.bin: /bin/google-chrome
